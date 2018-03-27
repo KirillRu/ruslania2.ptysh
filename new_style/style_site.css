@@ -2322,3 +2322,20 @@ form span.info { font-size: 13px; color: #747474; margin-left: 20px; display: no
 .list.authors:after {
 	clear: both;
 }
+
+.status-block{
+    display: none;
+    padding: 7px 10px;
+    color: #ffffff;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.status-block.sale {
+    display: block;
+    background: #ed2024;
+}
+.status-block.new {
+    display: block;
+    background: #4081d0;
+}

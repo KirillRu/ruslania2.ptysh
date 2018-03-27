@@ -26,8 +26,9 @@ $entity = Entity::ParseFromString($url);
 
 if (Yii::app()->getRequest()->cookies['showSelLang']->value != '1') { 
 
-	switch (strtolower(geoip_country_code_by_name($_SERVER['REMOTE_ADDR']))) {
-		
+	//switch (strtolower(geoip_country_code_by_name($_SERVER['REMOTE_ADDR']))) {
+	switch ('ru') {
+
 		case 'ru': $lang = 'ru'; break;
 		case 'fi': $lang = 'fi'; break;
 		case 'gb': $lang = 'en'; break;

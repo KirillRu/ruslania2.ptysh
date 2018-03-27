@@ -446,6 +446,7 @@
                 <?php foreach ($items as $item) : ?>
                     <?php
                     $item['entity'] = $entity;
+                    $item['status'] = Product::GetStatusProduct($entity, $item['id']);
                     $key = 'itemlist_' . $entity . '_' . $item['id'];
                     ?>
                     <li>

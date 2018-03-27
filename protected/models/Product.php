@@ -104,6 +104,7 @@ class Product
                 $item['DeliveryTime'] = $d->vendorData->deliveryTime->attributes;
             }
             else $item['DeliveryTime'] = false;
+            //$item['status'] = Product::GetStatusProduct($item['entity'], $item['id']);
 
             $ret[] = $item;
         }
@@ -220,7 +221,18 @@ class Product
         $data = Product::FlatResult($data);
         $data = $data[0];
         $data['entity'] = $entity;
+        $data['status'] = Product::GetStatusProduct($entity, $id);
         return $data;
+    }
+
+    public function GetStatusProduct($entity, $id)
+    {
+        $status = false;
+        $sql = 'SELECT * FROM `action_items` WHERE `item_id` = '.$id.' AND `entity` = '.$entity;
+        $row = Yii::app()->db->createCommand($sql)->queryAll();
+        if ($row && ($row[0]['type'] == 2)) $status = 'sale';
+        if ($row && ($row[0]['type'] == 1)) $status = 'new';
+        return $status;
     }
 
     public function IsQuantityAvailForOrder($entity, $id, $quantity)
