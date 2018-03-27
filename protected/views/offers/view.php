@@ -110,7 +110,7 @@
                     <?php foreach($data['items'] as $item) : ?>
                         <?php
                             $item['entity'] = $data['entity']; 
-                            $item['status'] = Product::GetStatusProduct($item['entity'], $item['id']);;
+                            $item['status'] = Product::GetStatusProduct($item['entity'], $item['id']);
                         ?>
                         <li>
                             <?php $this->renderPartial('/entity/_common_item_2',
