@@ -2351,6 +2351,12 @@ form span.info { font-size: 13px; color: #747474; margin-left: 20px; display: no
     top: 0px;
     left: 0px;
 }
+.status-block-sm + a {
+    display: inline-block;
+}
+.status-block-sm + a img {
+    margin: 5px 0 0 5px;
+}
 .status-block-sm.sale {
     display: block;
     background: #ed2024;

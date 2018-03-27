@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 27 2018 г., 14:18
--- Версия сервера: 5.7.16
+-- Время создания: Мар 27 2018 г., 16:30
+-- Версия сервера: 5.5.53
 -- Версия PHP: 5.6.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -47,7 +47,9 @@ INSERT INTO `action_items` (`id`, `entity`, `item_id`, `type`) VALUES
 (16, 10, 685, 1),
 (17, 10, 576635, 2),
 (18, 10, 707137, 1),
-(19, 10, 803157, 2);
+(19, 10, 803157, 2),
+(20, 10, 1234738, 1),
+(21, 10, 1234789, 2);
 
 --
 -- Индексы сохранённых таблиц
@@ -67,7 +69,7 @@ ALTER TABLE `action_items`
 -- AUTO_INCREMENT для таблицы `action_items`
 --
 ALTER TABLE `action_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
