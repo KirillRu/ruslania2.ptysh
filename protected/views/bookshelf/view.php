@@ -1,0 +1,64 @@
+<table width="100%" cellspacing="0" cellpadding="0" border="0" style="vertical-align:top">
+    <tr>
+        <td class="leftmnu" width="20%" valign="top">
+            <?php $this->renderPartial('/entity/_left_text'); ?>
+            <?php $this->renderPartial('/site/login_form', array('model' => new User)); ?>
+        </td>
+        <td valign="top" style="padding: 5px;" width="80%">
+            <!-- content -->
+            <?php $this->widget('TopBar', array('breadcrumbs' => $this->breadcrumbs)); ?>
+            <!-- /content -->
+
+            <table width="100%" cellspacing="0" cellpadding="0" style="vertical-align: top;">
+                <tr>
+                    <td width="35%" valign="top">
+                        <h2><?=CHtml::encode($model['title']); ?></h2>
+                        <p><?=nl2br(CHtml::encode($model['small_desc'])); ?></p>
+
+                        <audio controls>
+                            <source src="http://ruslania.com/download/<?=$model['file_name']; ?>" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+
+                        <p><?=nl2br(CHtml::encode($model['info'])); ?></p>
+                    </td>
+                    <td width="65%" valign="top">
+
+                        <?php foreach($groups as $group=>$data) : ?>
+                            <table height="30" cellspacing="0" cellpadding="0" border="0" style="vertical-align:top" class="text">
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="itemsep1">&nbsp;</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="31" class="maintxt" style="padding-top: 2px;padding-bottom: 2px;padding-left: 2px;padding-right: 5px;"><img width="31" height="31" border="0" src="/pic1/cart_ibook.gif"></td>
+                                    <td width="100%" class="maintxt" style="padding: 2px;"><a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($data['entity']))); ?>" class="ctitle"><?=Entity::GetTitle($data['entity']); ?></a></td>
+                                </tr>
+                            </table>
+
+                            <ul class="items">
+                                <?php foreach($data['items'] as $item) : ?>
+                                    <?php $item['entity'] = $data['entity']; ?>
+                                    <li>
+                                        <?php $this->renderPartial('_bookshelf_item',
+                                            array('item' => $item,
+                                                'entity' => $data['entity'], 'isList' => true)); ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+
+
+                        <?php endforeach; ?>
+
+
+
+                    </td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+
+</table>
+
