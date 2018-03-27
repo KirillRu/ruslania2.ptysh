@@ -141,9 +141,6 @@
 								
 								if ($s<7) {
 									$of['status'] = Product::GetStatusProduct($of['entity'], $of['id']);
-									/*echo '<pre>';
-									print_r($of);
-									echo '</pre>';*/
 									echo '<a href="'.ProductHelper::createUrl($of).'">
 										<div class="img" style="background: url(\''. Picture::Get($of, Picture::SMALL).'\') center center no-repeat; background-size: 100%; position: relative">';
 							if ($of['status'] == 'sale') echo '<div class="status-block sale">Акция</div>';

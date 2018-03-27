@@ -963,9 +963,11 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
 	
 	echo  '	<li>
         
-<div class="img" style="min-height: 130px;">
-    <a href="'.$url.'"><img src="'.Picture::Get($product, Picture::SMALL).'" alt=""  style="max-height: 130px;"/></a>
- </div>
+    <div class="img" style="min-height: 130px; position: relative">';
+        if ($product['status'] == 'sale') echo '<div class="status-block sale">Акция</div>';
+        if ($product['status'] == 'new') echo '<div class="status-block new">Новинка!</div>';        
+    echo '<a href="'.$url.'"><img src="'.Picture::Get($product, Picture::SMALL).'" alt=""  style="max-height: 130px;"/></a>
+    </div>
  
 	<div class="title_book"><a href="'.$url.'">'.ProductHelper::GetTitle($product, 'title', 42).'</a></div>';
 		
