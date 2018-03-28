@@ -1,12 +1,7 @@
 <?php $url = ProductHelper::CreateUrl($item); ?>
 
 <div class="img" style="position: relative">
-    <?php if ($item['status'] == 'sale'):?>
-        <div class="status-block-sm sale">Акция</div>
-    <?php endif;?>
-    <?php if ($item['status'] == 'new'):?>
-        <div class="status-block-sm new">Новинка!</div>
-    <?php endif;?>
+    <?php $this->renderStatusLables($item['status'], $size = '-sm', true)?>
     <a href="<?=$url; ?>"><img src="<?=Picture::Get($item, Picture::SMALL); ?>" alt="" /></a>
  </div>
  

@@ -28,9 +28,9 @@
             //for ($i = 0; $i < 2; $i++) {
                 foreach ($group as $item) :
                     ?>
-                    <?php $item['status'] = Product::GetStatusProduct($entity, $item['id']);?>
                     <li>
-        <?php $this->renderPartial('/entity/_render_index_item', array('item' => $item)); ?>
+                        <?php $item['status'] = Product::GetStatusProduct($entity, $item['id']);?>
+                        <?php $this->renderPartial('/entity/_render_index_item', array('item' => $item)); ?>
                     </li>
 
     <?php endforeach;

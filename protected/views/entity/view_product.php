@@ -32,12 +32,7 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
 
 <div class="row">
 	<div class="span1" style="position: relative">
-        <?php if ($item['status'] == 'sale'):?>
-            <div class="status-block sale">Акция</div>
-        <?php endif;?>
-        <?php if ($item['status'] == 'new'):?>
-            <div class="status-block new">Новинка!</div>
-        <?php endif;?>
+        <?php $this->renderStatusLables($item['status']); ?>
         <img src="<?= Picture::Get($item, Picture::BIG); ?>">
     </div>
 	<div class="span11 to_cart"><h1 class="title"><?= ProductHelper::GetTitle($item); ?></h1>
@@ -964,8 +959,7 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
 	echo  '	<li>
         
     <div class="img" style="min-height: 130px; position: relative">';
-        if ($product['status'] == 'sale') echo '<div class="status-block sale">Акция</div>';
-        if ($product['status'] == 'new') echo '<div class="status-block new">Новинка!</div>';        
+        $this->renderStatusLables($product['status']);
     echo '<a href="'.$url.'"><img src="'.Picture::Get($product, Picture::SMALL).'" alt=""  style="max-height: 130px;"/></a>
     </div>
  

@@ -225,13 +225,31 @@ class Product
         return $data;
     }
 
+    /* Получаем статус продука ("Новинка", "Акция", "В подборке") */
     public function GetStatusProduct($entity, $id)
+    {
+        $status = self::GetStatusProductAction($entity, $id);
+        if(!$status) $status = self::GetStatusProductOffer($entity, $id);
+        //$status = self::GetStatusProductOffer($entity, $id);
+        return $status;
+    }
+    /* Получаем статус продука из таблицы "action_items" ("Новинка", "Акция") */
+    private function GetStatusProductAction($entity, $id)
     {
         $status = false;
         $sql = 'SELECT * FROM `action_items` WHERE `item_id` = '.$id.' AND `entity` = '.$entity;
         $row = Yii::app()->db->createCommand($sql)->queryAll();
         if ($row && ($row[0]['type'] == 2)) $status = 'sale';
         if ($row && ($row[0]['type'] == 1)) $status = 'new';
+        return $status;
+    }
+    /* Получаем статус продука из таблицы "offer_items" ("В подборке") */
+    private function GetStatusProductOffer($entity, $id)
+    {
+        $status = false;
+        $sql = 'SELECT * FROM `offer_items` WHERE `item_id` = '.$id.' AND `entity_id` = '.$entity;
+        $row = Yii::app()->db->createCommand($sql)->queryAll();
+        if ($row) $status = 'recommend';
         return $status;
     }
 

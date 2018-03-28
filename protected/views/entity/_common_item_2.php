@@ -6,13 +6,7 @@ $entityKey = Entity::GetUrlKey($entity);
 ?>
 <div class="row">    
     <div class="span1" style="position: relative">
-        <?php $item['status'] = Product::GetStatusProduct($item['entity'], $item['id']) ?>
-        <?php if ($item['status'] == 'sale'):?>
-            <div class="status-block sale">Акция</div>
-        <?php endif;?>
-        <?php if ($item['status'] == 'new'):?>
-            <div class="status-block new">Новинка!</div>
-        <?php endif;?>
+        <?php $this->renderStatusLables(Product::GetStatusProduct($item['entity'], $item['id']))?>
         <?php if (isset($isList) && $isList) : ?>
             <a href="<?= $url; ?>">
                 <img height="241"

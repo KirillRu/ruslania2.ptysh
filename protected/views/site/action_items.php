@@ -36,16 +36,21 @@
 					$priceVatTitle = ProductHelper::FormatPrice($price[DiscountManager::WITHOUT_VAT]).' '.$ui->item('WITHOUT_VAT');
 					
 					$actionTitle = '';
-					if($actionItem['type'] == 1)
+					if($product['status'] == 'new')
 					{
 						$actionTitle = '<div class="new_block">Новинка!</div>';
 						$actionTitleClass = ' new';
 					}
-					elseif($actionItem['type'] == 2)
+					elseif($product['status'] == 'sale')
 					{
 						$actionTitle = '<div class="new_block">Акция</div>';
 						$actionTitleClass = ' akciya';
-					}					
+					}
+					elseif($product['status'] == 'recommend')
+					{
+						$actionTitle = '<div class="new_block">В подборке</div>';
+						$actionTitleClass = ' rec';
+					}
 					?>
 						<li>
 							<div class="span1 photo<?=$actionTitleClass;?>">
