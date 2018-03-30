@@ -2164,7 +2164,7 @@ li.valuts { margin-top: -12px; margin-left: 45px; position: relative; }
 
 .lang_yesno_box {
 	
-	width: 268px;
+	width: 368px;
     padding: 34px 71px;
     background-color: #fff;
     z-index: 99999991;
@@ -2186,13 +2186,13 @@ li.valuts { margin-top: -12px; margin-left: 45px; position: relative; }
 
 .lang_yesno_box .box_title.box_title_ru { font-size: 21px; color: rgb(12, 12, 12); }
 .lang_yesno_box .box_title.box_title_en { font-size: 14x; color: rgb(109, 109, 109); }
-.box_btns { margin-top: 19px; }
+.box_btns { margin-top: 19px; text-align: center}
 
 .box_btns .btn_yes { display: inline-block; padding: 11px 31px;  border-radius: 4px; background-color: rgb(237, 180, 32); font-size: 14px; color: #fff; }
 
 .box_btns .btn_no { display: inline-block; padding: 11px 31px;  border-radius: 4px; background-color: rgb(231, 231, 231); font-size: 14px; color: #000; margin-left: 32px; }
 
-ul.list_languages { margin-top: 5px; list-style: none; }
+ul.list_languages { margin-top: 5px; list-style: none; margin-left: 50px}
 
 ul.list_languages li {
 	float: left;

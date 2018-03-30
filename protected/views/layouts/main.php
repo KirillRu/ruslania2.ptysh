@@ -24,32 +24,12 @@ if (isset($_GET['lang'])) {
 
 $entity = Entity::ParseFromString($url);
 
-if (Yii::app()->getRequest()->cookies['showSelLang']->value != '1') { 
+if (Yii::app()->getRequest()->cookies['showSelLang']->value != '1') {
 
-	//switch (strtolower(geoip_country_code_by_name($_SERVER['REMOTE_ADDR']))) {
-	switch ('ru') {
-
-		case 'ru': $lang = 'ru'; break;
-		case 'fi': $lang = 'fi'; break;
-		case 'gb': $lang = 'en'; break;
-		case 'de': $lang = 'de'; break;
-		case 'fr': $lang = 'fr'; break;
-		case 'es': $lang = 'es'; break;
-		case 'se': $lang = 'se'; break;
-		default : $lang = 'en'; break;
-	}
-
-	Yii::app()->language = $lang;
-
+	Yii::app()->language = $this->getPreferLanguage();
 }
 
-switch ($entity) {
-	
-	
-	
-}
 
-//echo Yii::app()->language;
 
 $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
     <head>
@@ -842,8 +822,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
     </head>
 
     <body>
-	
-	<?
+    <?
 	
 	if ($_GET['sel'] == '1') { 
 	
@@ -853,9 +832,11 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 
 		Yii::app()->getRequest()->cookies['showSelLang'] = $cookie;
 
+        if (isset($_GET['language'])) Yii::app()->language = $_GET['language'];
+
 	}
-	
-	if (Yii::app()->getRequest()->cookies['showSelLang']->value == '' OR Yii::app()->getRequest()->cookies['showSelLang']->value == '0') {
+
+    if (Yii::app()->getRequest()->cookies['showSelLang']->value == '' OR Yii::app()->getRequest()->cookies['showSelLang']->value == '0') {
 	
 		?>
 		
@@ -865,16 +846,15 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 			
 			<div class="box_title box_title_ru"><?=$ui->item('A_NEW_RUS_POPUP');?></div>
 			
-			<? if (Yii::app()->language == 'ru') : ?>
+			<? if (Yii::app()->language != 'en') : ?>
 			
-				
-				<div class="box_title box_title_en">Is your language russian?</div>
+                <div class="box_title box_title_en">Is your language <?= $ui->item('LANG_IN_EN');?>?</div>
 			
 			<? endif; ?>
 			
 			<div class="box_btns">
-				<a href="?language=ru&sel=1" class="btn_yes"><?=$ui->item('A_NEW_BTN_YES');?> <? if (Yii::app()->language == 'ru') : ?>(Yes)<? endif; ?></a>
-				<a href="javascript:;" onclick="$('.lang_yesno_box').hide(); $('.lang_yesno_box.select_lang').show();" class="btn_no"><?=$ui->item('A_NEW_BTN_NO');?> <? if (Yii::app()->language == 'ru') : ?>(No)<? endif; ?></a>
+				<a href="?language=<?=Yii::app()->language?>&sel=1" class="btn_yes"><?=$ui->item('A_NEW_BTN_YES');?> <? if (Yii::app()->language != 'en') : ?>(Yes)<? endif; ?></a>
+				<a href="javascript:;" onclick="$('.lang_yesno_box').hide(); $('.lang_yesno_box.select_lang').show();" class="btn_no"><?=$ui->item('A_NEW_BTN_NO');?> <? if (Yii::app()->language != 'en') : ?>(No)<? endif; ?></a>
 			</div>
 			
 		</div>
@@ -882,6 +862,11 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 		<div class="lang_yesno_box select_lang">
 		
 			<div class="box_title box_title_ru"><?=$ui->item('A_NEW_SELECT_LANG_TITLE');?>:</div>
+            <? if (Yii::app()->language != 'en') : ?>
+
+                <div class="box_title box_title_en">Choose a language</div>
+
+            <? endif; ?>
 			<div class="row">
 				<ul class="list_languages">
 					<li class="ru span1"><a href="<?= MyUrlManager::RewriteCurrent($this, 'ru'); ?>&sel=1"><?=$ui->item('A_LANG_RUSSIAN')?></a></li>

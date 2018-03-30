@@ -201,4 +201,27 @@ class MyController extends CController
         if (!$isOffer && ($status == 'recommend')) echo '<div class="status-block'.$size.' rec">В подборке</div>';
     }
 
+    public function getPreferLanguage()
+    {
+        if (($list = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']))) 
+        {
+            if (preg_match_all('/([a-z]{1,8}(?:-[a-z]{1,8})?)(?:;q=([0-9.]+))?/', $list, $list)) 
+            {
+                $language = array_combine($list[1], $list[2]);
+                foreach ($language as $n => $v)
+                    $language[$n] = $v ? $v : 1;
+                arsort($language);
+            }
+        } 
+        else $language = array();
+        if ($language)
+        {
+            foreach ($language as $lang => $value)
+            {
+                if (in_array(strtok($lang, '-'), Yii::app()->params['ValidLanguages'])) return strtok($lang, '-');
+            }
+        }
+        return false;
+    }
+
 }
