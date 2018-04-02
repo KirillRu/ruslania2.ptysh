@@ -1128,7 +1128,7 @@ IBAN DE79514303006474790001 <br>
 'A_NEW_SUBS_TD2_1' => 'Адрес отправки',
 'A_NEW_SUBS_TD3_1' => 'Номер журнала',
 'A_NEW_YEAR'=>'Год выхода',
-'A_NEW_FILTER_TYPE1'=>'Переплет',
+'A_NEW_FILTER_TYPE1'=>'Формат',
 'A_NEW_FILTER_TYPE2'=>'Тип',
 'A_NEW_FILTER_SORT_FOR'=>'Сортировать по:',
 'A_NEW_PLACEHOLDER_SEARCH'=>'Поиск по Названию / Автору / ISBN',

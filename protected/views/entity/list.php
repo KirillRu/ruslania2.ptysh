@@ -246,7 +246,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div> <?php } if (!empty($series)) { ?>
+                    </div> <?php }
+                if (!empty($series)) { ?>
 
                     <div class="form-row"><div class="box_select_result_count">
                             <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div> <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>: <span class="res_count">20</span><a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
@@ -322,6 +323,8 @@
 						?></label>
 
 
+                    <label><input type="checkbox" class="" name="binding_id[]" value="0" onchange="change_all_binding(event, true);show_result_count($(this));" checked/> Все</label>
+
                         <?php
                         foreach ($bgs as $bg => $binfo) {
                             $row = Binding::GetBinding($entity, $binfo['binding_id']);
@@ -339,7 +342,7 @@
 								$sel = 'checked="checked"';
 							}
 							
-                            echo '<label><input '.$sel.' type="checkbox" class="" name="binding_id[]" value="' . $row['id'] . '" onchange="show_result_count($(this))"/> ' . str_replace('/', ' / ', $row[$title]) . '</label>';
+                            echo '<label><input '.$sel.' type="checkbox" class="" name="binding_id[]" value="' . $row['id'] . '" onchange="change_all_binding(event);show_result_count($(this))"/> ' . str_replace('/', ' / ', $row[$title]) . '</label>';
                         }
                         ?>
 
@@ -446,7 +449,6 @@
                 <?php foreach ($items as $item) : ?>
                     <?php
                     $item['entity'] = $entity;
-                    //$item['status'] = Product::GetStatusProduct($entity, $item['id']);
                     $key = 'itemlist_' . $entity . '_' . $item['id'];
                     ?>
                     <li>

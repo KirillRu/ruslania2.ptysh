@@ -419,10 +419,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 
                 frm = frm + '&' + csrf[0] + '=' + csrf[1];
 
-                //alert(frm);
-
                 $.post('/site/gtfilter/', frm, function (data) {
-                    //alert(data);
                     $('.box_select_result_count a', cont.parents('.form-row')).show();
                     if (data == '0') {
                         $('.box_select_result_count a', cont.parents('.form-row')).hide();
@@ -431,6 +428,23 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                     $('.box_select_result_count .res_count', cont.parents('.form-row')).html(data);
                     $('.box_select_result_count', cont.parents('.form-row')).show(1);
                 })
+            }
+
+            function change_all_binding(event, binding_all = false)
+            {
+                if (binding_all) {
+                    if (event.target.checked) {
+                        otherBinding = event.target.parentElement.nextElementSibling;
+                        do
+                        {
+                            otherBinding.firstElementChild.checked = false;
+                        }
+                        while (otherBinding = otherBinding.nextElementSibling)
+                    }
+                }
+                else {
+                    event.target.parentElement.parentElement.children[2].firstElementChild.checked = false;
+                }
             }
 
             function select_item(item, inp_name) {

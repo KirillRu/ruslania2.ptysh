@@ -221,7 +221,7 @@ class MyController extends CController
                 if (in_array(strtok($lang, '-'), Yii::app()->params['ValidLanguages'])) return strtok($lang, '-');
             }
         }
-        return false;
+        return Yii::app()->params['DefaultLanguage'];
     }
 
 }
