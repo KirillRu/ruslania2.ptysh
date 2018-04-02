@@ -864,7 +864,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 			<div class="box_title box_title_ru"><?=$ui->item('A_NEW_SELECT_LANG_TITLE');?>:</div>
             <? if (Yii::app()->language != 'en') : ?>
 
-                <div class="box_title box_title_en">Choose a language</div>
+                <div class="box_title box_title_en">Choose your language</div>
 
             <? endif; ?>
 			<div class="row">
