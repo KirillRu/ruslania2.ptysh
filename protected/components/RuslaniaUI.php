@@ -9,7 +9,7 @@ class RuslaniaUI extends CApplicationComponent
     {
 //        Yii::beginProfile('UI_'.$key);
 
-        $file = Yii::getPathOfAlias('webroot').Yii::app()->params['LangDir'].((Yii::app()->language) ? Yii::app()->language : Yii::app()->params['DefaultLanguage']).'/uiconst.class.php';
+        $file = Yii::getPathOfAlias('webroot').Yii::app()->params['LangDir'].Yii::app()->language.'/uiconst.class.php';
         if(isset(self::$_cache[$file])) $data =self::$_cache[$file];
         else
         {
