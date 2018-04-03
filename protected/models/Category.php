@@ -2,11 +2,17 @@
 
 class Category {
 
-    public function GetCategoryList($entity, $parent) {
+    public function GetCategoryList($entity, $parent, $availCategory = false) {
         $entities = Entity::GetEntitiesList();
         $parent = intVal($parent);
         $eTable = $entities[$entity]['entity'];
-
+        if ($availCategory !== false)
+        {
+            $sql = 'SELECT * FROM ' . $eTable . '_categories WHERE id IN ('.implode(',' ,$availCategory).') ORDER BY title_'.Yii::app()->language . ' ASC';
+            $rows = Yii::app()->db->createCommand($sql)->queryAll(true);
+            //print_r(implode(',' ,$availCategory)); die();
+            return $rows;
+        }
         $sql = 'SELECT * FROM ' . $eTable . '_categories WHERE parent_id=:parent  AND items_count > 0 ORDER BY title_'.Yii::app()->language . ' ASC';
         $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':parent' => $parent));
         return $rows;
@@ -640,7 +646,8 @@ class Category {
         if (empty($table))
             return array();
 
-        $sql = 'SELECT * FROM ' . $table . ' WHERE id IN (' . implode(',', $ids) . ')';
+        if (is_array($ids)) $sql = 'SELECT * FROM ' . $table . ' WHERE id IN (' . implode(',', $ids) . ')';
+        if (is_int($ids)) $sql = 'SELECT * FROM ' . $table . ' WHERE id='.$ids;
         $rows = Yii::app()->db->createCommand($sql)->queryAll();
         return $rows;
     }

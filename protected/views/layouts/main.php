@@ -1114,10 +1114,10 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 							<div class="span10">
 								
 								<ul>
-									<? $i = 1; $rows = Category::GetCategoryList(10, 0);
-									
-									foreach ($rows as $row) {
-									
+									<?
+                                    $availCategory = array(202, 189, 232, 181, 65, 67);
+                                    $i = 1; $rows = Category::GetCategoryList(10, 0, $availCategory);
+                                    foreach ($rows as $row) {
 									?>
 									<li> 
 										<a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(10), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
@@ -1130,6 +1130,28 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 									}
 									?>
 									<? $i++; } ?>
+                                    <?php $row = Category::GetByIds(Entity::SHEETMUSIC, 47)[0]?>
+                                    <li>
+										<a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::SHEETMUSIC), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
+                                    </li>
+                                    <?
+                                    if ($i % 2 == 0) {
+
+                                        echo '<div class="clearfix"></div>';
+
+                                    }
+                                    ?>
+                                    <li>
+                                        <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::BOOKS)))?>"><?=$ui->item('A_NEW_BOOKS_BY_CATEGORY'); ?></a>
+                                    </li>
+                                    <?
+                                    if ($i % 2 == 0) {
+
+                                        echo '<div class="clearfix"></div>';
+
+                                    }
+                                    ?>
+                                    <? $i++; ?>
 									
 								</ul>
 								

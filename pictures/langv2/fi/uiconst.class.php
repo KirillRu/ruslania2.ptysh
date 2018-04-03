@@ -1124,5 +1124,6 @@ Klikkaa sinua kiinnostavan osaston kohdalla ja pääset suoraan selaamaan alennu
 'A_NEW_PLACEHOLDER_SEARCH'=>'Search for books by  Title / Author / ISBN',
 'A_NEW_YEAR_REAL'=>'Год издания',
 'A_NEW_MENU_REK'=>'Рекомендации',
-'A_NEW_FILTER_TITLE_LANG'=>'Язык товара - '
+'A_NEW_FILTER_TITLE_LANG'=>'Язык товара - ',
+'A_NEW_BOOKS_BY_CATEGORY' => 'Kirjat luokittain'
 ); 

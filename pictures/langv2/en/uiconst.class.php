@@ -1138,5 +1138,6 @@ By clicking on a category you are interested in, you can see all the products wi
 'A_NEW_PLACEHOLDER_SEARCH'=>'Search for books by  Title / Author / ISBN',
 'A_NEW_YEAR_REAL'=>'Год издания',
 'A_NEW_MENU_REK'=>'Рекомендации',
-'A_NEW_FILTER_TITLE_LANG'=>'Язык товара - ' 
+'A_NEW_FILTER_TITLE_LANG'=>'Язык товара - ',
+'A_NEW_BOOKS_BY_CATEGORY' => 'Books by category'
 ); 
