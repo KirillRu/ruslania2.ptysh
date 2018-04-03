@@ -129,8 +129,8 @@
                             <div class="items">
                                 <div class="rows">
 								
-                                    <div class="item<?=(($filter_data['avail'] == 0) ? ' selact' : '' ); ?>" rel="0" onclick="select_item($(this), 'avail')"><?=$ui->item('A_NEW_FILTER_ALL'); ?></div>
-                                    <div class="item<?=(($filter_data['avail'] == 1) ? ' selact' : '' ); ?>" rel="1" onclick="select_item($(this), 'avail')"><?=$ui->item('A_NEW_FILTER_AVAIL')?></div>
+                                    <div class="item<?=(($filter_data['avail'] == 0) ? ' select' : '' ); ?>" rel="0" onclick="select_item($(this), 'avail')"><?=$ui->item('A_NEW_FILTER_ALL'); ?></div>
+                                    <div class="item<?=(($filter_data['avail'] == 1) ? ' select' : '' ); ?>" rel="1" onclick="select_item($(this), 'avail')"><?=$ui->item('A_NEW_FILTER_AVAIL')?></div>
 
                                 </div>
                             </div>

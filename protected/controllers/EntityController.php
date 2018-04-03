@@ -342,6 +342,7 @@ class EntityController extends MyController {
 			 $filter_data = $data;
 		}
 
+        $filter_data['avail'] = 1;
 		$this->render('list', array('categoryList' => $catList,
             'entity' => $entity, 'items' => $items,
             'paginatorInfo' => $paginatorInfo,
