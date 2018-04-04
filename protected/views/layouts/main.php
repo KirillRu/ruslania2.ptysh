@@ -515,7 +515,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
             align: 'right',
             mouseOut: 'show',
             alwaysVisible: false,
-            innerHtml: '<p><?=$ui->item('AJAX_IN_PROGRESS'); ?></p>',
+            innerHtml: '<p><?=$ui->item('AJAX_IN_PROGRESS');?></p>',
 
             innerHtmlStyle:{
                 color:'#666666',
@@ -599,7 +599,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 
 
             $(document).ready(function () {
-
+                sortBooksMenu();
                 $(document).click(function (event) {
                     if ($(event.target).closest(".select_lang").length)
                         return;
@@ -829,6 +829,17 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 				})
 				
 			}
+
+			function sortBooksMenu() {
+                var mylist = $('#books_menu');
+                var listitems = mylist.children().get();
+                listitems.sort(function(a, b) {
+                    var compA = $(a).children('a').text().toUpperCase();
+                    var compB = $(b).children('a').text().toUpperCase();
+                    return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
+                });
+                $.each(listitems, function(idx, itm) { mylist.append(itm); mylist.append('<div class="clearfix"></div>')});
+            }
 			
 			
         </script>
@@ -1113,7 +1124,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 							
 							<div class="span10">
 								
-								<ul>
+								<ul id="books_menu">
 									<?
                                     $availCategory = array(202, 189, 232, 181, 65, 67);
                                     $i = 1; $rows = Category::GetCategoryList(10, 0, $availCategory);
@@ -1122,38 +1133,15 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 									<li> 
 										<a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(10), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
 									</li>
-									<? 
-									if ($i % 2 == 0) {
-										
-										echo '<div class="clearfix"></div>';
-										
-									}
-									?>
-									<? $i++; } ?>
+									<? } ?>
                                     <?php $row = Category::GetByIds(Entity::SHEETMUSIC, 47)[0]?>
                                     <li>
 										<a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::SHEETMUSIC), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
                                     </li>
-                                    <?
-                                    if ($i % 2 == 0) {
-
-                                        echo '<div class="clearfix"></div>';
-
-                                    }
-                                    ?>
                                     <li>
                                         <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::BOOKS)))?>"><?=$ui->item('A_NEW_BOOKS_BY_CATEGORY'); ?></a>
                                     </li>
-                                    <?
-                                    if ($i % 2 == 0) {
-
-                                        echo '<div class="clearfix"></div>';
-
-                                    }
-                                    ?>
-                                    <? $i++; ?>
-									
-								</ul>
+                                </ul>
 								
 							</div>
 							
@@ -1253,11 +1241,11 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 									<li> 
 										<a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(30), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
 									</li>
-									<? 
+									<?
 									if ($i % 2 == 0) {
-										
+
 										echo '<div class="clearfix"></div>';
-										
+
 									}
 									?>
 									<? $i++; } ?>
