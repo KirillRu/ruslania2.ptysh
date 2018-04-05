@@ -630,7 +630,7 @@ class Category {
         if ($tree === false) {
             $entities = Entity::GetEntitiesList();
             $eTable = $entities[$entity]['site_category_table'];
-            $sql = 'SELECT * FROM ' . $eTable . ' ORDER BY parent_id, sort_order';
+            $sql = 'SELECT * FROM ' . $eTable . ' ORDER BY title_'.Yii::app()->language.', sort_order';
             $rows = Yii::app()->db->createCommand($sql)->queryAll();
 
             $tree = $this->parseTree(0, $rows, 'id', 'parent_id');

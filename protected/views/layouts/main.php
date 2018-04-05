@@ -377,7 +377,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                     bindings[i] = $(this).val();
                     
                     i++;
-                })
+                });
                 
                 var csrf = $('meta[name=csrf]').attr('content').split('=');
                 $('.span10.listgoods').html('<?=$ui->item('A_NEW_LOAD2'); ?>');
@@ -496,8 +496,6 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 				
                 // var $parent = $el.closest('.to_cart');
                 var csrf = $('meta[name=csrf]').attr('content').split('=');
-				
-				//alert(opentip.currentStem);
                 //$el.CreateBubblePopup();
                 var post =
                         {
@@ -838,7 +836,14 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                     var compB = $(b).children('a').text().toUpperCase();
                     return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
                 });
-                $.each(listitems, function(idx, itm) { mylist.append(itm); mylist.append('<div class="clearfix"></div>')});
+                $.each(listitems, function(idx, itm) {
+                    if (itm.id == 'books_category') bookCategory = itm;
+                    else {
+                        mylist.append(itm);
+                        mylist.append('<div class="clearfix"></div>');
+                    }
+                });
+                mylist.append(bookCategory);
             }
 			
 			
@@ -1126,7 +1131,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 								
 								<ul id="books_menu">
 									<?
-                                    $availCategory = array(202, 189, 232, 181, 65, 67);
+                                    $availCategory = array(202, 189, 206, 181, 65, 67);
                                     $i = 1; $rows = Category::GetCategoryList(10, 0, $availCategory);
                                     foreach ($rows as $row) {
 									?>
@@ -1138,7 +1143,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                                     <li>
 										<a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::SHEETMUSIC), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
                                     </li>
-                                    <li>
+                                    <li id="books_category">
                                         <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::BOOKS)))?>"><?=$ui->item('A_NEW_BOOKS_BY_CATEGORY'); ?></a>
                                     </li>
                                 </ul>

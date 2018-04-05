@@ -1135,5 +1135,5 @@ IBAN DE79514303006474790001 <br>
 'A_NEW_YEAR_REAL'=>'Год издания',
 'A_NEW_MENU_REK'=>'Рекомендации',
 'A_NEW_FILTER_TITLE_LANG'=>'Язык товара - ',
-'A_NEW_BOOKS_BY_CATEGORY' => 'Книги по категориям'
+'A_NEW_BOOKS_BY_CATEGORY' => 'Смотреть книги по категориям'
 );
