@@ -2376,3 +2376,64 @@ form span.info { font-size: 13px; color: #747474; margin-left: 20px; display: no
     display: block;
     background: #42b455;
 }
+
+/* slider */
+.custom-slider {
+    width: 880px;
+    padding-top: 40px;
+    min-height: 261px;
+    position: relative;
+}
+
+.custom-slider .btn_left,
+.custom-slider .btn_right{
+    position: absolute;
+    top: 0;
+    margin-top: -17px;
+    cursor: pointer;
+}
+
+.custom-slider .btn_left {
+    right: 46px;
+}
+.custom-slider .btn_right {
+    right: 0;
+}
+
+.slider_recomend__item {
+    height: 260px;
+    float: left;
+}
+.custom-slider .slick-list {
+    overflow: hidden;
+}
+
+.slider__img-block {
+    position: relative;
+    float: left;
+    margin: 0 10px 10px 0;
+}
+.slider__img {
+    margin: 5px 0 0 5px;
+}
+.slider__desc {
+    overflow: hidden;
+    padding: 0 15px 0 0;
+}
+.slider-item__title {
+    margin: 0 0 10px;
+    font-size: 14px;
+}
+
+.slider__item-status {
+    padding: 5px 7px;
+    font-size: 0.9em;
+}
+.slider-item__price {
+    font-weight: bold;
+    margin: 0 0 5px;
+}
+.slider-item__desc {
+    font-size: 0.9em;
+    margin: 0 0 10px;
+}

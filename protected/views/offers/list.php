@@ -136,22 +136,22 @@
 							
 							<?
 							if (count($offer[Entity::GetTitle($entity)]['items'])) {
-								echo '<div class="items_goods_recomends">';							
+								echo '<div class="items_goods_recomends">';
+								echo '<div class="slider_recomend custom-slider">';
 							foreach ($offer[Entity::GetTitle($entity)]['items'] as $of) {
-								
-								if ($s<7) {
-									echo '<a href="'.ProductHelper::createUrl($of).'">
-										<div class="img" style="background: url(\''. Picture::Get($of, Picture::SMALL).'\') center center no-repeat; background-size: 100%; position: relative">';
-									$this->renderStatusLables(Product::GetStatusProduct($of['entity'], $of['id']), '', true);
-									echo '</div><div class="clearfix"></div></a>';
-										
-								}
-									
-								$s++;
 
-							}
-							
-								echo '<div class="clearfix"></div></div>';
+                                //if ($s < 7) {
+                                if (true) {
+                                    echo '<div class="item slider_recomend__item">';
+                                    echo '<a href="' . ProductHelper::createUrl($of) . '" class="slider__img-block">
+										<div class="img slider__img" style="background: url(\'' . Picture::Get($of, Picture::SMALL) . '\') center center no-repeat; background-size: 100%; position: relative">';
+                                    $this->renderStatusLables(Product::GetStatusProduct($of['entity'], $of['id']), '', true);
+                                    echo '</div></a>';
+                                    echo '</div>';
+                                }
+                                $s++;
+                            }
+								echo '</div><div class="clearfix"></div></div>';
 							}
 							?><div style="margin-top: 15px;"></div>
 							<a title="Download Excel file" rel="nofollow" class="dprice"
