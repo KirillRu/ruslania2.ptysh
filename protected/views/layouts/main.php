@@ -46,6 +46,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 		<link rel="stylesheet" type="text/css" href="/css/jquery-bubble-popup-v3.css"/>
         <link href="/new_style/style_site.css" rel="stylesheet" type="text/css"/>
 		<link rel="stylesheet" type="text/css" href="/css/prettyPhoto.css"/>
+        <script src="/new_js/js_site.js" type="text/javascript"></script>
         <script src="/new_js/jquery.js" type="text/javascript"></script>
         <script src="/new_js/jquery.mousewheel.min.js" type="text/javascript"></script>
         <meta name="csrf" content="<?= MyHTML::csrf(); ?>"/>
@@ -380,9 +381,9 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                 });
                 
                 var csrf = $('meta[name=csrf]').attr('content').split('=');
+                
                 $('.span10.listgoods').html('<?=$ui->item('A_NEW_LOAD2'); ?>');
                 $.post(create_url, { YII_CSRF_TOKEN: csrf[1], 'binding_id[]' : bindings, search_name : $('form.filter .search.inp').val(), sort : $('form.filter .sort').val() }, function(data) {
-                    
                     $('.span10.listgoods').html(data);
                     $('.box_select_result_count').hide(1);
                     $(window).scrollTop(0);
