@@ -412,21 +412,37 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
             function show_result_count(cont) {
 
                 $('.box_select_result_count').hide(1);
+                $('.loader_gif').remove();
+                $('.res_count').html(' ');
+                $('.box_select_result_count').attr('disabled',true);
 
                 var frm = $('form.filter').serialize();
                 var csrf = $('meta[name=csrf]').attr('content').split('=');
 
                 frm = frm + '&' + csrf[0] + '=' + csrf[1];
 
-                $.post('/site/gtfilter/', frm, function (data) {
-                    $('.box_select_result_count a', cont.parents('.form-row')).show();
-                    if (data == '0') {
+                $.ajax({
+                    url: '/site/gtfilter/',
+                    type: "POST",
+                    data: frm,
+                    beforeSend: function(){
+                        $('.box_select_result_count', cont.parents('.form-row')).show();
+                        $('.box_select_result_count', cont.parents('.form-row')).append('<img class="loader_gif" src="/new_img/source.gif" width="20">');
                         $('.box_select_result_count a', cont.parents('.form-row')).hide();
-                    }
+                    },
+                    success: function (data) {
+                        $('form, .filter').removeAttr('disabled');
+                        $('.loader_gif').remove();
+                        $('.box_select_result_count a', cont.parents('.form-row')).show();
+                        $('.box_select_result_count img', cont.parents('.form-row')).hide();
+                        if (data == '0') {
+                            $('.box_select_result_count a', cont.parents('.form-row')).hide();
+                        }
 
-                    $('.box_select_result_count .res_count', cont.parents('.form-row')).html(data);
-                    $('.box_select_result_count', cont.parents('.form-row')).show(1);
-                })
+                        $('.box_select_result_count .res_count', cont.parents('.form-row')).html(data);
+                        $('.box_select_result_count', cont.parents('.form-row')).show(1);
+                    }
+                });
             }
 
             function change_all_binding(event, binding_all = false)
@@ -461,9 +477,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
             }
 
             function show_sc(cont, c, lvl) {
-                
-				//alert(lvl);
-				
+
 				if (cont.css('display') == 'none') {
 					$('ul.lvlcat'+lvl).hide();
 					$('a.subcatlvl'+lvl).removeClass('open');

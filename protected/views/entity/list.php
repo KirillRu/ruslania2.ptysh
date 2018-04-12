@@ -69,13 +69,18 @@
                     <label class="title"><?=$ui->item('A_NEW_SEARCH_CAT'); ?></label>
                     <input type="text" class="search inp" placeholder="<?=$ui->item('A_NEW_NAME_ISBN'); ?>" name="name_search" onkeyup="if ($(this).val().length > 2) { show_result_count($(this)); } else { $('.box_select_result_count').hide(1); }"/>
                     <div class="box_select_result_count">
-                        <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div> <?=$ui->item('A_NEW_FILTER_SELECT')?>: <span class="res_count">20</span><a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
+                        <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div> <?=$ui->item('A_NEW_FILTER_SELECT')?>:
+                        <span class="res_count"></span>
+                        <a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                     </div>
                 </div>
                 <?php if (!empty($authors)) { ?>
                     <div class="form-row">
                         <div class="box_select_result_count">
-                            <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div> <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>: <span class="res_count">20</span><a href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
+                            <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div>
+                            <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>:
+                            <span class="res_count"></span>
+                            <a href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                         </div>
                         <label class="title"><?=$ui->item('A_NEW_FILTER_AUTHOR'); ?></label>
 
@@ -119,7 +124,9 @@
                 <div class="form-row">
                     <div class="box_select_result_count">
                         <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div>
-                        <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>: <span class="res_count">20</span><a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
+                        <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>:
+                        <span class="res_count"></span>
+                        <a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                     </div>
                     <label class="title"><?=$ui->item('CART_COL_ITEM_AVAIBILITY')?></label>
                     <div class="dd_box_select" style="z-index: 8">
@@ -143,7 +150,10 @@
 				<? if ($langVideo) {?>
 				
 				<div class="form-row"><div class="box_select_result_count">
-                        <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div> <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>: <span class="res_count">20</span><a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
+                        <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div>
+                        <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>:
+                        <span class="res_count"></span>
+                        <a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                     </div>
                     <label class="title">Язык звуковой дорожки</label>
                     <div class="dd_box_select" style="z-index: 8">
@@ -172,7 +182,10 @@
 				
 				<? if ($filter_year[1]) : ?>
                 <div class="form-row"><div class="box_select_result_count">
-                        <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div> <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>: <span class="res_count">20</span> <a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
+                        <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div>
+                        <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>:
+                        <span class="res_count"></span>
+                        <a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                     </div>
 					
                     <label class="title"><?=$ui->item('A_NEW_FILTER_YEAR')?></label>
@@ -207,7 +220,10 @@
 				<? endif;?>
                 <?php if (!empty($pubs)) { ?>
                     <div class="form-row"><div class="box_select_result_count">
-                            <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div> <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>: <span class="res_count">20</span><a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
+                            <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div>
+                            <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>:
+                            <span class="res_count"></span>
+                            <a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                         </div>
                         <label class="title"><?=$ui->item('A_NEW_FILTER_PUBLISHER')?></label>
 
@@ -252,7 +268,10 @@
                 if (!empty($series)) { ?>
 
                     <div class="form-row"><div class="box_select_result_count">
-                            <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div> <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>: <span class="res_count">20</span><a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
+                            <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div>
+                            <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>:
+                            <span class="res_count"></span>
+                            <a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                         </div>
                         <label class="title"><?=$ui->item('A_NEW_FILTER_SERIES')?></label>
 
@@ -300,7 +319,10 @@
 					
 					
                 <div class="form-row"><div class="box_select_result_count">
-                        <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div> <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>: <span class="res_count">20</span><a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
+                        <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div>
+                        <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>:
+                        <span class="res_count"></span>
+                        <a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                     </div>
                     <label class="title"><?=$ui->item('CART_COL_PRICE');?></label>
                     <input type="text" value="<?=$filter_year[2]?>" class="inp_mini cost_inp_mini inp" name="min_cost" onblur="show_result_count($(this))"/>-<input type="text" value="<?=$filter_year[3]?>" class="inp_max cost_inp_max inp" name="max_cost" onblur="show_result_count($(this))"/>
@@ -312,8 +334,9 @@
                     <div class="form-row bindings">
                         <div class="box_select_result_count">
                             <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div> 
-                            <div class="close" onclick="$(this).parent().hide()">x</div>
-                            <?=$ui->item('A_NEW_FILTER_SELECT')?>: <span class="res_count">20</span><a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
+                            <div class="close" onclick="$(this).parent().hide()">x</div> <?=$ui->item('A_NEW_FILTER_SELECT')?>:
+                            <span class="res_count"></span>
+                            <a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                         </div>
                         <label class="title"><?
 						if ($entity == 10 OR $entity == 15) {
