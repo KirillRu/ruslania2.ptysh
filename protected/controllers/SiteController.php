@@ -921,7 +921,7 @@ class SiteController extends MyController {
     function actionGTfilter() { //узнаем сколько выбрано товаров при фильтре
         if (Yii::app()->request->isPostRequest) {
             $category = new Category();
-			
+
 			echo $category->count_filter($_POST['entity_val'], $_POST['cid_val'], $_POST);
         }
     }
@@ -936,15 +936,11 @@ class SiteController extends MyController {
     function actionGGfilter($entity = 0, $cid = 0, $author = '0', $avail = '0', $ymin = '0', $ymax = '0', $izda = '0', $seria = '0', $cmin = '0', $cmax = '0', $binding = '0', $langsel = '') {
 
         /* Строка урл: /site/ggfilter/entity/10/cid/0/author/4758/avail/1/ymin/2008/ymax/2018/izda/18956/seria/1290/cmin/1000/cmax/9000/ */
-		
-		//var_dump($binding);
-		
+
         $_GET['name_search'] = $_POST['search_name'];
         $_GET['sort'] = (($_POST['sort']) ? $_POST['sort'] : 3);
-        $_GET['binding'] = serialize($_POST['binding_id']);
-        //$_GET['langsel'] = serialize($_POST['langsel']);
-		
-		//var_dump($_GET);
+        $_GET['binding'] = $_POST['binding_id'];
+        $_GET['langsel'] = $_POST['langsel'];
 
         //записываем фильтр в куки каждой категории
         if (Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value != serialize($_GET)) {
@@ -957,17 +953,16 @@ class SiteController extends MyController {
         //var_dump($data);
 
         $cat = new Category();
-
         $items = $cat->result_filter($data);
 
-        $data['binding_id'] = (array) unserialize($data['binding']);
+        //$data['binding_id'] = (array) unserialize($data['binding']);
+        $data['binding_id'] = $data['binding'];
         $data['year_min'] = $ymin;
         $data['year_max'] = $ymax;
         $data['min_cost'] = $cmin;
         $data['max_cost'] = $cmax;
 
         $totalItems = Category::count_filter($entity, $cid, $data);
-        //var_dump($totalItems);
         $paginator = new CPagination($totalItems);
         $paginator->setPageSize(Yii::app()->params['ItemsPerPage']);
         $this->renderPartial('list_ajax', array(

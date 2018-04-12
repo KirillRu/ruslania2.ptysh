@@ -116,8 +116,10 @@
                         </div>
 
                     </div> <?php } ?>
-                <div class="form-row"><div class="box_select_result_count">
-                        <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div> <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>: <span class="res_count">20</span><a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
+                <div class="form-row">
+                    <div class="box_select_result_count">
+                        <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div>
+                        <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>: <span class="res_count">20</span><a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                     </div>
                     <label class="title"><?=$ui->item('CART_COL_ITEM_AVAIBILITY')?></label>
                     <div class="dd_box_select" style="z-index: 8">
@@ -263,7 +265,7 @@
                             </div>
                             <div class="list_dd seria_dd">
                                 <div class="items">
-                                    <div class="rows">
+                                    <div class="rows filter-select">
                                         <div class="item" rel="0" onclick="select_item($(this), 'seria')"><?=$ui->item('A_NEW_FILTER_ALL'); ?></div>
                                         <?php
                                         foreach ($series as $seria => $binfo) {
@@ -323,7 +325,7 @@
 						?></label>
 
 
-                    <label><input type="checkbox" class="" name="binding_id[]" value="0" onchange="change_all_binding(event, true);show_result_count($(this));" checked/> Все</label>
+                    <label><input type="checkbox" class="" name="binding_id[]" value="0" onchange="change_all_binding(event, true);show_result_count($(this));" <?= ($filter_data['binding_id']) ? '' : 'checked'?>/> Все</label>
 
                         <?php
                         foreach ($bgs as $bg => $binfo) {

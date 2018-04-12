@@ -19,8 +19,6 @@ class EntityController extends MyController {
             else
                 $searcher->SetFilter('publisher_id', array(intVal($publisher)));
         }
-//        if(!empty($category))
-//            $searcher->SetFilter('category', array(intVal($category)));
 
         $searcher->SetLimits(0, 50);
         $res = $searcher->query('', 'products');
@@ -77,9 +75,7 @@ class EntityController extends MyController {
 			if (!Product::is_lang($_GET['lang'], $cid,$entity)) {
 				$lang = '';
 			}
-			
-			//var_dump($lang);
-			
+
 		} elseif (Yii::app()->getRequest()->cookies['langsel']->value) {
 			
 			$lang = Yii::app()->getRequest()->cookies['langsel']->value;
@@ -89,152 +85,8 @@ class EntityController extends MyController {
 			}
 			
 		}
-		
-		
-		
-/*		if ($entity == 10){
-			
-			$this->render('list', array('categoryList' => $catList,
-            'entity' => $entity, 'items' => array(),
-            'paginatorInfo' => $paginatorInfo,
-            'cid'=>$cid, 'filter_data' => $filter_data,
-            'info' => $categoryInfo, 'filter_year' => $maxminyear,
-            'bgs' => $bg, 'pubs' => $pubs, 'series'=>$series, 'authors'=>$authors, 'title_cat'=>$title_cat, 'cat_id'=>$selectedCategory));
-			
-			return '';
-			
-		}
-		*/
-		
-		//var_dump($cid);
-
-		/*if(Yii::app()->user->id == 72221 or Yii::app()->user->id == 72223 or Yii::app()->user->id == 69481)
-		{
-				$avail = $this->GetAvail($avail);
-				$entity = Entity::ParseFromString($entity);
-				if ($entity === false)
-					$entity = Entity::BOOKS;
-
-				$category = new Category();
-
-				// $maxminyear = $category->getFilterSlider($entity, $cid);
-				// $pubs = $category->getFilterPublisher($entity, $cid);
-				// $series = $category->getFilterSeries($entity, $cid);
-				// $authors = $category->getFilterAuthor($entity, $cid);
-
-				//var_dump($authors);
-
-				// $bg = $category->getFilterBinding($entity, $cid);
-
-				$catList = $category->GetCategoryList($entity, $cid);
-
-				$path = $category->GetCategoryPath($entity, $cid);
-
-				$title = Entity::GetTitle($entity);
-				if ($cid == 0)
-					array_push($this->breadcrumbs, $title);
-				else
-					$this->breadcrumbs[$title] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
-
-				$cnt = count($path);
-				$ids = array();
-				$selectedCategory = null;
-
-				for ($i = 0; $i < $cnt; $i++) {
-					$p = $path[$i];
-					$pTitle = ProductHelper::GetTitle($p);
-					if ($i == $cnt - 1) {
-						array_push($this->breadcrumbs, $pTitle);
-						$selectedCategory = $p;
-					} else
-						$this->breadcrumbs[$pTitle] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity), 'cid' => $p['id']));
-					$ids[] = $p['id'];
-				}
 
 
-
-				$totalItems = $category->GetTotalItems($entity, $cid, $avail);
-
-				if ($cid > 0 && empty($path) && $totalItems == 0)
-					throw new CHttpException(404);
-
-				$paginatorInfo = new CPagination($totalItems);
-				$paginatorInfo->setPageSize(Yii::app()->params['ItemsPerPage']);
-				$sort = SortOptions::GetDefaultSort($sort);
-
-				$start = 0;
-				if(isset($_GET['page']))
-					$start = ($_GET['page'] - 1) * 40;
-
-				$EntitiesList = Entity::GetEntitiesList();
-
-				$sql = 'SELECT id FROM '.$EntitiesList[$entity]['site_table'].' ORDER BY add_date DESC LIMIT '.$start.', 40';
-
-				$items = [];
-				$rows = Yii::app()->db->createCommand($sql)->queryAll();
-				foreach ($rows as $row)
-				{
-					$items[] = Product::GetProduct($entity, $row['id']);
-				}
-
-				// $items = $category->GetItems($entity, $cid, $paginatorInfo, $sort, Yii::app()->language, $avail);
-
-				// Добавляем к товарам инфу сколько уже содержится в корзине
-			   $items = $this->AppendCartInfo($items, $entity, $this->uid, $this->sid);
-				// Получить статик-файл инфы категории
-				$categoryInfo = null;
-				if (!empty($selectedCategory) && !empty($selectedCategory['description_file_' . Yii::app()->language])) {
-					$file = $selectedCategory['description_file_' . Yii::app()->language];
-					$path = Yii::getPathOfAlias('webroot') . '/templates-html/' . Entity::GetUrlKey($entity) . '-categories/' . $file;
-					if (file_exists($path))
-						$categoryInfo = file_get_contents($path);
-				}
-				$title_cat = '';
-				if ($cid) {
-					$title_cat = ProductHelper::GetTitle($selectedCategory);
-				}
-
-				$filter_data = array(
-				'author'=>'',
-				'binding_id'=>array(),
-				'year_min'=>'',
-				'year_max'=>'',
-				'min_cost'=>'',
-				'max_cost'=>''
-				);
-
-				// if (Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value != '') {
-
-					// $data = unserialize(Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value); //получаем строку с куки
-					// //var_dump($data);
-
-					// $cat = new Category();
-
-					// $items = $cat->result_filter($data);
-
-					// $data['binding_id'] = (array) unserialize($data['binding']);
-					// $data['year_min'] = $ymin;
-					// $data['year_max'] = $ymax;
-					// $data['min_cost'] = $cmin;
-					// $data['max_cost'] = $cmax;
-
-					// $totalItems = Category::count_filter($entity, $cid, $data);
-					// //var_dump($totalItems);
-					// $paginatorInfo = new CPagination($totalItems);
-					// $paginatorInfo->setPageSize(Yii::app()->params['ItemsPerPage']);
-					// $filter_data = $data;
-				// }
-
-				$this->render('list', array('categoryList' => $catList,
-					'entity' => $entity, 'items' => $items,
-					'paginatorInfo' => $paginatorInfo,
-					'cid'=>$cid, 'filter_data' => $filter_data,
-					'info' => $categoryInfo, 'filter_year' => $maxminyear,
-					'bgs' => $bg, 'pubs' => $pubs, 'series'=>$series, 'authors'=>$authors, 'title_cat'=>$title_cat));
-
-		}
-		else
-		{ */
 
 		$avail = $this->GetAvail($avail);
         
@@ -323,20 +175,18 @@ class EntityController extends MyController {
 		if (Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value != '') {
 
 		$data = unserialize(Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value); //получаем строку с куки
-			//var_dump($data);
 
 			$cat = new Category();
 
 			$items = $cat->result_filter($data, $lang);
 
-			$data['binding_id'] = (array) unserialize($data['binding']);
+			$data['binding_id'] = $data['binding'];
 			$data['year_min'] = $ymin;
 			$data['year_max'] = $ymax;
 			$data['min_cost'] = $cmin;
 			$data['max_cost'] = $cmax;
 
 			$totalItems = Category::count_filter($entity, $cid, $data);
-			//var_dump($totalItems);
 			$paginatorInfo = new CPagination($totalItems);
 			$paginatorInfo->setPageSize(Yii::app()->params['ItemsPerPage']);
 			 $filter_data = $data;
@@ -349,8 +199,6 @@ class EntityController extends MyController {
             'cid'=>$cid, 'filter_data' => $filter_data,
             'info' => $categoryInfo, 'filter_year' => $maxminyear,
             'bgs' => $bg, 'pubs' => $pubs, 'series'=>$series, 'authors'=>$authors, 'langs'=>$langs, 'langVideo'=>$langVideo, 'title_cat'=>$title_cat, 'cat_id'=>$selectedCategory, 'total'=>$totalItems));
-		//}
-		
     }
 
     public function actionCategoryList($entity) {

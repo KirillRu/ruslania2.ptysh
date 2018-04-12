@@ -311,7 +311,7 @@ class Category {
             $criteria->addCondition('series_id=:sid');
             $criteria->params[':sid'] = $seria;
         }
-        
+
         if ($ymin) {
             $criteria->addCondition('year >= :ymin');
             $criteria->params[':ymin'] = $ymin;
