@@ -175,10 +175,10 @@ class Category {
         $tbl = $entities[$entity]['site_table'];
         //$tbl_binding = $entities[$entity]['binding_table'];
         if ($cid > 0) {
-            $sql = 'SELECT series_id FROM ' . $tbl . ' WHERE (`code`=:code OR `subcode`=:code) AND avail_for_order=1 AND (series_id > 0 AND series_id <> "")'.$sql.' GROUP BY series_id LIMIT ' . $limit;
+            $sql = 'SELECT series_id FROM ' . $tbl . ' WHERE (`code`=:code OR `subcode`=:code) AND avail_for_order=1 AND (series_id > 0 AND series_id <> "")'.$sql.' GROUP BY title_'.Yii::app()->language.' LIMIT ' . $limit;
             $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':code' => $cid));
         } else {
-            $sql = 'SELECT series_id FROM ' . $tbl . ' WHERE avail_for_order=1  AND (series_id > 0 AND series_id <> "")'.$sql.' GROUP BY series_id LIMIT ' . $limit;
+            $sql = 'SELECT series_id FROM ' . $tbl . ' WHERE avail_for_order=1  AND (series_id > 0 AND series_id <> "")'.$sql.' GROUP BY title_'.Yii::app()->language.' LIMIT ' . $limit;
             $rows = Yii::app()->db->createCommand($sql)->queryAll();
         }
 
@@ -256,21 +256,18 @@ class Category {
         if (!$data OR count($data) == 0) {
             return array();
         }
-        
-        list($entity,$cid,$author,$avail,$ymin,$ymax,$izda,$seria,$cmin,$cmax,$search,$sort,$binding) = array_values($data);
+
+        list($entity,$cid,$author,$avail,$ymin,$ymax,$izda,$seria,$cmin,$cmax,$lang_sel,$search,$sort,$binding) = array_values($data);
         $entities = Entity::GetEntitiesList();
-        $data['binding_id'] = (array) unserialize($binding);
-        $data['year_min'] = $ymin;
-        $data['year_max'] = $ymax;
+        $data['binding_id'] = $binding;
+        $data['year_min'] = (int) $ymin;
+        $data['year_max'] = (int) $ymax;
         $data['min_cost'] = $cmin;
         $data['max_cost'] = $cmax;
-		
-		//var_dump($sort);
-		
+
         $tbl_author = $entities[$entity]['author_table'];
         $totalItems = self::count_filter($entity, $cid, $data);
         $field = $entities[$entity]['author_entity_field'];
-        //var_dump($totalItems);
         $paginator = new CPagination($totalItems);
         $paginator->setPageSize(Yii::app()->params['ItemsPerPage']);
         
@@ -290,10 +287,8 @@ class Category {
                 $criteria->params[':cid2'] = $cid;
             }
         }
-        
-        //$criteria->from($tbl_author . ' as ba');
-		
-		if ($lang_sel!='') {
+
+		if ($lang_sel != '') {
 			
 			$criteria->addCondition('t.id IN (SELECT item_id FROM `all_items_languages` WHERE entity = '.$entity.' AND language_id = '.$lang_sel.')');
 			
@@ -317,9 +312,16 @@ class Category {
             $criteria->params[':sid'] = $seria;
         }
         
-        $binding = unserialize($binding);
-        
-        if ($binding) {
+        if ($ymin) {
+            $criteria->addCondition('year >= :ymin');
+            $criteria->params[':ymin'] = $ymin;
+        }
+        if ($ymax) {
+            $criteria->addCondition('year <= :ymax');
+            $criteria->params[':ymax'] = $ymax;
+        }
+
+        if ($binding && $binding != 0) {
             
             $str = ' binding_id=' . implode(' OR binding_id=', $binding);
             
@@ -338,9 +340,7 @@ class Category {
 		} else {
 			if (!$sort) $sort = 12;
 		}
-		
-		
-        
+
         $criteria->addCondition('brutto >= :brutto1 AND brutto<=:brutto2');
         $criteria->params[':brutto1'] = $cmin;
         $criteria->params[':brutto2'] = $cmax;
@@ -350,18 +350,15 @@ class Category {
         $paginator->applyLimit($criteria);
         $dp->setCriteria($criteria);
         $dp->pagination = false;
-
         $datas = $dp->getData();
 
         $ret = Product::FlatResult($datas);
-        
+
         return $ret;        
     }
 
     public function count_filter($entity, $cid, $post) {
-		
-		//var_dump($post);
-		
+
         $entities = Entity::GetEntitiesList();
         $tbl = $entities[$entity]['site_table'];
         $tbl_author = $entities[$entity]['author_table'];
@@ -436,11 +433,8 @@ class Category {
             $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':code' => $cid));
         } else {
             $sql = 'SELECT COUNT(bc.title_ru) as cnt FROM ' . $tbl . ' as bc ' . $addtbl . ' WHERE bc.id <> 0 ' . $qstr;
-			
-
             $rows = Yii::app()->db->createCommand($sql)->queryAll();
         }
-
         return $rows[0]['cnt'];
     }
 
