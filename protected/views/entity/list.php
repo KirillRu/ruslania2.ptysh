@@ -340,7 +340,7 @@
 							
 							$sel = '';
 							
-							if (in_array($row['id'], $filter_data['binding_id'])) {
+							if (isset($filter_data['binding_id']) && in_array($row['id'], $filter_data['binding_id'])) {
 								$sel = 'checked="checked"';
 							}
 							

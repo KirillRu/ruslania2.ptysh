@@ -321,7 +321,7 @@ class Category {
             $criteria->params[':ymax'] = $ymax;
         }
 
-        if ($binding && $binding != 0) {
+        if ($binding && $binding != 0 && $binding[0] != 0) {
             
             $str = ' binding_id=' . implode(' OR binding_id=', $binding);
             

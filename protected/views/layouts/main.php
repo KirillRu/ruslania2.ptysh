@@ -419,7 +419,6 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                 frm = frm + '&' + csrf[0] + '=' + csrf[1];
 
                 $.post('/site/gtfilter/', frm, function (data) {
-                    console.log(data);
                     $('.box_select_result_count a', cont.parents('.form-row')).show();
                     if (data == '0') {
                         $('.box_select_result_count a', cont.parents('.form-row')).hide();
