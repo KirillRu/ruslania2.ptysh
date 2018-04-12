@@ -172,7 +172,7 @@ class EntityController extends MyController {
 		'max_cost'=>''
 		);
 
-		if (Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value != '') {
+		/*if (Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value != '') {
 
 		$data = unserialize(Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value); //получаем строку с куки
 
@@ -190,7 +190,7 @@ class EntityController extends MyController {
 			$paginatorInfo = new CPagination($totalItems);
 			$paginatorInfo->setPageSize(Yii::app()->params['ItemsPerPage']);
 			 $filter_data = $data;
-		}
+		}*/
 
         $filter_data['avail'] = 1;
 		$this->render('list', array('categoryList' => $catList,
