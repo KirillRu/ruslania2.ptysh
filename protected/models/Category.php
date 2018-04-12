@@ -359,7 +359,9 @@ class Category {
     }
 
     public function count_filter($entity, $cid, $post) {
-
+		
+		//var_dump($post);
+		
         $entities = Entity::GetEntitiesList();
         $tbl = $entities[$entity]['site_table'];
         $tbl_author = $entities[$entity]['author_table'];
@@ -434,6 +436,8 @@ class Category {
             $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':code' => $cid));
         } else {
             $sql = 'SELECT COUNT(bc.title_ru) as cnt FROM ' . $tbl . ' as bc ' . $addtbl . ' WHERE bc.id <> 0 ' . $qstr;
+			
+
             $rows = Yii::app()->db->createCommand($sql)->queryAll();
         }
 
