@@ -84,7 +84,7 @@
                         </div>
                         <label class="title"><?=$ui->item('A_NEW_FILTER_AUTHOR'); ?></label>
 
-                        <div class="dd_box_select" style="z-index: 9">
+                        <div class="dd_box_select" style="z-index: 20">
 
                             <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
                             <input type="hidden" name="author" value="0">
@@ -129,7 +129,7 @@
                         <a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                     </div>
                     <label class="title"><?=$ui->item('CART_COL_ITEM_AVAIBILITY')?></label>
-                    <div class="dd_box_select" style="z-index: 8">
+                    <div class="dd_box_select" style="z-index: 19">
 
                         <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
                         <input type="hidden" name="avail" value="0">
@@ -146,7 +146,7 @@
                         </div>
                     </div>
                 </div>
-				
+
 				<? if ($langVideo) {?>
 				
 				<div class="form-row"><div class="box_select_result_count">
@@ -156,10 +156,10 @@
                         <a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                     </div>
                     <label class="title">Язык звуковой дорожки</label>
-                    <div class="dd_box_select" style="z-index: 8">
+                    <div class="dd_box_select" style="z-index: 18">
 
                         <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
-                        <input type="hidden" name="langVideo" value="0">
+                        <input type="hidden" name="langVideo" value="0" id="langVideo">
                         <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()"><span>Язык звуковой дорожки</span></div>
                         <div class="list_dd">
                             <div class="items">
@@ -178,6 +178,70 @@
                 </div>
 				
 				<? } ?>
+
+                <? if ($langSubtitles) {?>
+
+                    <!--<div class="form-row"><div class="box_select_result_count">
+                            <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div>
+                            <div class="close" onclick="$(this).parent().hide()">x</div><?/*=$ui->item('A_NEW_FILTER_SELECT')*/?>:
+                            <span class="res_count"></span>
+                            <a  href="javascript:;" onclick="show_items()"><?/*=$ui->item('A_NEW_FILTER_VIEW')*/?></a>
+                        </div>
+                        <label class="title">Язык субтитров</label>
+                        <div class="dd_box_select" style="z-index: 17">
+
+                            <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
+                            <input type="hidden" name="langSubtitles" value="0">
+                            <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()"><span>Язык субтитров</span></div>
+                            <div class="list_dd">
+                                <div class="items">
+                                    <div class="rows">
+                                        <div class="item" rel="0" onclick="select_item($(this), 'langSubtitles')"><?/*=$ui->item('A_NEW_FILTER_ALL'); */?></div>
+                                        <?/* foreach ($langSubtitles as $k => $lang) { */?>
+
+                                            <div class="item" rel="<?/*=$lang['id']*/?>" onclick="select_item($(this), 'langSubtitles')"><?/*=ProductHelper::GetTitle($lang);*/?></div>
+
+                                        <?/* } */?>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+
+                <? } ?>
+
+                <? if ($formatVideo) {?>
+
+                    <div class="form-row"><div class="box_select_result_count">
+                            <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div>
+                            <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>:
+                            <span class="res_count"></span>
+                            <a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
+                        </div>
+                        <label class="title">Формат Видео</label>
+                        <div class="dd_box_select" style="z-index: 16">
+
+                            <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
+                            <input type="hidden" name="formatVideo" value="0" id="formatVideo">
+                            <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()"><span>Формат видео</span></div>
+                            <div class="list_dd">
+                                <div class="items">
+                                    <div class="rows">
+                                        <div class="item" rel="0" onclick="select_item($(this), 'formatVideo')"><?=$ui->item('A_NEW_FILTER_ALL'); ?></div>
+                                        <? foreach ($formatVideo as $k => $lang) { ?>
+
+                                            <div class="item" rel="<?=$lang['id']?>" onclick="select_item($(this), 'formatVideo')"><?=$lang['title'];?></div>
+
+                                        <? } ?>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <? } ?>
 				
 				
 				<? if ($filter_year[1]) : ?>
@@ -227,7 +291,7 @@
                         </div>
                         <label class="title"><?=$ui->item('A_NEW_FILTER_PUBLISHER')?></label>
 
-                        <div class="dd_box_select" style="z-index: 7">
+                        <div class="dd_box_select" style="z-index: 15">
 
                             <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
                             <input type="hidden" name="izda" value="0">
@@ -275,7 +339,7 @@
                         </div>
                         <label class="title"><?=$ui->item('A_NEW_FILTER_SERIES')?></label>
 
-                        <div class="dd_box_select" style="z-index: 6">
+                        <div class="dd_box_select" style="z-index: 14">
 
                             <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
                             <input type="hidden" name="seria" value="0">

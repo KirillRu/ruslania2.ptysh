@@ -367,8 +367,14 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                 
                 var create_url;
                 
-                create_url = '/site/ggfilter/entity/'+$('form.filter input.entity_val').val()+'/cid/'+$('form.filter input.cid_val').val()+'/author/'+$('form.filter .form-row input[name=author]').val()+'/avail/'+$('form.filter .form-row input[name=avail]').val()+'/ymin/'+$('form.filter .form-row input.year_inp_mini').val()+'/ymax/'+$('form.filter .form-row input.year_inp_max').val()+'/izda/'+$('form.filter .form-row input[name=izda]').val()+'/seria/'+$('form.filter .form-row input[name=seria]').val()+'/cmin/'+$('form.filter .form-row input.cost_inp_mini').val()+'/cmax/'+$('form.filter .form-row input.cost_inp_max').val()+'/langsel/'+$('form.filter input.langsel').val();
-                
+                create_url = '/site/ggfilter/entity/'+$('form.filter input.entity_val').val()+
+                    '/cid/'+$('form.filter input.cid_val').val()+'/author/'+$('form.filter .form-row input[name=author]').val()+
+                    '/avail/'+$('form.filter .form-row input[name=avail]').val()+
+                    '/ymin/'+$('form.filter .form-row input.year_inp_mini').val()+'/ymax/'+$('form.filter .form-row input.year_inp_max').val()+
+                    '/izda/'+$('form.filter .form-row input[name=izda]').val()+'/seria/'+$('form.filter .form-row input[name=seria]').val()+
+                    '/cmin/'+$('form.filter .form-row input.cost_inp_mini').val()+'/cmax/'+$('form.filter .form-row input.cost_inp_max').val()+
+                    '/langsel/'+$('form.filter input.langsel').val();
+
                 var bindings = [];
                 var i = 0;
                 $('.bindings input[type=checkbox]:checked').each(function() {
@@ -381,7 +387,11 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                 var csrf = $('meta[name=csrf]').attr('content').split('=');
 
                 $('.span10.listgoods').html('<?=$ui->item('A_NEW_LOAD2'); ?>');
-                $.post(create_url, { YII_CSRF_TOKEN: csrf[1], 'binding_id[]' : bindings, search_name : $('form.filter .search.inp').val(), sort : $('form.filter .sort').val() }, function(data) {
+                $.post(create_url, { YII_CSRF_TOKEN: csrf[1], 'binding_id[]' : bindings,
+                    search_name : $('form.filter .search.inp').val(), sort : $('form.filter .sort').val(),
+                    formatVideo : $('#formatVideo').val(),
+                    langVideo : $('#langVideo').val()
+                }, function(data) {
                     $('.span10.listgoods').html(data);
                     $('.box_select_result_count').hide(1);
                     $(window).scrollTop(0);

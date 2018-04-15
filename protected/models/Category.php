@@ -71,28 +71,46 @@ class Category {
 
 	}
 	
-	public function getFilterLangsVideo($entity, $cid) {
-		
-		$entities = Entity::GetEntitiesList();
-		$tbl = $entities[$entity]['site_table'];
-					
-		$sql = 'SELECT vasl.* FROM `video_audiostreams` AS vas, `video_audiostreamlist` AS vasl, `'.$tbl.'` AS t WHERE vas.stream_id = vasl.id AND vas.video_id = t.id';
-					
-		if ($cid) {
-					
-			$sql .= ' AND (t.code = '.$cid.' OR t.subcode = '.$cid.')';
-					
-		}
-					
-		$sql .= ' GROUP BY vasl.id ORDER BY vasl.id ASC';
-					
-		$rows = Yii::app()->db->createCommand($sql)->queryAll();	
-		
-		
-		
-		return $rows;
+	public function getFilterLangsVideo($entity, $cid)
+    {
 
-	}
+        $entities = Entity::GetEntitiesList();
+        $tbl = $entities[$entity]['site_table'];
+
+        $sql = 'SELECT vasl.* FROM `video_audiostreams` AS vas, `video_audiostreamlist` AS vasl, `' . $tbl . '` AS t WHERE vas.stream_id = vasl.id AND vas.video_id = t.id';
+
+        if ($cid) {
+
+            $sql .= ' AND (t.code = ' . $cid . ' OR t.subcode = ' . $cid . ')';
+
+        }
+
+        $sql .= ' GROUP BY vasl.id ORDER BY vasl.id ASC';
+
+        $rows = Yii::app()->db->createCommand($sql)->queryAll();
+
+        return $rows;
+    }
+
+    public function getFilterFormatVideo($entity, $cid) {
+
+        $entities = Entity::GetEntitiesList();
+        $tbl = $entities[$entity]['site_table'];
+
+        $sql = 'SELECT vm.* FROM `video_media` AS vm, `'.$tbl.'` AS t WHERE t.media_id = vm.id';
+
+        if ($cid) {
+
+            $sql .= ' AND (t.code = '.$cid.' OR t.subcode = '.$cid.')';
+
+        }
+
+        $sql .= ' GROUP BY vm.id ORDER BY vm.title ASC';
+
+        $rows = Yii::app()->db->createCommand($sql)->queryAll();
+
+        return $rows;
+    }
 
     public function getFilterBinding($entity, $cid) {
         if ($entity != 15 AND $entity != 10) {
@@ -257,7 +275,7 @@ class Category {
             return array();
         }
 
-        list($entity,$cid,$author,$avail,$ymin,$ymax,$izda,$seria,$cmin,$cmax,$lang_sel,$search,$sort,$binding) = array_values($data);
+        list($entity,$cid,$author,$avail,$ymin,$ymax,$izda,$seria,$cmin,$cmax,$lang_sel,$search,$sort,$binding,$formatVideo,$langVideo) = array_values($data);
         $entities = Entity::GetEntitiesList();
         $data['binding_id'] = $binding;
         $data['year_min'] = (int) $ymin;
@@ -270,7 +288,9 @@ class Category {
         $field = $entities[$entity]['author_entity_field'];
         $paginator = new CPagination($totalItems);
         $paginator->setPageSize(Yii::app()->params['ItemsPerPage']);
-        
+        $formatVideo = $data['formatVideo'];
+        $langVideo = $data['langVideo'];
+
         $dp = Entity::CreateDataProvider($entity);
         $criteria = $dp->getCriteria();
         $lang = Yii::app()->language;
@@ -319,6 +339,18 @@ class Category {
         if ($ymax) {
             $criteria->addCondition('year <= :ymax');
             $criteria->params[':ymax'] = $ymax;
+        }
+
+        if ($formatVideo && $formatVideo != '' && $formatVideo != '0') {
+            $criteria->addCondition('media_id = :formatVideo');
+            $criteria->params[':formatVideo'] = $formatVideo;
+        }
+
+        if ($langVideo && $langVideo != '' && $langVideo != '0') {
+
+            $criteria->join = 'LEFT JOIN `video_audiostreams` as vas ON vas.video_id = t.id';
+            $criteria->addCondition('vas.stream_id = :langVideo');
+            $criteria->params[':langVideo'] = $langVideo;
         }
 
         if ($binding && $binding != 0 && $binding[0] != 0) {
@@ -380,7 +412,10 @@ class Category {
         $binding_id = $post['binding_id'];
         $search = $post['name_search'];
         $langsel = (int) $post['langsel'];
-        
+
+        $formatVideo = $post ['formatVideo'];
+        $langVideo = $post ['langVideo'];
+
 		if (!$langsel) {
 			if (Yii::app()->getRequest()->cookies['langsel']->value) {
 				$langsel = Yii::app()->getRequest()->cookies['langsel']->value;
@@ -417,6 +452,15 @@ class Category {
         }
         if ($cost_min != '' AND $cost_max != '') {
             $query[] = '(bc.brutto >= ' . $cost_min . ' AND bc.brutto <= ' . $cost_max . ')';
+        }
+
+        if ($entity == 40 && $formatVideo != '' && $formatVideo != '0') {
+            $query[] = '(bc.media_id = ' . $formatVideo . ')';
+        }
+
+        if ($entity == 40 && $langVideo != '' && $langVideo != '0') {
+            $query[] = '(vas.stream_id = ' . $langVideo . ' AND vas.video_id = bc.id)';
+            $addtbl .= ', `video_audiostreams` as vas';
         }
 
         if (count($binding_id) > 0 AND $binding_id[0] != false) {

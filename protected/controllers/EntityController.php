@@ -107,6 +107,22 @@ class EntityController extends MyController {
 			$langVideo = $category->getFilterLangsVideo($entity, $cid);
 			
 		}
+
+        $langSubtitles = array();
+
+        if ($entity == 40) {
+
+            $langSubtitles = $category->getFilterLangsVideo($entity, $cid);
+
+        }
+
+        $formatVideo = array();
+
+        if ($entity == 40) {
+
+            $formatVideo = $category->getFilterFormatVideo($entity, $cid);
+
+        }
 		
         $bg = $category->getFilterBinding($entity, $cid);
 
@@ -172,7 +188,7 @@ class EntityController extends MyController {
 		'max_cost'=>''
 		);
 
-		/*if (Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value != '') {
+		if (Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value != '') {
 
 		$data = unserialize(Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value); //получаем строку с куки
 
@@ -190,7 +206,7 @@ class EntityController extends MyController {
 			$paginatorInfo = new CPagination($totalItems);
 			$paginatorInfo->setPageSize(Yii::app()->params['ItemsPerPage']);
 			 $filter_data = $data;
-		}*/
+		}
 
         $filter_data['avail'] = 1;
 		$this->render('list', array('categoryList' => $catList,
@@ -198,7 +214,9 @@ class EntityController extends MyController {
             'paginatorInfo' => $paginatorInfo,
             'cid'=>$cid, 'filter_data' => $filter_data,
             'info' => $categoryInfo, 'filter_year' => $maxminyear,
-            'bgs' => $bg, 'pubs' => $pubs, 'series'=>$series, 'authors'=>$authors, 'langs'=>$langs, 'langVideo'=>$langVideo, 'title_cat'=>$title_cat, 'cat_id'=>$selectedCategory, 'total'=>$totalItems));
+            'bgs' => $bg, 'pubs' => $pubs, 'series'=>$series, 'authors'=>$authors, 'langs'=>$langs,
+            'langVideo'=>$langVideo, 'langSubtitles' => $langSubtitles, 'formatVideo' => $formatVideo,
+            'title_cat'=>$title_cat, 'cat_id'=>$selectedCategory, 'total'=>$totalItems));
     }
 
     public function actionCategoryList($entity) {
