@@ -208,7 +208,15 @@ class EntityController extends MyController {
 			 $filter_data = $data;
 		}
 
+        if (isset(Yii::app()->getRequest()->cookies['last_e'])
+            && (Yii::app()->getRequest()->cookies['last_e']->value != '')
+            && (Yii::app()->getRequest()->cookies['last_e']->value != $entity))
+            Yii::app()->getRequest()->cookies['filter_e' . Yii::app()->getRequest()->cookies['last_e']->value . '_c_' . $cid] = new CHttpCookie('filter_e' . Yii::app()->getRequest()->cookies['last_e']->value . '_c_' . $cid, '');
+
+        Yii::app()->getRequest()->cookies['last_e'] = new CHttpCookie('last_e', $entity);
+
         $filter_data['avail'] = 1;
+
 		$this->render('list', array('categoryList' => $catList,
             'entity' => $entity, 'items' => $items,
             'paginatorInfo' => $paginatorInfo,

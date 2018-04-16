@@ -431,7 +431,7 @@
 								$sel = 'checked="checked"';
 							}
 							
-                            echo '<label><input '.$sel.' type="checkbox" class="" name="binding_id[]" value="' . $row['id'] . '" onchange="change_all_binding(event);show_result_count($(this))"/> ' . str_replace('/', ' / ', $row[$title]) . '</label>';
+                            echo '<label><input '.$sel.' type="checkbox" class="" name="binding_id[]" value="' . $row['id'] . '" onchange="show_result_count($(this));change_all_binding(event)"/> ' . str_replace('/', ' / ', $row[$title]) . '</label>';
                         }
                         ?>
 

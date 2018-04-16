@@ -948,9 +948,7 @@ class SiteController extends MyController {
 
         //записываем фильтр в куки каждой категории
         if (Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value != serialize($_GET)) {
-
             Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid] = new CHttpCookie('filter_e' . $entity . '_c_' . $cid, serialize($_GET));
-			
         }
 
         $data = unserialize(Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value); //получаем строку с куки
@@ -1063,15 +1061,8 @@ class SiteController extends MyController {
 		</table>
 					
 					
-					';	
-						
-						
-						
-					
-								
+					';
 				}
-				
 		}
 	}
-
 }

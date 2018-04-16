@@ -424,7 +424,9 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                 $('.box_select_result_count').hide(1);
                 $('.loader_gif').remove();
                 $('.res_count').html(' ');
-                $('.box_select_result_count').attr('disabled',true);
+                $('.box_select_result_count').removeAttr('current_box');
+                $('.box_select_result_count', cont.parents('.form-row')).attr('current_box', 'yes');
+
 
                 var frm = $('form.filter').serialize();
                 var csrf = $('meta[name=csrf]').attr('content').split('=');
@@ -441,16 +443,17 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                         $('.box_select_result_count a', cont.parents('.form-row')).hide();
                     },
                     success: function (data) {
-                        $('form, .filter').removeAttr('disabled');
-                        $('.loader_gif').remove();
-                        $('.box_select_result_count a', cont.parents('.form-row')).show();
-                        $('.box_select_result_count img', cont.parents('.form-row')).hide();
-                        if (data == '0') {
-                            $('.box_select_result_count a', cont.parents('.form-row')).hide();
-                        }
+                        if ($('.box_select_result_count', cont.parents('.form-row')).attr('current_box') == 'yes') {
+                            $('.loader_gif').remove();
+                            $('.box_select_result_count a', cont.parents('.form-row')).show();
+                            $('.box_select_result_count img', cont.parents('.form-row')).hide();
+                            if (data == '0') {
+                                $('.box_select_result_count a', cont.parents('.form-row')).hide();
+                            }
 
-                        $('.box_select_result_count .res_count', cont.parents('.form-row')).html(data);
-                        $('.box_select_result_count', cont.parents('.form-row')).show(1);
+                            $('.box_select_result_count .res_count', cont.parents('.form-row')).html(data);
+                            $('.box_select_result_count', cont.parents('.form-row')).show(1);
+                        }
                     }
                 });
             }
