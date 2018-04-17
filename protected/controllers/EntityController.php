@@ -779,4 +779,12 @@ class EntityController extends MyController {
             'paginatorInfo' => $paginatorInfo));
     }
 
+    public function actionGetAuthorData()
+    {
+        $category = new Category();
+        $author = $category->getFilterAuthorForeSearch($_GET['entity']);
+        print_r(json_encode($author));
+        return true;
+    }
+
 }

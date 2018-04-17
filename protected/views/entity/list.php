@@ -83,11 +83,21 @@
                             <a href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                         </div>
                         <label class="title"><?=$ui->item('A_NEW_FILTER_AUTHOR'); ?></label>
-
+                        <?php if ($entity == '10'):?>
+                            <div class="dd_box_select" style="z-index: 40">
+                                <div class="text">
+                                    <input type="text" name="new_author" class="find_author"  autocomplete="off" disabled value="Загрузка..." placeholder="Поиск автора">
+                                </div>
+                                <div>
+                                    <ul class="search_result"></ul>
+                                </div>
+                            </div>
+                        <?php endif;?>
                         <div class="dd_box_select" style="z-index: 20">
 
                             <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
                             <input type="hidden" name="author" value="0">
+
                             <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()">
                                 <span><?if ($filter_data['author'] == '' OR $filter_data['author'] == '0') { echo $ui->item('A_NEW_FILTER_ALL'); } else { $row = CommonAuthor::GetById($filter_data['author']); echo $row['title_' . Yii::app()->language]; }?></span> 
                             </div>
@@ -554,3 +564,75 @@
 		</div>
     </div>
 </div>
+<?php if ($entity == '10'):?>
+<script>
+        var data_search = [];
+        $.ajax({
+            url: '/entity/getauthordata',
+            data: 'entity=<?=$entity?>&lang=<?=$lang?>',
+            type: 'GET',
+            beforeSend: function () {
+                $(".find_author").attr('disabled', true);
+                $(".find_author").val('Загрузка...');
+            },
+            success: function (data) {
+                data_search = JSON.parse(data);
+                var search = [];
+                $.each(data_search, function(index, value) {
+                    if ((value != '') && (value != null) ) search[index] = value;
+                });
+                interactiveSearch('.find_author', search);
+                $(".find_author").attr('disabled', false);
+                $(".find_author").val('');
+            },
+            error: function () {
+                console.log("Error response");
+            },
+        });
+    function interactiveSearch(classInput, data) {
+        $(classInput).bind("change keyup input click", function () {
+            if (this.value.length >= 2) {
+                $(".search_result").html(findEqual(this.value, data)).fadeIn();
+            }
+        });
+
+        $(".search_result").hover(function () {
+            $(classInput).blur();
+        });
+
+        $(".search_result").on("click", "li", function () {
+            $(classInput).val($(this).text());
+            $(".search_result").fadeOut();
+        });
+
+        function findEqual(value, availableValue) {
+            result_value = '';
+            availableValue.forEach(function (item, index) {
+               if (item.toLowerCase().indexOf(value.toLowerCase()) != -1) result_value += '<li>' + item + '</li>';
+            });
+            return result_value;
+        }
+    }
+</script>
+
+<style>
+    .search_result{
+        background: #FFF;
+        border: 1px #ccc solid;
+        border-radius: 4px;
+        max-height:100px;
+        overflow-y:scroll;
+        display:none;
+    }
+
+    .search_result li{
+        padding: 5px 10px;
+        cursor: pointer;
+        transition:0.3s;
+    }
+
+    .search_result li:hover{
+        background: #5BC0DE;
+    }
+</style>
+<?php endif;?>

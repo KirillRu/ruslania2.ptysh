@@ -149,32 +149,39 @@ class Category {
     }
 
     public function getFilterPublisher($entity, $cid, $page = 1, $lang = '') {
-		if ($entity != 30 AND $entity != 40) {
-        $limit = (($page - 1) * 50) . ',50';
-        $entities = Entity::GetEntitiesList();
-        $tbl = $entities[$entity]['site_table'];
-        //$tbl_binding = $entities[$entity]['binding_table'];
-		
-		$sql = '';
-		
-		if ($lang != '') {
-			
-			$sql = ' AND id IN (SELECT item_id FROM `all_items_languages` WHERE language_id = '.$lang.' AND entity = '.$entity.')';
-			
-		}
-		
-		
-        if ($cid > 0) {
-            $sql = 'SELECT publisher_id FROM ' . $tbl . ' WHERE (`code`=:code OR `subcode`=:code) AND avail_for_order=1'.$sql.' GROUP BY publisher_id LIMIT ' . $limit;
-            $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':code' => $cid));
-        } else {
-            $sql = 'SELECT publisher_id FROM ' . $tbl . ' WHERE avail_for_order=1'.$sql.' GROUP BY publisher_id LIMIT ' . $limit;
-            $rows = Yii::app()->db->createCommand($sql)->queryAll();
-        }
+        if ($entity != 30 AND $entity != 40) {
+            $limit = (($page - 1) * 50) . ',50';
+            $entities = Entity::GetEntitiesList();
+            $tbl = $entities[$entity]['site_table'];
+            //$tbl_binding = $entities[$entity]['binding_table'];
 
-        return $rows;
-		
-		}
+            $sql = '';
+
+            if ($lang != '') {
+
+                $sql = ' AND tc.id IN (SELECT item_id FROM `all_items_languages` WHERE language_id = ' . $lang . ' AND entity = ' . $entity . ')';
+
+            }
+
+            if ($lang == '') $lang = 'ru';
+
+            if ($cid > 0) {
+                $sql = 'SELECT tc.publisher_id FROM ' . $tbl . ' as tc, all_publishers as ap
+                WHERE (tc.`code`=:code OR tc.`subcode`=:code) AND tc.avail_for_order=1' . $sql . '
+                AND ap.id = tc.publisher_id 
+                GROUP BY tc.publisher_id ORDER BY ap.title_'.$lang.' LIMIT ' . $limit;
+                $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':code' => $cid));
+            } else {
+                $sql = 'SELECT tc.publisher_id FROM ' . $tbl . ' as tc, all_publishers as ap
+                WHERE tc.avail_for_order=1' . $sql . ' 
+                AND ap.id = tc.publisher_id
+                GROUP BY tc.publisher_id ORDER BY ap.title_'.$lang.' LIMIT ' . $limit;
+                $rows = Yii::app()->db->createCommand($sql)->queryAll();
+            }
+
+            return $rows;
+
+        }
     }
 
     public function getFilterSeries($entity, $cid, $page = 1, $lang='') {
@@ -218,15 +225,48 @@ class Category {
         $tbl = $entities[$entity]['site_table'];
         $tbl_author = $entities[$entity]['author_table'];
         $field = $entities[$entity]['author_entity_field'];
+        if ($lang == '') $lang = 'ru';
         if ($cid > 0) {
-            $sql = 'SELECT ba.author_id FROM ' . $tbl . ' as bc, ' . $tbl_author . ' as ba WHERE (bc.`code`=:code OR bc.`subcode`=:code) AND bc.avail_for_order=1 AND ba.' . $field . '=bc.id'.$sql.' GROUP BY ba.author_id LIMIT ' . $limit;
+            $sql = 'SELECT ba.author_id FROM ' . $tbl . ' as bc, ' . $tbl_author . ' as ba, all_authorslist as aa 
+            WHERE (bc.`code`=:code OR bc.`subcode`=:code) AND bc.avail_for_order=1 AND ba.' . $field . '=bc.id'.$sql.'
+            AND ba.author_id=aa.id 
+            GROUP BY ba.author_id ORDER BY aa.title_'.$lang.' LIMIT ' . $limit;
             $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':code' => $cid));
         } else {
-            $sql = 'SELECT ba.author_id FROM ' . $tbl . ' as bc, ' . $tbl_author . ' as ba WHERE avail_for_order=1  AND bc.avail_for_order=1 AND ba.' . $field . '=bc.id'.$sql.' GROUP BY ba.author_id LIMIT ' . $limit;
+            $sql = 'SELECT ba.author_id FROM ' . $tbl . ' as bc, ' . $tbl_author . ' as ba, all_authorslist as aa 
+            WHERE avail_for_order=1  AND bc.avail_for_order=1 AND ba.' . $field . '=bc.id'.$sql.'
+            AND ba.author_id=aa.id 
+            GROUP BY ba.author_id ORDER BY aa.title_'.$lang.' LIMIT ' . $limit;
             $rows = Yii::app()->db->createCommand($sql)->queryAll();
         }
 
         return $rows;
+    }
+
+    public function getFilterAuthorForeSearch($entity, $lang='') {
+        $sql = '';
+        if ($lang!='') {
+
+            $sql = ' AND bc.id IN (SELECT item_id FROM `all_items_languages` WHERE language_id = '.$lang.' AND entity = '.$entity.')';
+
+        }
+
+        $entities = Entity::GetEntitiesList();
+        $tbl = $entities[$entity]['site_table'];
+        $tbl_author = $entities[$entity]['author_table'];
+        $field = $entities[$entity]['author_entity_field'];
+
+        if ($lang == '') $lang = 'ru';
+        $sql = 'SELECT ba.author_id as id, aa.title_' . $lang . ' as title FROM ' . $tbl . ' as bc, ' . $tbl_author . ' as ba, all_authorslist as aa 
+            WHERE avail_for_order=1  AND bc.avail_for_order=1 AND ba.' . $field . '=bc.id' . $sql . '
+            AND ba.author_id=aa.id 
+            GROUP BY ba.author_id ORDER BY aa.title_' . $lang;
+        $rows = Yii::app()->db->createCommand($sql)->queryAll();
+        $authors = [];
+        foreach ($rows as $row) {
+            $authors[(int)$row['id']] = $row['title'];
+        }
+        return $authors;
     }
 
 	public function get_count_categories_bread($id, $entity) {
