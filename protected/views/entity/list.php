@@ -84,29 +84,30 @@
                         </div>
                         <label class="title"><?=$ui->item('A_NEW_FILTER_AUTHOR'); ?></label>
                         <?php if ($entity == '10'):?>
-                            <div class="dd_box_select" style="z-index: 40">
+                            <div class="dd_box_select dd_box_select--botspace" style="z-index: 40">
                                 <div class="text">
-                                    <input type="text" name="new_author" class="find_author"  autocomplete="off" disabled value="Загрузка..." placeholder="Поиск автора">
+                                    <input type="hidden" name="author" value="0">
+                                    <input type="text" name="new_author" class="find_author" autocomplete="off" disabled
+                                           value="Загрузка..." placeholder="Поиск автора">
                                 </div>
-                                <div>
-                                    <ul class="search_result"></ul>
-                                </div>
+
+                                <ul class="search_result"></ul>
                             </div>
                         <?php endif;?>
-                        <div class="dd_box_select" style="z-index: 20">
+                        <!--<div class="dd_box_select" style="z-index: 20">
 
                             <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
                             <input type="hidden" name="author" value="0">
 
                             <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()">
-                                <span><?if ($filter_data['author'] == '' OR $filter_data['author'] == '0') { echo $ui->item('A_NEW_FILTER_ALL'); } else { $row = CommonAuthor::GetById($filter_data['author']); echo $row['title_' . Yii::app()->language]; }?></span> 
+                                <span><?/*if ($filter_data['author'] == '' OR $filter_data['author'] == '0') { echo $ui->item('A_NEW_FILTER_ALL'); } else { $row = CommonAuthor::GetById($filter_data['author']); echo $row['title_' . Yii::app()->language]; }*/?></span>
                             </div>
                             <div class="list_dd authors_dd">
                                 <div class="items">
                                     <div class="rows">
-                                        <div class="item" rel="0" onclick="select_item($(this), 'author')"><?=$ui->item('A_NEW_FILTER_ALL'); ?></div>
+                                        <div class="item" rel="0" onclick="select_item($(this), 'author')"><?/*=$ui->item('A_NEW_FILTER_ALL'); */?></div>
                                         <?php
-                                        foreach ($authors as $author => $binfo) {
+/*                                        foreach ($authors as $author => $binfo) {
                                             $row = CommonAuthor::GetById($binfo['author_id']);
                                             if (!$row['id'] OR $row['id'] == '0')
                                                 continue;
@@ -122,13 +123,13 @@
 
                                             echo '<div class="item'.$selact.'" rel="' . $row['id'] . '" onclick="select_item($(this), \'author\')">' . $name_publ . '</div>';
                                         }
-                                        ?>
+                                        */?>
 
                                     </div>
                                     <div class="load_items"></div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
 
                     </div> <?php } ?>
                 <div class="form-row">
@@ -608,31 +609,11 @@
         function findEqual(value, availableValue) {
             result_value = '';
             availableValue.forEach(function (item, index) {
-               if (item.toLowerCase().indexOf(value.toLowerCase()) != -1) result_value += '<li>' + item + '</li>';
+               if (item.toLowerCase().indexOf(value.toLowerCase()) != -1) result_value += '<li rel="' + index + '" onclick="select_item($(this), \'author\')">' + item + '</li>';
             });
             return result_value;
         }
     }
 </script>
 
-<style>
-    .search_result{
-        background: #FFF;
-        border: 1px #ccc solid;
-        border-radius: 4px;
-        max-height:100px;
-        overflow-y:scroll;
-        display:none;
-    }
-
-    .search_result li{
-        padding: 5px 10px;
-        cursor: pointer;
-        transition:0.3s;
-    }
-
-    .search_result li:hover{
-        background: #5BC0DE;
-    }
-</style>
 <?php endif;?>

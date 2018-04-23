@@ -787,4 +787,12 @@ class EntityController extends MyController {
         return true;
     }
 
+    public function actionGift()
+    {
+        $entity = Entity::PERIODIC;
+        $o = new Offer();
+        $group = $o->GetItems(Offer::INDEX_PAGE, $entity);
+        $this->render('gift', array('entity' => $entity, 'group' => current($group)['items']));
+    }
+
 }

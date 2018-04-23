@@ -47,7 +47,7 @@ class Offer extends CMyActiveRecord
         return $row;
     }
 
-    public function GetItems($oid)
+    public function GetItems($oid, $entity = false)
     {
         $key = 'Offer_'.$oid;
 
@@ -55,8 +55,15 @@ class Offer extends CMyActiveRecord
 
         if($fullInfo === false)
         {
-            $sql = 'SELECT * FROM offer_items WHERE offer_id=:id ORDER BY group_order, sort_order';
-            $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':id' => $oid));
+            if (!$entity) {
+                $sql = 'SELECT * FROM offer_items WHERE offer_id=:id ORDER BY group_order, sort_order';
+                $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':id' => $oid));
+            }
+            else {
+                $sql = 'SELECT * FROM offer_items WHERE offer_id=:id AND entity_id=:entity ORDER BY group_order, sort_order';
+                $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':id' => $oid, ':entity' => $entity));
+            }
+
             $items = array();
             foreach($rows as $row)
             {

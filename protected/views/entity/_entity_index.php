@@ -25,16 +25,14 @@
     <div class="container cnt<?= $entity ?>">
         <ul class="books">
             <?php
-            //for ($i = 0; $i < 2; $i++) {
-                foreach ($group as $item) :
+            foreach ($group as $item) :
                     ?>
                     <li>
                         <?php $item['status'] = Product::GetStatusProduct($entity, $item['id']);?>
                         <?php $this->renderPartial('/entity/_render_index_item', array('item' => $item)); ?>
                     </li>
 
-    <?php endforeach;
-//} ?>	
+    <?php endforeach; ?>
         </ul>
     </div>
 </div>

@@ -947,7 +947,8 @@ form.filter .form-row input.inp.inp_max {
 
 .dd_box_select .text span { white-space: nowrap; }
 
-.dd_box_select .text span{
+.dd_box_select .text span,
+.dd_box_select .text .find_author{
     border: 1px solid #dfdfdf;
     border-radius: 0;
     margin: 0;
@@ -959,7 +960,16 @@ form.filter .form-row input.inp.inp_max {
     color: rgb(86, 86, 86);
     text-overflow: ellipsis;
 }
+.dd_box_select .text .find_author {
+    box-sizing: border-box;
+    height: 34px;
+    width: 209px;
+    padding-right: 10px;
+}
 
+.dd_box_select--botspace {
+    padding-bottom: 19px;
+}
 .dd_box_select .arrow_d {
     width: 9px;
     height: 5px;
@@ -969,6 +979,32 @@ form.filter .form-row input.inp.inp_max {
     margin-top: -2px;
     right: 7px;
 }
+
+.search_result{
+    background: #fff;
+    border: 1px solid #dfdfdf;
+    max-height:200px;
+    overflow-y: auto;
+    display:none;
+    position: absolute;
+    z-index: 999991;
+    top: 31px;
+    left: 0;
+    width: 207px;
+}
+
+.search_result li{
+    padding: 7px 10px;
+    cursor: pointer;
+    font-size: 13px;
+    color: rgb(86, 86, 86);
+    transition:0.3s;
+}
+
+.search_result li:hover{
+    background: #b4c6da;
+}
+
 .dd_box_select .load_items {
     font-size: 13px;
     display: none;
@@ -1427,6 +1463,7 @@ h1.title_char {
 }
 
 .text.charbox {
+    width: 860px;
 	padding: 15px 20px;
 	background: #fafafa;
 }
@@ -1478,7 +1515,7 @@ a:focus {
 
 .search_aut input[type=text] {
 	border-radius: 0px;
-	width: 740px;
+	width: 760px;
 	border: 1px solid #dfdfdf;
 	margin: 0;
 }
@@ -2252,7 +2289,7 @@ table.periodic_cart th {
 
 .staticfile li { list-style: none; }
 
-li.dd_box  .dd_box_bg.list_subcategs { width: 1135px;}
+li.dd_box  .dd_box_bg.list_subcategs { width: 500px;}
 
 .dd_box_bg.list_subcategs .span10 { width: 950px; margin: 0; padding: 0; }
 .dd_box_bg.list_subcategs .span10 li {

@@ -482,7 +482,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                 $('div', item.parent()).removeClass('selact');
 
                 item.addClass('selact');
-                $('.text span', item.parent().parent().parent().parent()).html(item.html());
+                //$('.text span', item.parent().parent().parent().parent()).html(item.html());
                 $('.list_dd', item.parent().parent().parent().parent()).hide();
                 $('input[name=' + inp_name + ']', item.parent().parent().parent().parent()).val(id);
 
@@ -623,7 +623,10 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 
 
             $(document).ready(function () {
-                sortBooksMenu();
+                sortCategoryMenu('#books_menu', '#books_category');
+                sortCategoryMenu('#sheet_music_menu', '#sheet_music_category');
+                sortCategoryMenu('#music_menu', '#music_category');
+                sortCategoryMenu('#periodic_menu', '#periodic_category');
                 $(document).click(function (event) {
                     if ($(event.target).closest(".select_lang").length)
                         return;
@@ -854,8 +857,8 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 				
 			}
 
-			function sortBooksMenu() {
-                var mylist = $('#books_menu');
+			function sortCategoryMenu(id_category, id_category_item) {
+                var mylist = $(id_category);
                 var listitems = mylist.children().get();
                 listitems.sort(function(a, b) {
                     var compA = $(a).children('a').text().toUpperCase();
@@ -863,13 +866,13 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                     return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
                 });
                 $.each(listitems, function(idx, itm) {
-                    if (itm.id == 'books_category') bookCategory = itm;
+                    if (('#' + itm.id) == id_category_item) category_item = itm;
                     else {
                         mylist.append(itm);
                         mylist.append('<div class="clearfix"></div>');
                     }
                 });
-                mylist.append(bookCategory);
+                mylist.append(category_item);
             }
 			
 			
@@ -1158,7 +1161,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 								<ul id="books_menu">
 									<?
                                     $availCategory = array(202, 189, 206, 181, 65, 67);
-                                    $i = 1; $rows = Category::GetCategoryList(10, 0, $availCategory);
+                                    $rows = Category::GetCategoryList(Entity::BOOKS, 0, $availCategory);
                                     foreach ($rows as $row) {
 									?>
 									<li> 
@@ -1176,11 +1179,11 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 								
 							</div>
 							
-							<div class="span2">
+							<!--<div class="span2">
 								
 								<img src="/new_img/banner.png" />
 								
-							</div>
+							</div>-->
 							
 						 </div>
 					</li>
@@ -1190,33 +1193,29 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 							
 							<div class="span10">
 								
-								<ul>
-									<? $i = 1; $rows = Category::GetCategoryList(Entity::SHEETMUSIC, 0);
-									
-									foreach ($rows as $row) {
-									
-									?>
+								<ul id="sheet_music_menu">
+									<?
+                                    $availCategory = array(136, 128, 160, 249, 47, 217);
+                                    $rows = Category::GetCategoryList(Entity::SHEETMUSIC, 0, $availCategory);
+                                    foreach ($rows as $row) {
+                                        ?>
 									<li> 
 										<a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::SHEETMUSIC), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
 									</li>
-									<? 
-									if ($i % 2 == 0) {
-										
-										echo '<div class="clearfix"></div>';
-										
-									}
-									?>
-									<? $i++; } ?>
+									<? } ?>
+                                    <li id="sheet_music_category">
+                                        <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::SHEETMUSIC)))?>"><?=$ui->item('A_NEW_SHEETMUSIC_BY_CATEGORY'); ?></a>
+                                    </li>
 									
 								</ul>
 								
 							</div>
 							
-							<div class="span2">
+							<!--<div class="span2">
 								
 								<img src="/new_img/banner.png" />
 								
-							</div>
+							</div>-->
 							
 						 </div>
 					</li>
@@ -1226,35 +1225,30 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 							
 							<div class="span10">
 								
-								<ul>
-									<? $i = 1; $rows = Category::GetCategoryList(Entity::MUSIC, 0);
-									
+								<ul id="music_menu">
+									<?
+                                    $availCategory = array(4, 78, 74, 17, 2);
+                                    $rows = Category::GetCategoryList(Entity::MUSIC, 0, $availCategory);
 									foreach ($rows as $row) {
-									
 									?>
 									<li> 
 										<a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::MUSIC), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
 									</li>
-									<? 
-									if ($i % 2 == 0) {
-										
-										echo '<div class="clearfix"></div>';
-										
-									}
-									?>
-									<? $i++; } ?>
+									<? } ?>
+
+                                    <li id="music_category">
+                                        <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::MUSIC)))?>"><?=$ui->item('A_NEW_MUSIC_BY_CATEGORY'); ?></a>
+                                    </li>
 									
 								</ul>
 								
 							</div>
-							
-							<div class="span2">
+                        <!--<div class="span2">
 								
 								<img src="/new_img/banner.png" />
 								
-							</div>
-							
-						 </div>
+							</div>-->
+                    </div>
 					
 					</li>
                     <li class="dd_box"><div class="click_arrow"></div><a class="dd"  href="<?= Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PERIODIC))); ?>"><?= $ui->item("A_GOTOPEREODICALS"); ?></a>
@@ -1263,33 +1257,38 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 							
 							<div class="span10">
 								
-								<ul>
-									<? $i = 1; $rows = Category::GetCategoryList(30, 0);
-									
+								<ul id="periodic_menu">
+									<?
+                                    $availCategory = array(67, 48, 19, 96);
+									$rows = Category::GetCategoryList(Entity::PERIODIC, 0, $availCategory);
 									foreach ($rows as $row) {
-									
 									?>
 									<li> 
-										<a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(30), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
+										<a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PERIODIC), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
 									</li>
-									<?
-									if ($i % 2 == 0) {
+									<? } ?>
 
-										echo '<div class="clearfix"></div>';
+                                    <?php $row = Category::GetByIds(Entity::PRINTED, 33)[0]?>
+                                    <li>
+                                        <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
+                                    </li>
 
-									}
-									?>
-									<? $i++; } ?>
+                                    <li>
+                                        <a href="<?=Yii::app()->createUrl('entity/gift', array('entity' => Entity::GetUrlKey(Entity::PERIODIC)))?>">Подписка в подарок</a>
+                                    </li>
+
+                                    <li id="periodic_category">
+                                        <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::PERIODIC)))?>"><?=$ui->item('A_NEW_PERIODIC_BY_CATEGORY'); ?></a>
+                                    </li>
 									
 								</ul>
 								
 							</div>
-							
-							<div class="span2">
+							<!--<div class="span2">
 								
 								<img src="/new_img/banner.png" />
 								
-							</div>
+							</div>-->
 							
 						 </div>
 					

@@ -20,7 +20,7 @@ return array(
 'A_GOTOBOOKS' => 'Книги', 
 'A_GOTOEVERYWHERE' => 'везде', 
 'A_GOTOMAPS' => 'Карты', 
-'A_GOTOMUSICSHEETS' => 'Ноты и книги о музыке', 
+'A_GOTOMUSICSHEETS' => 'Ноты',
 'A_GOTOPEREODICALS' => 'Подписка', 
 'A_GOTOPRINTED' => 'Печатная продукция и сувениры', 
 'A_GOTOSOFT' => 'Мультимедия', 
@@ -1135,5 +1135,8 @@ IBAN DE79514303006474790001 <br>
 'A_NEW_YEAR_REAL'=>'Год издания',
 'A_NEW_MENU_REK'=>'Рекомендации',
 'A_NEW_FILTER_TITLE_LANG'=>'Язык товара - ',
-'A_NEW_BOOKS_BY_CATEGORY' => 'Смотреть книги по категориям'
+'A_NEW_BOOKS_BY_CATEGORY' => 'Смотреть книги по категориям',
+'A_NEW_SHEETMUSIC_BY_CATEGORY' => 'Смотреть ноты по категориям',
+'A_NEW_MUSIC_BY_CATEGORY' => 'Смотреть музыку по категориям',
+'A_NEW_PERIODIC_BY_CATEGORY' => 'Смотреть подписку по категориям'
 );

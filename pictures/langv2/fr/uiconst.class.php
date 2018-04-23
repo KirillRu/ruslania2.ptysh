@@ -1123,5 +1123,8 @@ By clicking on a category you are interested in, you can see all the products wi
 'A_NEW_YEAR_REAL'=>'Год издания',
 'A_NEW_MENU_REK'=>'Рекомендации',
 'A_NEW_FILTER_TITLE_LANG'=>'Язык товара - ',
-'A_NEW_BOOKS_BY_CATEGORY' => 'Livres par catégorie'
+'A_NEW_BOOKS_BY_CATEGORY' => 'Livres par catégorie',
+'A_NEW_SHEETMUSIC_BY_CATEGORY' => 'Смотреть ноты по категориям',
+'A_NEW_MUSIC_BY_CATEGORY' => 'Смотреть музыку по категориям',
+'A_NEW_PERIODIC_BY_CATEGORY' => 'Смотреть подписку по категориям'
 ); 

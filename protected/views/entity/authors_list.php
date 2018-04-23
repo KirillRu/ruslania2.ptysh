@@ -188,6 +188,7 @@
                     <a class="<?=(($item['first_'.$lang] == $_GET['char']) ? 'active' : '')?>" href="<?=Yii::app()->createUrl('entity/authorlist',
                         array('entity' => Entity::GetUrlKey($entity), 'char' => $item['first_'.$lang])); ?>"
                        ><?=$item['first_'.$lang]; ?></a>
+                    <?if (trim($item['first_'.$lang]) == 'Z') echo '<br>';?>
                 <?php endforeach; ?>
             </div>
 			<? if ($_GET['char'] != '') {?>
