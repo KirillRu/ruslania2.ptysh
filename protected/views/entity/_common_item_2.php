@@ -142,15 +142,10 @@ $entityKey = Entity::GetUrlKey($entity);
             echo '<span class="langs">'.$ui->item('CATALOGINDEX_CHANGE_LANGUAGE'). ': '.implode(', ', $langs) . '</span>';
             ?>
         <?php endif; ?>
-		
-		<?$mar = '0'; if  ($item['year']) : ?>
+
+		<? if  ($item['year']) : ?>
 			
-			<?php if (!empty($item['Languages']) && empty($item['AudioStreams'])) : ?>
-			<?$mar = '5px';?>
-			
-			<? endif; ?>
-			
-			<span style="margin-left: <?=$mar?>;"><?=$ui->item('A_NEW_YEAR');?>: <a href="<?=Yii::app()->createUrl('entity/byyear', array('entity' => $entityKey,
+			<br><span><?=$ui->item('A_NEW_YEAR');?>: <a href="<?=Yii::app()->createUrl('entity/byyear', array('entity' => $entityKey,
                                 'year' => $item['year'])); ?>"><?=$item['year']?></a></span>
 		
 		<? endif; ?>

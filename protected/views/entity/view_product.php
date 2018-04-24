@@ -115,7 +115,7 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
     text-align: left;
     background: none;"><?=sprintf($ui->item("VIDEO_ACTOR_IS"),'')?></span>
                     
-					<div class="span2" style="float: left; margin-left: 5px; width: 345px;"> 
+					<div class="span2" style="float: left; margin-left: 20px; width: 345px;">
 						<?php
 						$ret = array();
 						foreach ($item['Actors'] as $actor) {
@@ -480,7 +480,7 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
 					<a href="javascipt:;"
                          data-iid="<?= $item['id']; ?>"
                          data-pdf="<?= CHtml::encode(implode('|', array())); ?>"
-                         data-images="<?= CHtml::encode($images); ?>" style="width: 131px; margin-right: 30px;" class="read_book"><?=$ui->item('A_NEW_VIEW')?></a>
+                         data-images="<?= CHtml::encode($images); ?>" style="width: 131px; margin-right: 30px;" class="read_book link__read"><?=$ui->item('A_NEW_VIEW')?></a>
 				
                    
                         <?php if (!empty($pdf)) : ?>
@@ -536,7 +536,7 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
 				
 				
 				<?php $lookinside = false; if (!empty($item['Lookinside'])) : ?>
-				<div style="float: left; width: 170px;">
+				<div class="link__container" style="float: left; width: 170px;">
                 <?php
 				$lookinside = true;
                 $images = array();
@@ -617,7 +617,7 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
                     $show6Months = true;
                 }
                 ?>
-				<div class="mb5" style="color:#0A6C9D; float: left;">
+				<div class="mb5 link__deliver" style="color:#0A6C9D; float: left;">
                     <?= $ui->item('MSG_DELIVERY_TYPE_4'); ?>
                 </div>
 				<div style="height: 23px; clear: both"></div>

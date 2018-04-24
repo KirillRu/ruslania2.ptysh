@@ -1137,6 +1137,6 @@ IBAN DE79514303006474790001 <br>
 'A_NEW_FILTER_TITLE_LANG'=>'Язык товара - ',
 'A_NEW_BOOKS_BY_CATEGORY' => 'Смотреть книги по категориям',
 'A_NEW_SHEETMUSIC_BY_CATEGORY' => 'Смотреть ноты по категориям',
-'A_NEW_MUSIC_BY_CATEGORY' => 'Смотреть музыку по категориям',
+'A_NEW_MUSIC_BY_CATEGORY' => 'Остальные категории',
 'A_NEW_PERIODIC_BY_CATEGORY' => 'Смотреть подписку по категориям'
 );

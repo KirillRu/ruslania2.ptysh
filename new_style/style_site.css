@@ -752,7 +752,7 @@ h1.titlename {
 }
 
 .listgoods ul.items li .span1 {
-    width: 230px;
+    width: 160px;
     text-align: center;
    
 }
@@ -764,7 +764,7 @@ h1.titlename {
 
 .listgoods ul.items li .span11 {
     margin-left: 30px;
-    width: 335px;
+    width: 405px;
     padding: 29px 0;
     padding-right: 22px;
 }
@@ -1154,10 +1154,13 @@ form.filter .form-row input.inp.inp_max {
 }
 
 .view_product .span10 .span11 .nameprop {
-	
-	width: 200px;
+	width: 220px;
 	display: inline-block;
-	
+    margin-right: 30px;
+}
+.nameprop-column {
+    width: 220px;
+    margin-right: 30px;
 }
 
 .view_product .desc .nameprop { width: 200px; display: inline-block; }
@@ -1195,6 +1198,9 @@ a.read_book {
     padding-right: 39px;
     text-align: center;
     width: 91px;
+}
+.link__read {
+    margin-top: 10px;
 }
 
 a.addmark {
@@ -1920,9 +1926,13 @@ span.date_recomend {
 
 .periodic_fin {
 	float: left;
-	margin-right: 46px;
+    margin-right: 30px;
+    width: 220px;
 }
-
+.link__container + .link__deliver {
+    margin-left: 15px;
+    line-height: 37px;
+}
 
 .periodic_world {
 	float: left;
@@ -2291,7 +2301,7 @@ table.periodic_cart th {
 
 li.dd_box  .dd_box_bg.list_subcategs { width: 500px;}
 
-.dd_box_bg.list_subcategs .span10 { width: 950px; margin: 0; padding: 0; }
+.dd_box_bg.list_subcategs .span10 { width: 500px; margin: 0; padding: 0; }
 .dd_box_bg.list_subcategs .span10 li {
 	padding: 0;
 	border: none;
@@ -2473,4 +2483,8 @@ form span.info { font-size: 13px; color: #747474; margin-left: 20px; display: no
 .slider-item__desc {
     font-size: 0.9em;
     margin: 0 0 10px;
+}
+
+.w250 {
+    width: 250px;
 }

@@ -1160,7 +1160,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 								
 								<ul id="books_menu">
 									<?
-                                    $availCategory = array(202, 189, 206, 181, 65, 67);
+                                    $availCategory = array(202, 189, 206, 181, 65, 67, 211);
                                     $rows = Category::GetCategoryList(Entity::BOOKS, 0, $availCategory);
                                     foreach ($rows as $row) {
 									?>
@@ -1221,13 +1221,13 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 					</li>
                     <li class="dd_box"><div class="click_arrow"></div><a class="dd"  href="<?= Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::MUSIC))); ?>"><?= $ui->item("Music catalog"); ?></a>
 					
-					<div class="dd_box_bg list_subcategs" style="left: -310px;">
+					<div class="dd_box_bg list_subcategs" style="left: -170px;">
 							
 							<div class="span10">
 								
 								<ul id="music_menu">
 									<?
-                                    $availCategory = array(4, 78, 74, 17, 2);
+                                    $availCategory = array(4, 78, 74, 17, 2, 8, 6, 11, 21, 73, 38);
                                     $rows = Category::GetCategoryList(Entity::MUSIC, 0, $availCategory);
 									foreach ($rows as $row) {
 									?>
@@ -1253,7 +1253,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 					</li>
                     <li class="dd_box"><div class="click_arrow"></div><a class="dd"  href="<?= Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PERIODIC))); ?>"><?= $ui->item("A_GOTOPEREODICALS"); ?></a>
 					
-					<div class="dd_box_bg list_subcategs" style="left: -420px;">
+					<div class="dd_box_bg list_subcategs" style="left: -280px;">
 							
 							<div class="span10">
 								
