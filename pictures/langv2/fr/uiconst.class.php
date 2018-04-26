@@ -1013,6 +1013,7 @@ By clicking on a category you are interested in, you can see all the products wi
 'A_NEW_ACTION_FLAG' => 'Акция',
 'A_NEW_MORE2' => 'Подробно',
 'A_NEW_NEW_CATEGORY' => 'Новинки раздела',
+'A_NEW_RECOMMENDATIONS_CATEGORY' => 'Рекомендации раздела',
 'A_NEW_OURPREDL' => 'Наши предложения',
 'A_NEW_USERS' => 'Пользователям',
 'A_NEW_MY_FAVORITE' => 'Моё избранное',

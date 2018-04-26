@@ -406,6 +406,7 @@ class EntityController extends MyController {
     }
 
     public function actionByAuthor($entity, $aid, $sort = null, $avail = true) {
+
         $avail = $this->GetAvail($avail);
         $entity = Entity::ParseFromString($entity);
         if ($entity === false)
@@ -426,9 +427,9 @@ class EntityController extends MyController {
         $authorInfo = null;
         if (!empty($author) && !empty($author['description_file_' . Yii::app()->language])) {
             $file = $author['description_file_' . Yii::app()->language];
-            $path = Yii::getPathOfAlias('webroot') . '/templates-html/' . Entity::GetUrlKey($entity) . '-authors/' . $file;
+            /*$path = Yii::getPathOfAlias('webroot') . '/templates-html/' . Entity::GetUrlKey($entity) . '-authors/' . $file;
             if (file_exists($path))
-                $authorInfo = file_get_contents($path);
+                $authorInfo = file_get_contents($path);*/
         }
 
         $this->breadcrumbs[Entity::GetTitle($entity)] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
@@ -437,7 +438,7 @@ class EntityController extends MyController {
 		$this->render('list', array('entity' => $entity,
             'paginatorInfo' => $paginatorInfo,
             'items' => $items,
-            'info' => $authorInfo));
+            'presentation' => $file));
     }
 
     public function actionPerformerList($entity, $char = null) {

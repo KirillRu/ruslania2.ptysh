@@ -1024,6 +1024,7 @@ Nazhav na interesujuschuju vas kategoriju, vy smozhete uvidet vse tovary so skid
 'A_NEW_ACTION_FLAG' => 'Акция',
 'A_NEW_MORE2' => 'Подробно',
 'A_NEW_NEW_CATEGORY' => 'Новинки раздела',
+'A_NEW_RECOMMENDATIONS_CATEGORY' => 'Рекомендации раздела',
 'A_NEW_OURPREDL' => 'Наши предложения',
 'A_NEW_USERS' => 'Пользователям',
 'A_NEW_MY_FAVORITE' => 'Моё избранное',

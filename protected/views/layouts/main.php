@@ -482,7 +482,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                 $('div', item.parent()).removeClass('selact');
 
                 item.addClass('selact');
-                //$('.text span', item.parent().parent().parent().parent()).html(item.html());
+                $('.text span', item.parent().parent().parent().parent()).html(item.html());
                 $('.list_dd', item.parent().parent().parent().parent()).hide();
                 $('input[name=' + inp_name + ']', item.parent().parent().parent().parent()).val(id);
 

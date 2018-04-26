@@ -83,31 +83,31 @@
                             <a href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                         </div>
                         <label class="title"><?=$ui->item('A_NEW_FILTER_AUTHOR'); ?></label>
-                        <?php if ($entity == '10'):?>
+                        <?php /*if ($entity == '10'):*/?><!--
                             <div class="dd_box_select dd_box_select--botspace" style="z-index: 40">
                                 <div class="text">
-                                    <input type="hidden" name="author" value="0">
+                                    <input type="hidden" name="author" oninput="console.log(1)" value="0">
                                     <input type="text" name="new_author" class="find_author" autocomplete="off" disabled
                                            value="Загрузка..." placeholder="Поиск автора">
                                 </div>
 
                                 <ul class="search_result"></ul>
                             </div>
-                        <?php endif;?>
-                        <!--<div class="dd_box_select" style="z-index: 20">
+                        --><?php /*endif;*/?>
+                        <div class="dd_box_select" style="z-index: 20">
 
                             <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
                             <input type="hidden" name="author" value="0">
 
                             <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()">
-                                <span><?/*if ($filter_data['author'] == '' OR $filter_data['author'] == '0') { echo $ui->item('A_NEW_FILTER_ALL'); } else { $row = CommonAuthor::GetById($filter_data['author']); echo $row['title_' . Yii::app()->language]; }*/?></span>
+                                <span><?if ($filter_data['author'] == '' OR $filter_data['author'] == '0') { echo $ui->item('A_NEW_FILTER_ALL'); } else { $row = CommonAuthor::GetById($filter_data['author']); echo $row['title_' . Yii::app()->language]; }?></span>
                             </div>
                             <div class="list_dd authors_dd">
                                 <div class="items">
                                     <div class="rows">
-                                        <div class="item" rel="0" onclick="select_item($(this), 'author')"><?/*=$ui->item('A_NEW_FILTER_ALL'); */?></div>
+                                        <div class="item" rel="0" onclick="select_item($(this), 'author')"><?=$ui->item('A_NEW_FILTER_ALL'); ?></div>
                                         <?php
-/*                                        foreach ($authors as $author => $binfo) {
+                                        foreach ($authors as $author => $binfo) {
                                             $row = CommonAuthor::GetById($binfo['author_id']);
                                             if (!$row['id'] OR $row['id'] == '0')
                                                 continue;
@@ -123,13 +123,13 @@
 
                                             echo '<div class="item'.$selact.'" rel="' . $row['id'] . '" onclick="select_item($(this), \'author\')">' . $name_publ . '</div>';
                                         }
-                                        */?>
+                                        ?>
 
                                     </div>
                                     <div class="load_items"></div>
                                 </div>
                             </div>
-                        </div>-->
+                        </div>
 
                     </div> <?php } ?>
                 <div class="form-row">
@@ -545,6 +545,18 @@
 			<div style="margin: 5px 0 ;">
 			<?//=sprintf($ui->item('X items here'), $total)?>
 			</div>
+
+            <?php
+                if (isset($presentation)) {
+                    preg_match('/([\w,\s-]+)\.[A-Za-z]{3}/', $presentation, $f);
+                    $fileName = $f[1];
+                    if (file_exists(__DIR__.'/authors/'.$fileName.'.php')) {
+                        $this->renderPartial('/entity/authors/' . $fileName);
+                    }
+                    //else print_r('File not found: '.__DIR__.'\authors\\'.$fileName.'.php');
+                }
+                ?>
+
             <ul class="items">
                 <?php foreach ($items as $item) : ?>
                     <?php
@@ -594,6 +606,12 @@
         $(classInput).bind("change keyup input click", function () {
             if (this.value.length >= 2) {
                 $(".search_result").html(findEqual(this.value, data)).fadeIn();
+            }
+            else {
+                $(classInput).prev().val(0);
+                select_item($(this), 'author');
+                console.log($(classInput).prev().val());
+                $(".search_result").fadeOut();
             }
         });
 

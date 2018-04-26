@@ -1025,6 +1025,7 @@ IBAN DE79514303006474790001 <br>
 'A_NEW_ACTION_FLAG' => 'Акция',
 'A_NEW_MORE2' => 'Подробно',
 'A_NEW_NEW_CATEGORY' => 'Новинки раздела',
+'A_NEW_RECOMMENDATIONS_CATEGORY' => 'Рекомендации раздела',
 'A_NEW_OURPREDL' => 'Наши предложения',
 'A_NEW_USERS' => 'Пользователям',
 'A_NEW_MY_FAVORITE' => 'Моё избранное',

@@ -2488,3 +2488,20 @@ form span.info { font-size: 13px; color: #747474; margin-left: 20px; display: no
 .w250 {
     width: 250px;
 }
+.title__m {
+    font-size: 17px;
+    color: #333;
+}
+.title__bold {
+    font-weight: bold;
+}
+.author__container {
+    border: 1px solid #ececec;
+    margin: 10px 0;
+    padding: 20px;
+}
+
+.author__img {
+    float: left;
+    margin: 5px 20px 20px 0;
+}
