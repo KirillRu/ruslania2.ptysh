@@ -83,31 +83,55 @@
                             <a href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                         </div>
                         <label class="title"><?=$ui->item('A_NEW_FILTER_AUTHOR'); ?></label>
-                        <?php /*if ($entity == '10'):*/?><!--
-                            <div class="dd_box_select dd_box_select--botspace" style="z-index: 40">
+                            <div class="dd_box_select dd_box_select--botspace interactive_search" style="z-index: 40">
                                 <div class="text">
                                     <input type="hidden" name="author" oninput="console.log(1)" value="0">
-                                    <input type="text" name="new_author" class="find_author" autocomplete="off" disabled
+                                    <input type="text" name="new_author" class="find_author interactive_find" autocomplete="off" disabled
                                            value="Загрузка..." placeholder="Поиск автора">
                                 </div>
-
-                                <ul class="search_result"></ul>
+                                <ul class="search_result search_result_author"></ul>
                             </div>
-                        --><?php /*endif;*/?>
-                        <div class="dd_box_select" style="z-index: 20">
+                        <script>
+                            var author_search = [];
+                            $.ajax({
+                                url: '/entity/getauthordata',
+                                data: 'entity=<?=$entity?>&lang=<?=$lang?>&cid=<?=$cid?>',
+                                type: 'GET',
+                                beforeSend: function () {
+                                    $(".find_author").attr('disabled', true);
+                                    $(".find_author").val('Загрузка...');
+                                },
+                                success: function (data) {
+                                    author_search = JSON.parse(data);
+                                    var search_auth = [];
+                                    $.each(author_search, function(index, value) {
+                                        if ((value != '') && (value != null) ) search_auth[index] = value;
+                                    });
+                                    interactiveSearch('.find_author', search_auth, 'author', '.search_result_author');
+                                    $(".find_author").attr('disabled', false);
+                                    $(".find_author").val('');
+                                },
+                                error: function () {
+                                    console.log("Error response");
+                                },
+                            });
+                        </script>
+
+                        <!--Старый селект-->
+                        <!--<div class="dd_box_select" style="z-index: 20">
 
                             <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
                             <input type="hidden" name="author" value="0">
 
                             <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()">
-                                <span><?if ($filter_data['author'] == '' OR $filter_data['author'] == '0') { echo $ui->item('A_NEW_FILTER_ALL'); } else { $row = CommonAuthor::GetById($filter_data['author']); echo $row['title_' . Yii::app()->language]; }?></span>
+                                <span><?/*if ($filter_data['author'] == '' OR $filter_data['author'] == '0') { echo $ui->item('A_NEW_FILTER_ALL'); } else { $row = CommonAuthor::GetById($filter_data['author']); echo $row['title_' . Yii::app()->language]; }*/?></span>
                             </div>
                             <div class="list_dd authors_dd">
                                 <div class="items">
                                     <div class="rows">
-                                        <div class="item" rel="0" onclick="select_item($(this), 'author')"><?=$ui->item('A_NEW_FILTER_ALL'); ?></div>
+                                        <div class="item" rel="0" onclick="select_item($(this), 'author')"><?/*=$ui->item('A_NEW_FILTER_ALL'); */?></div>
                                         <?php
-                                        foreach ($authors as $author => $binfo) {
+/*                                        foreach ($authors as $author => $binfo) {
                                             $row = CommonAuthor::GetById($binfo['author_id']);
                                             if (!$row['id'] OR $row['id'] == '0')
                                                 continue;
@@ -123,15 +147,16 @@
 
                                             echo '<div class="item'.$selact.'" rel="' . $row['id'] . '" onclick="select_item($(this), \'author\')">' . $name_publ . '</div>';
                                         }
-                                        ?>
+                                        */?>
 
                                     </div>
                                     <div class="load_items"></div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
 
                     </div> <?php } ?>
+
                 <div class="form-row">
                     <div class="box_select_result_count">
                         <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div>
@@ -293,6 +318,7 @@
 
                 </div>
 				<? endif;?>
+
                 <?php if (!empty($pubs)) { ?>
                     <div class="form-row"><div class="box_select_result_count">
                             <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div>
@@ -302,44 +328,41 @@
                         </div>
                         <label class="title"><?=$ui->item('A_NEW_FILTER_PUBLISHER')?></label>
 
-                        <div class="dd_box_select" style="z-index: 15">
-
-                            <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
-                            <input type="hidden" name="izda" value="0">
-                            <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()">
-                                <span><?if ($filter_data['izda'] == '' OR $filter_data['izda'] == '0') { echo $ui->item('A_NEW_FILTER_ALL'); } else { $row = Publisher::GetByID($entity, $filter_data['izda']); echo $row['title_' . Yii::app()->language]; }?></span> 
+                        <div class="dd_box_select dd_box_select--botspace interactive_search" style="z-index: 15">
+                            <div class="text">
+                                <input type="hidden" name="izda" value="0">
+                                <input type="text" name="new_izda" class="find_izda interactive_find" autocomplete="off" disabled
+                                       value="Загрузка..." placeholder="Поиск издания">
                             </div>
-                            <div class="list_dd izda_dd">
-                                <div class="items">
-                                    <div class="rows">
-                                        <div class="item" rel="0" onclick="select_item($(this), 'izda')"><?=$ui->item('A_NEW_FILTER_ALL'); ?></div>
-                                        <?php
-                                        foreach ($pubs as $pub => $binfo) {
-                                            $row = Publisher::GetByID($entity, $binfo['publisher_id']);
-                                            if (!$row['id'] OR $row['id'] == '0')
-                                                continue;
-                                            $name_publ = $row['title_' . Yii::app()->language];
-
-                                            if (!$name_publ) {
-                                                $name_publ = $row['title_en'];
-                                            }
-											
-											$selact = ' selact';
-											
-											if ($row['id'] != $filter_data['izda']) {
-												$selact = '';
-											}
-
-                                            echo '<div class="item'.$selact.'" rel="' . $row['id'] . '" onclick="select_item($(this), \'izda\')">' . $name_publ . '</div>';
-                                        }
-                                        ?>
-
-                                    </div>
-                                    <div class="load_items"></div>
-                                </div>
-                            </div>
+                            <ul class="search_result search_result_izda"></ul>
                         </div>
+                        <script>
+                            var izda_search = [];
+                            $.ajax({
+                                url: '/entity/getizdadata',
+                                data: 'entity=<?=$entity?>&lang=<?=$lang?>&cid=<?=$cid?>',
+                                type: 'GET',
+                                beforeSend: function () {
+                                    $(".find_izda").attr('disabled', true);
+                                    $(".find_izda").val('Загрузка...');
+                                },
+                                success: function (data) {
+                                    izda_search = JSON.parse(data);
+                                    var search_izd = [];
+                                    $.each(izda_search, function(index, value) {
+                                        if ((value != '') && (value != null) ) search_izd[index] = value;
+                                    });
+                                    interactiveSearch('.find_izda', search_izd, 'izda', '.search_result_izda');
+                                    $(".find_izda").attr('disabled', false);
+                                    $(".find_izda").val('');
+                                },
+                                error: function () {
+                                    console.log("Error response");
+                                },
+                            });
+                        </script>
                     </div> <?php }
+
                 if (!empty($series)) { ?>
 
                     <div class="form-row"><div class="box_select_result_count">
@@ -350,43 +373,39 @@
                         </div>
                         <label class="title"><?=$ui->item('A_NEW_FILTER_SERIES')?></label>
 
-                        <div class="dd_box_select" style="z-index: 14">
-
-                            <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
-                            <input type="hidden" name="seria" value="0">
-                            <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()">
-                                <span><?if ($filter_data['seria'] == '' OR $filter_data['seria'] == '0') { echo $ui->item('A_NEW_FILTER_ALL'); } else { $row = Series::GetByIds($entity, array($entity, $filter_data['seria'])); echo $row[0]['title_' . Yii::app()->language]; }?></span> 
+                        <div class="dd_box_select dd_box_select--botspace interactive_search" style="z-index: 14">
+                            <div class="text">
+                                <input type="hidden" name="seria" value="0">
+                                <input type="text" name="new_series" class="find_series interactive_find" autocomplete="off" disabled
+                                       value="Загрузка..." placeholder="Поиск серии">
                             </div>
-                            <div class="list_dd seria_dd">
-                                <div class="items">
-                                    <div class="rows filter-select">
-                                        <div class="item" rel="0" onclick="select_item($(this), 'seria')"><?=$ui->item('A_NEW_FILTER_ALL'); ?></div>
-                                        <?php
-                                        foreach ($series as $seria => $binfo) {
-                                            $row = Series::GetByIds($entity, array($binfo['series_id']));
-                                            if (!$row[0]['id'] OR $row[0]['id'] == '0')
-                                                continue;
-                                            $name_publ = $row[0]['title_' . Yii::app()->language];
-
-                                            if (!$name_publ) {
-                                                $name_publ = $row[0]['title_en'];
-                                            }
-
-											$selact = ' selact';
-											
-											if ($row[0]['id'] != $filter_data['seria']) {
-												$selact = '';
-											}
-											
-                                            echo '<div class="item'.$selact.'" rel="' . $row[0]['id'] . '" onclick="select_item($(this), \'seria\')">' . $name_publ . '</div>';
-                                        }
-                                        ?>
-
-                                    </div>
-                                    <div class="load_items"></div>
-                                </div>
-                            </div>
+                            <ul class="search_result search_result_series"></ul>
                         </div>
+                        <script>
+                            var series_search = [];
+                            $.ajax({
+                                url: '/entity/getseriesdata',
+                                data: 'entity=<?=$entity?>&lang=<?=$lang?>&cid=<?=$cid?>',
+                                type: 'GET',
+                                beforeSend: function () {
+                                    $(".find_series").attr('disabled', true);
+                                    $(".find_series").val('Загрузка...');
+                                },
+                                success: function (data) {
+                                    series_search = JSON.parse(data);
+                                    var search_series = [];
+                                    $.each(series_search, function(index, value) {
+                                        if ((value != '') && (value != null) ) search_series[index] = value;
+                                    });
+                                    interactiveSearch('.find_series', search_series, 'seria', '.search_result_series');
+                                    $(".find_series").attr('disabled', false);
+                                    $(".find_series").val('');
+                                },
+                                error: function () {
+                                    console.log("Error response");
+                                },
+                            });
+                        </script>
 
                     </div> <?php } ?>
 					
@@ -577,61 +596,34 @@
 		</div>
     </div>
 </div>
-<?php if ($entity == '10'):?>
 <script>
-        var data_search = [];
-        $.ajax({
-            url: '/entity/getauthordata',
-            data: 'entity=<?=$entity?>&lang=<?=$lang?>',
-            type: 'GET',
-            beforeSend: function () {
-                $(".find_author").attr('disabled', true);
-                $(".find_author").val('Загрузка...');
-            },
-            success: function (data) {
-                data_search = JSON.parse(data);
-                var search = [];
-                $.each(data_search, function(index, value) {
-                    if ((value != '') && (value != null) ) search[index] = value;
-                });
-                interactiveSearch('.find_author', search);
-                $(".find_author").attr('disabled', false);
-                $(".find_author").val('');
-            },
-            error: function () {
-                console.log("Error response");
-            },
-        });
-    function interactiveSearch(classInput, data) {
+    function interactiveSearch(classInput, data, inp_name, result) {
         $(classInput).bind("change keyup input click", function () {
             if (this.value.length >= 2) {
-                $(".search_result").html(findEqual(this.value, data)).fadeIn();
+                $(result).html(findEqual(this.value, data)).fadeIn();
             }
             else {
                 $(classInput).prev().val(0);
-                select_item($(this), 'author');
-                console.log($(classInput).prev().val());
-                $(".search_result").fadeOut();
+                select_item($(this), inp_name);
+                $(result).fadeOut();
             }
         });
 
-        $(".search_result").hover(function () {
+        $(result).hover(function () {
             $(classInput).blur();
         });
 
-        $(".search_result").on("click", "li", function () {
+        $(result).on("click", "li", function () {
             $(classInput).val($(this).text());
-            $(".search_result").fadeOut();
+            $(result).fadeOut();
         });
 
         function findEqual(value, availableValue) {
             result_value = '';
             availableValue.forEach(function (item, index) {
-               if (item.toLowerCase().indexOf(value.toLowerCase()) != -1) result_value += '<li rel="' + index + '" onclick="select_item($(this), \'author\')">' + item + '</li>';
+               if (item.toLowerCase().indexOf(value.toLowerCase()) != -1) result_value += '<li rel="' + index + '" onclick="select_item($(this), \''+inp_name+'\')">' + item + '</li>';
             });
             return result_value;
         }
     }
 </script>
-
-<?php endif;?>

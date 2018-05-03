@@ -1016,7 +1016,7 @@ IBAN DE79514303006474790001 <br>
 'A_NEW_SEARCH_AVAIL' => 'Только среди товаров имеющихся в наличии',
 'A_NEW_CART' => 'Корзина',
 'A_NEW_MORE' => 'Еще',
-'A_NEW_PRINT_PRODUCTS' => 'Печатная продукция',
+'A_NEW_PRINT_PRODUCTS' => 'Печатная продукция и сувениры',
 'A_NEW_GOODS_2' => 'Товары за 2 &euro;',
 'A_NEW_ITEMS_NEW' => 'Новинки',
 'A_NEW_DISCONT' => 'Скидки',
@@ -1139,5 +1139,9 @@ IBAN DE79514303006474790001 <br>
 'A_NEW_BOOKS_BY_CATEGORY' => 'Смотреть книги по категориям',
 'A_NEW_SHEETMUSIC_BY_CATEGORY' => 'Смотреть ноты по категориям',
 'A_NEW_MUSIC_BY_CATEGORY' => 'Остальные категории',
-'A_NEW_PERIODIC_BY_CATEGORY' => 'Смотреть подписку по категориям'
+'A_NEW_PERIODIC_BY_CATEGORY' => 'Смотреть подписку по категориям',
+'A_NEW_SOFT_BY_CATEGORY' => 'Смотреть Мультимедию по категориям',
+'A_NEW_PRINTED_BY_CATEGORY' => 'Смотреть Печатную продукцию и сувениры по категориям',
+'A_NEW_VIDEO_BY_CATEGORY' => 'Смотреть Видеопродукцию по категориям',
+'A_NEW_MAPS_BY_CATEGORY' => 'Смотреть Карты по категориям',
 );

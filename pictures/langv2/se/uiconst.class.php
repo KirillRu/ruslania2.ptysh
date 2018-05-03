@@ -1013,7 +1013,7 @@ Du har väljat leveranssättet: "Jag vill hämta min beställning från Ruslania
 'A_NEW_SEARCH_AVAIL' => 'Только среди товаров имеющихся в наличии',
 'A_NEW_CART' => 'Корзина',
 'A_NEW_MORE' => 'Еще',
-'A_NEW_PRINT_PRODUCTS' => 'Печатная продукция',
+'A_NEW_PRINT_PRODUCTS' => 'Печатная продукция и сувениры',
 'A_NEW_GOODS_2' => 'Товары за 2 &euro;',
 'A_NEW_ITEMS_NEW' => 'Новинки',
 'A_NEW_DISCONT' => 'Скидки',

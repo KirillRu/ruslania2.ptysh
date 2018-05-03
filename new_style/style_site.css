@@ -520,7 +520,6 @@ li.dd_box {
 
 li.dd_box div.dd_box_bg {
     width: 840px;
-    min-height: 250px;
     position: absolute;
     z-index: 9999;
     background-color: #fff;
@@ -528,6 +527,30 @@ li.dd_box div.dd_box_bg {
     display: none;
     padding: 11px 17px;
 	box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.2);
+}
+
+li.dd_box div.dd_box_bg-slim.list_subcategs {
+    left: -17px;
+    top: 54px;
+    width: 340px;
+}
+
+.list_vertical > li{
+    display: block;
+    float: none !important;
+    border-left: none !important;
+    padding: 0;
+    color: #58626e;
+    font-size: 13px;
+}
+li.dd_box div.tabs .list_vertical > li a {
+    font-weight: normal;
+    padding: 5px 0;
+    font-size: 13px;
+    letter-spacing: 0;
+}
+li.dd_box div.dd_box_horizontal {
+    min-height: 43px;
 }
 
 .dd_box .click_arrow {
@@ -539,7 +562,7 @@ li.dd_box div.dd_box_bg {
 	cursor: pointer;
 }
 
-li.dd_box.show_dd div.dd_box_bg {
+li.dd_box.show_dd > div.dd_box_bg {
     display: block;
 }
 
@@ -549,6 +572,11 @@ li.dd_box div.dd_box_bg .shadow {
     z-index: 999999;
     left: 0;
 }
+
+.tabs .dd_box .click_arrow {
+    top: 10px;
+}
+
 
 li.dd_box ul li {
     border: 0;
@@ -564,6 +592,10 @@ li.dd_box div.tabs ul li a {
     display: block; 
 	color: #58626e;
 }
+li.dd_box div.tabs ul li a.dd {
+    background: url(../new_img/dd.png) right center no-repeat;
+}
+
 
 .index_menu div.tabs ul li ul li:first-child a {
     color: #58626e;
@@ -579,6 +611,10 @@ li.dd_box div.tabs ul li a {
 }
 
 li.dd_box .tabs { padding-bottom: 10px; border-bottom: 1px solid #e5e5e5; }
+li.dd_box .dd_box_horizontal > .tabs {
+    padding-bottom: 0;
+    border-bottom: none;
+}
 li.dd_box .content { margin-top: 20px; height: 315px; overflow-y: scroll; width: 840px;}
 li.dd_box .content .list { padding-bottom: 15px }
 li.dd_box .content li{ border: 0; margin-left: 10px; width: 150px; overflow: hidden; height: 188px; padding: 10px 0; }
@@ -948,7 +984,7 @@ form.filter .form-row input.inp.inp_max {
 .dd_box_select .text span { white-space: nowrap; }
 
 .dd_box_select .text span,
-.dd_box_select .text .find_author{
+.dd_box_select .text .interactive_find{
     border: 1px solid #dfdfdf;
     border-radius: 0;
     margin: 0;
@@ -960,7 +996,7 @@ form.filter .form-row input.inp.inp_max {
     color: rgb(86, 86, 86);
     text-overflow: ellipsis;
 }
-.dd_box_select .text .find_author {
+.dd_box_select .text .interactive_find {
     box-sizing: border-box;
     height: 34px;
     width: 209px;
