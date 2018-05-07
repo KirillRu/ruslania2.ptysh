@@ -17,12 +17,7 @@
 <div class="container cabinet">
 
 <div class="row">
-<div class="span2">
-
-            <?php $this->renderPartial('/site/_me_left'); ?>
-
-        </div>
-        <div class="span10" id="cart">
+        <div class="span10" id="cart" style="float: right;">
 			<h2 class="cattitle me_left" style="margin-bottom: 25px;"><?=Yii::app()->ui->item('A_NEW_SUBS_MENU_TTILE')?></h2>
             
 			
@@ -140,6 +135,11 @@
                     </table>
 				</div>
 			</div>
+	<div class="span2">
+
+	            <?php $this->renderPartial('/site/_me_left'); ?>
+
+	        </div>
             <!-- /content -->
         </div>
         </div>

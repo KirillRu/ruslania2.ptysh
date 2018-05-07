@@ -26,6 +26,7 @@ class Offer extends CMyActiveRecord
         $criteria = new CDbCriteria();
         $criteria->condition = 'is_special=0 AND is_active=1';
         $criteria->order = 'creation_date DESC';
+//        $criteria->select = 'id1, icon_entity, creation_date';
 
         $cnt = Offer::model()->count();
 
@@ -34,9 +35,7 @@ class Offer extends CMyActiveRecord
         $paginator->applyLimit($criteria);
 
         $list = Offer::model()->findAll($criteria);
-		
-		
-		
+
         return array('Items' => $list, 'Paginator' => $paginator);
     }
 
@@ -56,11 +55,11 @@ class Offer extends CMyActiveRecord
         if($fullInfo === false)
         {
             if (!$entity) {
-                $sql = 'SELECT * FROM offer_items WHERE offer_id=:id ORDER BY group_order, sort_order';
+                $sql = 'SELECT * FROM offer_items WHERE offer_id=:id ORDER BY group_order, sort_order limit 30';
                 $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':id' => $oid));
             }
             else {
-                $sql = 'SELECT * FROM offer_items WHERE offer_id=:id AND entity_id=:entity ORDER BY group_order, sort_order';
+                $sql = 'SELECT * FROM offer_items WHERE offer_id=:id AND entity_id=:entity ORDER BY group_order, sort_order limit 30';
                 $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':id' => $oid, ':entity' => $entity));
             }
 
