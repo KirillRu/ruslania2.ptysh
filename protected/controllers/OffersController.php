@@ -43,7 +43,6 @@ class OffersController extends MyController
 
     public function actionView($oid)
     {
-        if (isset($_GET['ha'])) var_dump($oid);
         if(empty($oid)) $this->redirect(Yii::app()->createUrl('offers/list'));
 		
 		//var_dump($oid);

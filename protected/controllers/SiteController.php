@@ -953,7 +953,7 @@ class SiteController extends MyController {
         }
 
         $data = unserialize(Yii::app()->session['filter_e' . $entity . '_c_' . $cid]); //получаем строку из сессии
-        var_dump($data);
+        //var_dump($data);
 
         $cat = new Category();
         $items = $cat->result_filter($data);
