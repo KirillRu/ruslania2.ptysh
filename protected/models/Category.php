@@ -85,7 +85,32 @@ class Category {
 
         }
 
-        $sql .= ' GROUP BY vasl.id ORDER BY vasl.id ASC';
+        $lang = 'ru';
+        if (isset(Yii::app()->language)) $lang=Yii::app()->language;
+        $sql .= ' GROUP BY vasl.title_'.$lang.' ORDER BY vasl.title_'.$lang.' ASC';
+
+        $rows = Yii::app()->db->createCommand($sql)->queryAll();
+
+        return $rows;
+    }
+
+    public function getSubtitlesVideo($entity, $cid)
+    {
+
+        $entities = Entity::GetEntitiesList();
+        $tbl = $entities[$entity]['site_table'];
+
+        $sql = 'SELECT vcl.* FROM `video_credits` AS vc, `video_creditslist` AS vcl, `' . $tbl . '` AS t WHERE vc.credits_id = vcl.id AND vc.video_id = t.id';
+
+        if ($cid) {
+
+            $sql .= ' AND (t.code = ' . $cid . ' OR t.subcode = ' . $cid . ')';
+
+        }
+
+        $lang = 'ru';
+        if (isset(Yii::app()->language)) $lang=Yii::app()->language;
+        $sql .= ' GROUP BY vcl.title_'.$lang.' ORDER BY vcl.title_'.$lang.' ASC';
 
         $rows = Yii::app()->db->createCommand($sql)->queryAll();
 
@@ -352,6 +377,7 @@ class Category {
         $paginator->setPageSize(Yii::app()->params['ItemsPerPage']);
         $formatVideo = $data['formatVideo'];
         $langVideo = $data['langVideo'];
+        $subtitlesVideo = $data['subtitlesVideo'];
 
         $dp = Entity::CreateDataProvider($entity);
         $criteria = $dp->getCriteria();
@@ -378,7 +404,7 @@ class Category {
 		
         if ($author AND $author!='undefined' AND $tbl_author) {
             
-            $criteria->join = 'LEFT JOIN '.$tbl_author.' as ba ON ba.'.$field.' = t.id';
+            $criteria->join .= ' LEFT JOIN '.$tbl_author.' as ba ON ba.'.$field.' = t.id';
             
            $criteria->addCondition('ba.author_id=:aid');
            $criteria->params[':aid'] = $author; 
@@ -410,9 +436,16 @@ class Category {
 
         if ($langVideo && $langVideo != '' && $langVideo != '0') {
 
-            $criteria->join = 'LEFT JOIN `video_audiostreams` as vas ON vas.video_id = t.id';
+            $criteria->join .= ' JOIN `video_audiostreams` as vas ON vas.video_id = t.id';
             $criteria->addCondition('vas.stream_id = :langVideo');
             $criteria->params[':langVideo'] = $langVideo;
+        }
+
+        if ($subtitlesVideo && $subtitlesVideo != '' && $subtitlesVideo != '0') {
+
+            $criteria->join .= ' JOIN `video_credits` as vc ON vc.video_id = t.id';
+            $criteria->addCondition('vc.credits_id = :subtitlesVideo');
+            $criteria->params[':subtitlesVideo'] = $subtitlesVideo;
         }
 
         if ($binding && $binding != 0 && $binding[0] != 0) {
@@ -477,6 +510,7 @@ class Category {
 
         $formatVideo = $post ['formatVideo'];
         $langVideo = $post ['langVideo'];
+        $subtitlesVideo = $post ['langSubtitles'];
 
 		if (!$langsel) {
 			if (Yii::app()->getRequest()->cookies['langsel']->value) {
@@ -523,6 +557,11 @@ class Category {
         if ($entity == 40 && $langVideo != '' && $langVideo != '0') {
             $query[] = '(vas.stream_id = ' . $langVideo . ' AND vas.video_id = bc.id)';
             $addtbl .= ', `video_audiostreams` as vas';
+        }
+
+        if ($entity == 40 && $subtitlesVideo != '' && $subtitlesVideo != '0') {
+            $query[] = '(vc.credits_id = ' . $subtitlesVideo . ' AND vc.video_id = bc.id)';
+            $addtbl .= ', `video_credits` as vc';
         }
 
         if (count($binding_id) > 0 AND $binding_id[0] != false) {

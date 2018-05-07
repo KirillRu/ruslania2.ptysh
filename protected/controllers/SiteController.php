@@ -935,7 +935,7 @@ class SiteController extends MyController {
 
     function actionGGfilter($entity = 0, $cid = 0, $author = '0', $avail = '0', $ymin = '0', $ymax = '0',
                             $izda = '0', $seria = '0', $cmin = '0', $cmax = '0', $binding = '0', $langsel = '',
-                            $langVideo = '0', $formatVideo = '0') {
+                            $langVideo = '0', $formatVideo = '0', $subtitlesVideo = '0') {
 
         /* Строка урл: /site/ggfilter/entity/10/cid/0/author/4758/avail/1/ymin/2008/ymax/2018/izda/18956/seria/1290/cmin/1000/cmax/9000/ */
 
@@ -944,15 +944,16 @@ class SiteController extends MyController {
         $_GET['binding'] = $_POST['binding_id'];
         $_GET['langVideo'] = $_POST['langVideo'];
         $_GET['formatVideo'] = $_POST['formatVideo'];
+        $_GET['subtitlesVideo'] = $_POST['subtitlesVideo'];
         $_GET['langsel'] = $_POST['langsel'];
 
-        //записываем фильтр в куки каждой категории
-        if (Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value != serialize($_GET)) {
-            Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid] = new CHttpCookie('filter_e' . $entity . '_c_' . $cid, serialize($_GET));
+        //записываем фильтр в сессию каждой категории
+        if (Yii::app()->session['filter_e' . $entity . '_c_' . $cid] != serialize($_GET)) {
+            Yii::app()->session['filter_e' . $entity . '_c_' . $cid] = serialize($_GET);
         }
 
-        $data = unserialize(Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value); //получаем строку с куки
-        //var_dump($data);
+        $data = unserialize(Yii::app()->session['filter_e' . $entity . '_c_' . $cid]); //получаем строку из сессии
+        var_dump($data);
 
         $cat = new Category();
         $items = $cat->result_filter($data);

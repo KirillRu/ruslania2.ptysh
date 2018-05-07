@@ -395,7 +395,8 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                 $.post(create_url, { YII_CSRF_TOKEN: csrf[1], 'binding_id[]' : bindings,
                     search_name : $('form.filter .search.inp').val(), sort : $('form.filter .sort').val(),
                     formatVideo : $('#formatVideo').val(),
-                    langVideo : $('#langVideo').val()
+                    langVideo : $('#langVideo').val(),
+                    subtitlesVideo : $('#subtitlesVideo').val(),
                 }, function(data) {
                     $('.span10.listgoods').html(data);
                     $('.box_select_result_count').hide(1);
@@ -526,9 +527,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
             function add2Cart(action, eid, iid, qty, type, $el)
             {
 				
-                // var $parent = $el.closest('.to_cart');
                 var csrf = $('meta[name=csrf]').attr('content').split('=');
-                //$el.CreateBubblePopup();
                 var post =
                         {
                             entity: eid,
@@ -538,27 +537,9 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                         };
                 post[csrf[0]] = csrf[1];
 				
-				//var bubble_popup_id = $el.GetBubblePopupID();
 				var seconds_to_wait = 10;
-				/*$el.ShowBubblePopup({
 
-            align: 'right',
-            mouseOut: 'show',
-            alwaysVisible: false,
-            innerHtml: '<p><?=$ui->item('AJAX_IN_PROGRESS');?></p>',
 
-            innerHtmlStyle:{
-                color:'#666666',
-                'text-align':'left'
-            },
-
-            themeName: 	'blue',
-            themePath: 	'/css/jquerybubblepopup-themes'
-
-			}, false); */
-			
-			//$el.FreezeBubblePopup();
-			
 			var opentip = new Opentip($el,'',{ target: true, tipJoint: "bottom", group: "group-example", showOn: "click", hideOn: 'ondblclick', background: '#fff', borderColor : '#fff' });
 				
 				opentip.deactivate();
@@ -569,27 +550,8 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 					var json = JSON.parse(json);
 					var opentip = new Opentip($el,'<div style="padding-right: 17px;">'+json.msg +
 						'</div><div style="height: 6px;"></div><span class="timer_popup"></span> <span class="countdown">00: 10</span><a href="javascript:;" class="close_popup" onclick="$(this).parent().parent().parent().remove()"><img src="/new_img/close_popup.png" alt="" /></a>',{ target: true, tipJoint: "bottom", group: "group-example", showOn: "click", hideOn: 'ondblclick', background: '#fff', borderColor : '#fff' });
-					/*$el.ShowBubblePopup({
-
-						align: 'center',
-						innerHtml: json.msg +
-						'<div style="height: 3px;"></div><span class="timer_popup"></span> <span class="countdown">00: 10</span>	<a href="#" class="close_popup"><img src="/new_img/close_popup.png" alt="" /></a><div class="arrow_popup"><img src="/new_img/bottom_popup.png"></div>',
-
-						innerHtmlStyle:{
-							color:'#666666',
-							'text-align':'left'
-						},
-						mouseOut: 'show',
-						alwaysVisible: false,
-
-						themeName: 	'blue',
-						themePath: 	'/css/jquerybubblepopup-themes'
-
-					}, false);
-					*/
 					
-					
-					
+
 					opentip.show();
 					
 					function doCountdown()
@@ -1473,7 +1435,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 
                 <div class="row">
                     <div class="span1">
-                        <a href=""><img src="/new_img/logo_footer.png" alt="" /></a>
+                        <a href="" title="Ruslania"><img src="/new_img/logo_footer.png" alt="Ruslania" /></a>
                         <div class="text">
                             <?=$ui->item('A_NEW_DESC_FOOTER'); ?>
                             <a href="<?= Yii::app()->createUrl('site/static', array('page' => 'aboutus')); ?>"><?=$ui->item('A_NEW_MORE_ABOUTUS'); ?></a>
@@ -1543,15 +1505,15 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                 <div class="row payment">
 
                     <div class="span1">
-                        <img src="https://img.paytrail.com/?id=34135&type=horizontal&cols=18&text=0&auth=b6c2c7566147a60e" width="770" alt="" />
+                        <img src="https://img.paytrail.com/?id=34135&type=horizontal&cols=18&text=0&auth=b6c2c7566147a60e" width="770" alt="Ruslania, PayTrail" />
                     </div>
                     <div class="span2">
 
-                        <img src="/new_img/payment2.png" alt="" />
+                        <img src="/new_img/payment2.png" alt="secures by thawte" />
 						<!-- <img src="https://seal.thawte.com/getthawteseal?at=0&sealid=1&dn=RUSLANIA.COM&lang=en&gmtoff=-180" alt="" /> -->
-                        <img src="/new_img/payment3.png" alt="" />
-                        <img src="/new_img/buyer_protection.jpg" alt="" />
-                        <img src="/new_img/payment4.png" alt="" />
+                        <img src="/new_img/payment3.png" alt="PayPal verified" />
+                        <img src="/new_img/buyer_protection.jpg" alt="PayPal buyer protection" />
+                        <img src="/new_img/payment4.png" alt="verified by visa MasterCard" />
 
                     </div>
 

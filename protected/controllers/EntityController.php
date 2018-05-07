@@ -112,7 +112,7 @@ class EntityController extends MyController {
 
         if ($entity == 40) {
 
-            $langSubtitles = $category->getFilterLangsVideo($entity, $cid);
+            $langSubtitles = $category->getSubtitlesVideo($entity, $cid);
 
         }
 
@@ -188,9 +188,10 @@ class EntityController extends MyController {
 		'max_cost'=>''
 		);
 
-		if (Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value != '') {
+        if (Yii::app()->session['filter_e' . $entity . '_c_' . $cid] != '') {
 
-		$data = unserialize(Yii::app()->getRequest()->cookies['filter_e' . $entity . '_c_' . $cid]->value); //получаем строку с куки
+            $data = unserialize(Yii::app()->session['filter_e' . $entity . '_c_' . $cid]); //получаем строку из сессии
+
 
 			$cat = new Category();
 
@@ -208,12 +209,12 @@ class EntityController extends MyController {
 			 $filter_data = $data;
 		}
 
-        if (isset(Yii::app()->getRequest()->cookies['last_e'])
-            && (Yii::app()->getRequest()->cookies['last_e']->value != '')
-            && (Yii::app()->getRequest()->cookies['last_e']->value != $entity))
-            Yii::app()->getRequest()->cookies['filter_e' . Yii::app()->getRequest()->cookies['last_e']->value . '_c_' . $cid] = new CHttpCookie('filter_e' . Yii::app()->getRequest()->cookies['last_e']->value . '_c_' . $cid, '');
+        if (isset(Yii::app()->session['last_e'])
+            && (Yii::app()->session['last_e'] != '')
+            && (Yii::app()->session['last_e'] != $entity))
+            Yii::app()->session['filter_e' . Yii::app()->session['last_e'] . '_c_' . $cid] = '';
 
-        Yii::app()->getRequest()->cookies['last_e'] = new CHttpCookie('last_e', $entity);
+        Yii::app()->session['last_e'] = $entity;
 
         $filter_data['avail'] = 1;
 

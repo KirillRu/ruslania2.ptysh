@@ -1,3 +1,6 @@
+<?php
+$siteLang = (isset(Yii::app()->language) && Yii::app()->language != '') ? Yii::app()->language : 'ru';
+?>
 <?php $this->widget('TopBar', array('breadcrumbs' => $this->breadcrumbs)); ?><div class="container content_books">
     <div class="row">
         <div class="span2">
@@ -168,7 +171,7 @@
                     <div class="dd_box_select" style="z-index: 19">
 
                         <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
-                        <input type="hidden" name="avail" value="0">
+                        <input type="hidden" name="avail" value="1">
                         <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()"><span><?=(($filter_data['avail'] == 0) ? $ui->item('A_NEW_FILTER_ALL') : $ui->item('A_NEW_FILTER_AVAIL') ); ?></span></div>
                         <div class="list_dd">
                             <div class="items">
@@ -195,15 +198,17 @@
                     <div class="dd_box_select" style="z-index: 18">
 
                         <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
-                        <input type="hidden" name="langVideo" value="0" id="langVideo">
-                        <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()"><span>Язык звуковой дорожки</span></div>
+                        <input type="hidden" name="langVideo" value="<?=(isset($filter_data['langVideo']) && ($filter_data['langVideo'] != '')) ? $filter_data['langVideo'] : 0?>" id="langVideo">
+                        <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()">
+                            <span><?= (isset($filter_data['langVideo']) && ($filter_data['langVideo'] != false)) ? VideoAudioStream::model()->findByPk($filter_data['langVideo'])['title_'.$siteLang] : 'Язык звуковой дорожки'?></span>
+                        </div>
                         <div class="list_dd">
                             <div class="items">
                                 <div class="rows">
 									<div class="item" rel="0" onclick="select_item($(this), 'langVideo')"><?=$ui->item('A_NEW_FILTER_ALL'); ?></div>
 									 <? foreach ($langVideo as $k => $lang) { ?>
 									
-                                    <div class="item" rel="<?=$lang['id']?>" onclick="select_item($(this), 'langVideo')"><?=ProductHelper::GetTitle($lang);?></div>
+                                    <div class="item <?= ((isset($filter_data['langVideo'])) && ($lang['id'] == (int)$filter_data['langVideo'])) ? 'selact' : ''?>" rel="<?=$lang['id']?>" onclick="select_item($(this), 'langVideo')"><?=ProductHelper::GetTitle($lang);?></div>
 									
 									 <? } ?>
 
@@ -217,33 +222,35 @@
 
                 <? if ($langSubtitles) {?>
 
-                    <!--<div class="form-row"><div class="box_select_result_count">
+                    <div class="form-row"><div class="box_select_result_count">
                             <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div>
-                            <div class="close" onclick="$(this).parent().hide()">x</div><?/*=$ui->item('A_NEW_FILTER_SELECT')*/?>:
+                            <div class="close" onclick="$(this).parent().hide()">x</div><?=$ui->item('A_NEW_FILTER_SELECT')?>:
                             <span class="res_count"></span>
-                            <a  href="javascript:;" onclick="show_items()"><?/*=$ui->item('A_NEW_FILTER_VIEW')*/?></a>
+                            <a  href="javascript:;" onclick="show_items()"><?=$ui->item('A_NEW_FILTER_VIEW')?></a>
                         </div>
                         <label class="title">Язык субтитров</label>
                         <div class="dd_box_select" style="z-index: 17">
 
                             <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
-                            <input type="hidden" name="langSubtitles" value="0">
-                            <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()"><span>Язык субтитров</span></div>
+                            <input type="hidden" name="langSubtitles" value="<?=(isset($filter_data['subtitlesVideo']) && ($filter_data['subtitlesVideo'] != '')) ? $filter_data['subtitlesVideo'] : 0?>" id="subtitlesVideo">
+                            <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()">
+                                <span><?= (isset($filter_data['subtitlesVideo']) && ($filter_data['subtitlesVideo'] != false)) ? VideoSubtitle::model()->findByPk($filter_data['subtitlesVideo'])['title_'.$siteLang] : 'Язык субтитров'?></span>
+                            </div>
                             <div class="list_dd">
                                 <div class="items">
                                     <div class="rows">
-                                        <div class="item" rel="0" onclick="select_item($(this), 'langSubtitles')"><?/*=$ui->item('A_NEW_FILTER_ALL'); */?></div>
-                                        <?/* foreach ($langSubtitles as $k => $lang) { */?>
+                                        <div class="item" rel="0" onclick="select_item($(this), 'langSubtitles')"><?=$ui->item('A_NEW_FILTER_ALL'); ?></div>
+                                        <? foreach ($langSubtitles as $k => $lang) { ?>
 
-                                            <div class="item" rel="<?/*=$lang['id']*/?>" onclick="select_item($(this), 'langSubtitles')"><?/*=ProductHelper::GetTitle($lang);*/?></div>
+                                            <div class="item <?= ((isset($filter_data['subtitlesVideo'])) && ($lang['id'] == (int)$filter_data['subtitlesVideo'])) ? 'selact' : ''?>" rel="<?=$lang['id']?>" onclick="select_item($(this), 'langSubtitles')"><?=ProductHelper::GetTitle($lang);?></div>
 
-                                        <?/* } */?>
+                                        <? } ?>
 
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
 
                 <? } ?>
 
@@ -259,15 +266,18 @@
                         <div class="dd_box_select" style="z-index: 16">
 
                             <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
-                            <input type="hidden" name="formatVideo" value="0" id="formatVideo">
-                            <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()"><span>Формат видео</span></div>
+                            <input type="hidden" name="formatVideo" value="<?=(isset($filter_data['formatVideo']) && ($filter_data['formatVideo'] != '')) ? $filter_data['formatVideo'] : 0?>" id="formatVideo">
+                            <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()">
+                                <?php $m = new Media()?>
+                                <span><?= (isset($filter_data['formatVideo']) && ($filter_data['formatVideo'] != false)) ? $m->GetMedia(Entity::VIDEO, $filter_data['formatVideo'])['title'] : 'Формат видео'?></span>
+                            </div>
                             <div class="list_dd">
                                 <div class="items">
                                     <div class="rows">
                                         <div class="item" rel="0" onclick="select_item($(this), 'formatVideo')"><?=$ui->item('A_NEW_FILTER_ALL'); ?></div>
                                         <? foreach ($formatVideo as $k => $lang) { ?>
 
-                                            <div class="item" rel="<?=$lang['id']?>" onclick="select_item($(this), 'formatVideo')"><?=$lang['title'];?></div>
+                                            <div class="item <?= ((isset($filter_data['formatVideo'])) && ($lang['id'] == (int)$filter_data['formatVideo'])) ? 'selact' : ''?>" rel="<?=$lang['id']?>" onclick="select_item($(this), 'formatVideo')"><?=$lang['title'];?></div>
 
                                         <? } ?>
 
