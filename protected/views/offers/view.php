@@ -1,8 +1,47 @@
-<?php $this->widget('TopBar', array('breadcrumbs' => $this->breadcrumbs)); ?>
+<?php
+$this->widget('TopBar', array('breadcrumbs' => $this->breadcrumbs)); ?>
      <div class="container listgoods content_books" style="margin-top: 0;">
     
     <div class="row">
         
+        <div class="span10">
+<?php $desc = ProductHelper::GetTitle($offer, 'description'); ?>
+
+            <?php if(!empty($desc)) : ?>
+                <p class="text"><?=nl2br($desc); ?></p>
+            <?php endif; ?>
+
+            <?php foreach($groups as $group=>$data) : ?>
+                <table height="30" cellspacing="0" cellpadding="0" border="0" style="vertical-align:top" class="text">
+                    <tr>
+                        <td colspan="3">
+                            <div class="itemsep1">&nbsp;</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="31" class="maintxt" style="padding-top: 2px;padding-bottom: 2px;padding-left: 2px;padding-right: 5px;"><img width="31" height="31" border="0" src="/pic1/cart_ibook.gif"></td>
+                        <td width="100%" class="maintxt" style="padding: 2px;"><a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($data['entity']))); ?>" class="ctitle"><?=Entity::GetTitle($data['entity']); ?></a></td>
+                    </tr>
+                </table>
+
+                <ul class="items">
+                    <?php foreach($data['items'] as $item) : ?>
+                        <?php
+                            $item['entity'] = $data['entity'];
+                            $item['status'] = Product::GetStatusProduct($item['entity'], $item['id']);
+                        ?>
+                        <li>
+                            <?php $this->renderPartial('/entity/_common_item_2',
+                                array('item' => $item,
+                                      'entity' => $data['entity'], 'isList' => true)); ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+
+
+            <?php endforeach; ?>
+        </div>
+
         <?
 		$serGoods = unserialize(Yii::app()->getRequest()->cookies['yourView']->value);
 		
@@ -86,42 +125,6 @@
         </div>
         <? } ?>
         
-        <div class="span10">
-<?php $desc = ProductHelper::GetTitle($offer, 'description'); ?>
 
-            <?php if(!empty($desc)) : ?>
-                <p class="text"><?=nl2br($desc); ?></p>
-            <?php endif; ?>
-
-            <?php foreach($groups as $group=>$data) : ?>
-                <table height="30" cellspacing="0" cellpadding="0" border="0" style="vertical-align:top" class="text">
-                    <tr>
-                        <td colspan="3">
-                            <div class="itemsep1">&nbsp;</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td width="31" class="maintxt" style="padding-top: 2px;padding-bottom: 2px;padding-left: 2px;padding-right: 5px;"><img width="31" height="31" border="0" src="/pic1/cart_ibook.gif"></td>
-                        <td width="100%" class="maintxt" style="padding: 2px;"><a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($data['entity']))); ?>" class="ctitle"><?=Entity::GetTitle($data['entity']); ?></a></td>
-                    </tr>
-                </table>
-
-                <ul class="items">
-                    <?php foreach($data['items'] as $item) : ?>
-                        <?php
-                            $item['entity'] = $data['entity']; 
-                            $item['status'] = Product::GetStatusProduct($item['entity'], $item['id']);
-                        ?>
-                        <li>
-                            <?php $this->renderPartial('/entity/_common_item_2',
-                                array('item' => $item,
-                                      'entity' => $data['entity'], 'isList' => true)); ?>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-
-
-            <?php endforeach; ?>
-        </div>
         </div>
         </div>

@@ -1,4 +1,4 @@
-<h1 class="titlename">Товары раздела: <?= Entity::GetTitle($entity) ?></h1>  
+<h1 class="titlename"><?=$ui->item('A_NEW_GOODS_CAT_TITLE')?>: <?= Entity::GetTitle($entity) ?></h1>
 
 <div class="sortbox" style="float: right;">
                 <form method="GET">
@@ -96,5 +96,5 @@
 
 
 <?php if (count($items) > 0) $this->widget('SortAndPaging', array('paginatorInfo' => $paginatorInfo)); ?>
-</div>
-</div>
+<!--</div>-->
+<!--</div>-->

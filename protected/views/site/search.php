@@ -2,91 +2,8 @@
 
 <div class="container content_books">
 <div class="row">
-        
-        <?
-		$serGoods = unserialize(Yii::app()->getRequest()->cookies['yourView']->value);
-		
-		if ($serGoods) {
-			
-			shuffle($serGoods);
-			
-		?>
-		
-        <div class="span2">
-            <h2 class="poht" style="margin-top: 0; margin-bottom: 20px;">
-				Вы сморели:
-			</h2>
-			
-			
-			<div class="you_view">
-			
-				<ul>
-				
-					<?
-						$i = 1;
-						foreach ($serGoods as $goods) {
-							
-							if ($i > 5) break;
-							
-							$ex = explode('_', $goods);
-							
-							$good_id = $ex[0];
-							$good_entity = $ex[1];
-							
-							if ($good_id == $item['id']) continue;
-							
-							$igoods = Product::GetBaseProductInfo($good_entity, $good_id);
-							
-							$price = DiscountManager::GetPrice(Yii::app()->user->id, $igoods);
-							
-							//var_dump($igoods);
-							$i++;
-							?>
-							
-								<li>
-									<div class="span1 photo new">
-										<?php $url = ProductHelper::CreateUrl($igoods); ?>
 
-    <a href="<?=$url; ?>"><img src="<?=Picture::Get($igoods, Picture::SMALL); ?>" alt="" /></a>
-
-									</div>
-									<div class="span2 text">
-										<div class="title"><a href="<?=$url; ?>"><?=ProductHelper::GetTitle($igoods, 'title', 30); ?></a></div>
-										<div class="cost"><?php if (!empty($price[DiscountManager::DISCOUNT])) : ?>
-            <span style="font-size: 90%; color: #ed1d24; text-decoration: line-through;">
-                <?= ProductHelper::FormatPrice($price[DiscountManager::BRUTTO]); ?>
-            </span>&nbsp;<span class="price" style="color: #301c53;font-size: 18px; font-weight: bold;">
-                <?= ProductHelper::FormatPrice($price[DiscountManager::WITH_VAT]); ?>
-                
-            </span>
-
-        <?php else : ?>
-
-            <span class="price">
-       <?= ProductHelper::FormatPrice($price[DiscountManager::WITH_VAT]); ?>
-        
-        </span>
-
-        <?php endif; ?></div>
-										<div class="nds"><?= ProductHelper::FormatPrice($price[DiscountManager::WITHOUT_VAT]); ?> <?=$ui->item('WITHOUT_VAT'); ?></div>                            
-									</div>
-									<div class="clearfix"></div>
-								</li>
-							
-							<?
-							
-						}
-					?>
-				
-                   
-				</ul>
-			
-			</div>
-			
-        </div>
-        <? } ?>
-		
-		<div class="listgoods span10">
+		<div class="listgoods span10" style="float: right;">
 		
             <?php if (!empty($items)) : ?>
                 <p><?=$ui->item('DID_YOU_MEAN'); ?></p>
@@ -167,6 +84,7 @@ if ($arr[0]->s) {
             <ul class="items">
                 <?php foreach ($products as $i) : ?>
                     <li>
+						<?php $i['status'] = Product::GetStatusProduct($i['entity'], $i['id'])?>
                         <?php $this->renderPartial('/entity/_common_item_2', array('item' => $i,
                                                                                  'isList' => true,
                                                                                  'entity' => $i['entity'])); ?>
@@ -177,5 +95,90 @@ if ($arr[0]->s) {
             <?php if (count($products) > 0) $this->widget('SortAndPaging', array('paginatorInfo' => $paginatorInfo)); ?>
 
         </div>
+
+	<?
+$serGoods = unserialize(Yii::app()->getRequest()->cookies['yourView']->value);
+
+if ($serGoods) {
+
+shuffle($serGoods);
+
+?>
+
+ <div class="span2">
+     <h2 class="poht" style="margin-top: 0; margin-bottom: 20px;">
+Вы сморели:
+</h2>
+
+
+<div class="you_view">
+
+<ul>
+
+<?
+$i = 1;
+foreach ($serGoods as $goods) {
+
+if ($i > 5) break;
+
+$ex = explode('_', $goods);
+
+$good_id = $ex[0];
+$good_entity = $ex[1];
+
+if ($good_id == $item['id']) continue;
+
+$igoods = Product::GetBaseProductInfo($good_entity, $good_id);
+
+$price = DiscountManager::GetPrice(Yii::app()->user->id, $igoods);
+
+//var_dump($igoods);
+$i++;
+?>
+
+	<li>
+		<div class="span1 photo new">
+			<?php $url = ProductHelper::CreateUrl($igoods); ?>
+
+<a href="<?=$url; ?>"><img src="<?=Picture::Get($igoods, Picture::SMALL); ?>" alt="" /></a>
+
+		</div>
+		<div class="span2 text">
+			<div class="title"><a href="<?=$url; ?>"><?=ProductHelper::GetTitle($igoods, 'title', 30); ?></a></div>
+			<div class="cost"><?php if (!empty($price[DiscountManager::DISCOUNT])) : ?>
+     <span style="font-size: 90%; color: #ed1d24; text-decoration: line-through;">
+         <?= ProductHelper::FormatPrice($price[DiscountManager::BRUTTO]); ?>
+     </span>&nbsp;<span class="price" style="color: #301c53;font-size: 18px; font-weight: bold;">
+         <?= ProductHelper::FormatPrice($price[DiscountManager::WITH_VAT]); ?>
+
+     </span>
+
+ <?php else : ?>
+
+     <span class="price">
+<?= ProductHelper::FormatPrice($price[DiscountManager::WITH_VAT]); ?>
+
+ </span>
+
+ <?php endif; ?></div>
+			<div class="nds"><?= ProductHelper::FormatPrice($price[DiscountManager::WITHOUT_VAT]); ?> <?=$ui->item('WITHOUT_VAT'); ?></div>
+		</div>
+		<div class="clearfix"></div>
+	</li>
+
+<?
+
+}
+?>
+
+
+</ul>
+
+</div>
+
+ </div>
+ <? } ?>
+
+
         </div>
         </div>

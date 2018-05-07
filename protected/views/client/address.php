@@ -3,11 +3,6 @@
 <div class="container cabinet">
 
 <div class="row">
-<div class="span2">
-
-            <?php $this->renderPartial('/site/_me_left'); ?>
-
-        </div>
         <div class="span10">
 
             <?php if (count($list) == 0) : ?>
@@ -71,5 +66,10 @@
             <a href="<?=Yii::app()->createUrl('my/newaddress'); ?>"><img src="/pic1/<?=$ui->item("ADD_ADDRESS_PICTURE"); ?>" alt="<?=$ui->item("ADD_ADDRESS_ALT"); ?>"></a>
             <!-- /content -->
         </div>
+    <div class="span2">
+
+                <?php $this->renderPartial('/site/_me_left'); ?>
+
+            </div>
         </div>
         </div>

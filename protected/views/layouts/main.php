@@ -916,16 +916,16 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 	
         <div class="header_logo_search_cart">
         
-		<? $mess = Yii::app()->ui->item('MSG_MAIN_WELCOME_INTERNATIONAL_ORDERS'); 
-		if ($mess) {
-		?>
-		
+<?php $mess = Yii::app()->ui->item('MSG_MAIN_WELCOME_INTERNATIONAL_ORDERS');
+    if ($mess):
+?>
 		<div class="alert_bg" style="display: block">
             <div class="container">
-                <span class="text"><?=$mess?></span>
+                <span class="text" id="js_container-alert_bg"></span>
                 <span class="close_alert" onclick="$(this).parent().parent().remove()"><img src="/new_img/close_alert.png" /></span>
             </div>
-        </div><?}?>
+        </div>
+<?php endif; ?>
 
         <div class="light_gray_menu">
             <div class="container">
@@ -1107,12 +1107,9 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 			<div style="height: 10px;"></div>
         <script>
             $(document).ready(function () {
-                $('a', $('.dd_box .tabs li')[0]).click();				
+                $('a', $('.dd_box .tabs li')[0]).click();
                 // $('li.dd_box .content').jScrollPane({scrollbarWidth:18, showArrows:true});
-				
-				
 				$('.dd_box').removeClass('show_dd');
-
             })
         </script>
         <div class="index_menu">
@@ -1550,5 +1547,12 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
     <div class="clearfix"></div>
 </div>
 
+    <?php if ($mess): ?>
+    <script>
+        $(document).ready(function () {
+        document.getElementById('js_container-alert_bg').innerHTML = '<?= htmlspecialchars($mess) ?>';
+        })
+    </script>
+    <?php endif; ?>
     </body>
 </html>

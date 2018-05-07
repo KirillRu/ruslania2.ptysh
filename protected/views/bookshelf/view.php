@@ -1,8 +1,8 @@
 <table width="100%" cellspacing="0" cellpadding="0" border="0" style="vertical-align:top">
     <tr>
-        <td class="leftmnu" width="20%" valign="top">
-            <?php $this->renderPartial('/entity/_left_text'); ?>
-            <?php $this->renderPartial('/site/login_form', array('model' => new User)); ?>
+        <td class="leftmnu" id="js_leftmnu" width="20%" valign="top">
+            <?php //$this->renderPartial('/entity/_left_text'); ?>
+            <?php //$this->renderPartial('/site/login_form', array('model' => new User)); ?>
         </td>
         <td valign="top" style="padding: 5px;" width="80%">
             <!-- content -->
@@ -59,6 +59,22 @@
 
         </td>
     </tr>
-
 </table>
+<?php $this->renderPartial('/entity/_social_widgets'); ?>
+<?php $this->renderPartial('/entity/_we_recommend'); ?>
+<?php $this->renderPartial('/site/login_form', array('model' => new User)); ?>
 
+<?php /*
+<div style="display: none">
+    <div id="js_for-leftmnu">
+        <?php $this->renderPartial('/entity/_left_text'); ?>
+        <?php $this->renderPartial('/site/login_form', array('model' => new User)); ?>
+    </div>
+    <script>(function(d) {
+        var $leftContent = $('#js_for-leftmnu');
+        var $leftContainer = $('#js_leftmnu');
+        $leftContainer.prepend($leftContent.html())
+        $leftContent.parent().remove();
+    }(document));</script>
+</div>
+*/ ?>

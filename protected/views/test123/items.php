@@ -1,5 +1,32 @@
 <div class="container content_books">
     <div class="row">
+        <div class="span10 listgoods" style="float: right;">
+
+            <h1 class="titlename">Товары раздела: <?=((!$cid) ? Entity::GetTitle($entity) : $title_cat); ?></h1>  
+
+            <div class="sortbox">
+                <form method="GET">
+                    <?php $value = SortOptions::GetDefaultSort(@$_GET['sort']) ?>
+                    <?= CHtml::dropDownList('sort', $value, SortOptions::GetSortData(), array('onchange' => '$(\'.sortbox form\').submit()', 'style'=>'width: auto;')); ?>
+                </form>
+            </div>
+
+            <ul class="items">
+                <?php foreach ($items as $row) : ?>
+                    <?php
+					$item = Product::GetProduct($entity, $row['id']);
+                    $item['entity'] = $entity;
+                    $key = 'itemlist_' . $entity . '_' . $item['id'];
+                    ?>
+                    <li>
+                        <?php $this->renderPartial('test123_item', array('item' => $item, 'entity' => $entity, 'isList' => true)); ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+
+
+            <?php if (count($items) > 0) $this->widget('SortAndPaging', array('paginatorInfo' => $paginatorInfo)); ?>
+        </div>
         <div class="span2">
             <?php if (!empty($categoryList)) : ?>
                 <h2 class="cattitle">Категории:</h2>
@@ -45,9 +72,9 @@
                         <?getSubCategoryes($entity, $cat['id'], 1);?>
                     <?php endforeach; ?>
                 </ul>
-				
+
 				<a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey($entity))); ?>" class="order_start" style="width: 100%">Показать все категории</a>
-				
+
                 <div style="height: 47px"></div>
             <?php endif; ?>
 
@@ -76,7 +103,7 @@
                             <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
                             <input type="hidden" name="author" value="0">
                             <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()">
-                                <span><?if ($filter_data['author'] == '' OR $filter_data['author'] == '0') { echo 'Все'; } else { $row = CommonAuthor::GetById($filter_data['author']); echo $row['title_' . Yii::app()->language]; }?></span> 
+                                <span><?if ($filter_data['author'] == '' OR $filter_data['author'] == '0') { echo 'Все'; } else { $row = CommonAuthor::GetById($filter_data['author']); echo $row['title_' . Yii::app()->language]; }?></span>
                             </div>
                             <div class="list_dd authors_dd">
                                 <div class="items">
@@ -90,9 +117,9 @@
                                             $name_publ = $row['title_' . Yii::app()->language];
                                             if (!trim($name_publ))
                                                 continue;
-											
+
 											$selact = ' selact';
-											
+
 											if ($row['id'] != $filter_data['author']) {
 												$selact = '';
 											}
@@ -120,7 +147,7 @@
                         <div class="list_dd">
                             <div class="items">
                                 <div class="rows">
-								
+
                                     <div class="item<?=(($filter_data['avail'] == 0) ? ' selact' : '' ); ?>" rel="0" onclick="select_item($(this), 'avail')">Все</div>
                                     <div class="item<?=(($filter_data['avail'] == 1) ? ' selact' : '' ); ?>" rel="1" onclick="select_item($(this), 'avail')">В наличии</div>
 
@@ -132,7 +159,7 @@
                 <div class="form-row"><div class="box_select_result_count">
                         <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div> <div class="close" onclick="$(this).parent().hide()">x</div>Выбрано: <span class="res_count">20</span> <a  href="javascript:;" onclick="show_items()">Показать</a>
                     </div>
-					
+
                     <label class="title">Год</label>
 
                     <input type="text" value="" class="inp_mini year_inp_mini inp" name="year_min" />-<input type="text" value="" name="year_max" class="inp_max year_inp_max inp" />
@@ -141,20 +168,20 @@
 					<?
 						$max_year = $filter_year[1];
 						$min_year = $filter_year[0];
-						
-						
-						
+
+
+
 						if ($filter_data['ymin'] != '') {
-							
+
 							$filter_year[0] = $filter_data['ymin'];
-							
+
 						}
-						
-						
+
+
 						if ($filter_data['ymax'] != '') {
-							
+
 							$filter_year[1] = $filter_data['ymax'];
-							
+
 						}
 					?>
                     <script>
@@ -173,9 +200,9 @@
                             });
 
                             slider.noUiSlider.on('set', function () {
-                                
+
                                 show_result_count($(slider));
-                                
+
                             });
 
                             slider.noUiSlider.on('update', function (values, handle) {
@@ -208,7 +235,7 @@
                             <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
                             <input type="hidden" name="izda" value="0">
                             <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()">
-                                <span><?if ($filter_data['izda'] == '' OR $filter_data['izda'] == '0') { echo 'Все'; } else { $row = Publisher::GetByID($entity, $filter_data['izda']); echo $row['title_' . Yii::app()->language]; }?></span> 
+                                <span><?if ($filter_data['izda'] == '' OR $filter_data['izda'] == '0') { echo 'Все'; } else { $row = Publisher::GetByID($entity, $filter_data['izda']); echo $row['title_' . Yii::app()->language]; }?></span>
                             </div>
                             <div class="list_dd izda_dd">
                                 <div class="items">
@@ -224,9 +251,9 @@
                                             if (!$name_publ) {
                                                 $name_publ = $row['title_en'];
                                             }
-											
+
 											$selact = ' selact';
-											
+
 											if ($row['id'] != $filter_data['izda']) {
 												$selact = '';
 											}
@@ -252,7 +279,7 @@
                             <div class="arrow_d" onclick="$('.list_dd', $(this).parent()).toggle()"></div>
                             <input type="hidden" name="seria" value="0">
                             <div class="text" onclick="$('.list_dd', $(this).parent()).toggle()">
-                                <span><?if ($filter_data['seria'] == '' OR $filter_data['seria'] == '0') { echo 'Все'; } else { $row = Series::GetByIds($entity, array($entity, $filter_data['seria'])); echo $row[0]['title_' . Yii::app()->language]; }?></span> 
+                                <span><?if ($filter_data['seria'] == '' OR $filter_data['seria'] == '0') { echo 'Все'; } else { $row = Series::GetByIds($entity, array($entity, $filter_data['seria'])); echo $row[0]['title_' . Yii::app()->language]; }?></span>
                             </div>
                             <div class="list_dd seria_dd">
                                 <div class="items">
@@ -270,11 +297,11 @@
                                             }
 
 											$selact = ' selact';
-											
+
 											if ($row[0]['id'] != $filter_data['seria']) {
 												$selact = '';
 											}
-											
+
                                             echo '<div class="item'.$selact.'" rel="' . $row[0]['id'] . '" onclick="select_item($(this), \'seria\')">' . $name_publ . '</div>';
                                         }
                                         ?>
@@ -286,10 +313,10 @@
                         </div>
 
                     </div> <?php } ?>
-					
+
 					<? if ($filter_year[3]) : ?>
-					
-					
+
+
                 <div class="form-row"><div class="box_select_result_count">
                         <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div> <div class="close" onclick="$(this).parent().hide()">x</div>Выбрано: <span class="res_count">20</span><a  href="javascript:;" onclick="show_items()">Показать</a>
                     </div>
@@ -298,27 +325,27 @@
                     <div id="slider_cost"></div>
 
                     <script>
-						
+
 						<?
 							$max_cost = $filter_year[3];
 							$min_cost = $filter_year[2];
-							
-							
-							
+
+
+
 							if ($filter_data['cmin'] != '') {
-								
+
 								$filter_year[2] = $filter_data['cmin'];
-								
+
 							}
-							
-							
+
+
 							if ($filter_data['cmax'] != '') {
-								
+
 								$filter_year[3] = $filter_data['cmax'];
-								
+
 							}
 						?>
-						
+
                         $(document).ready(function () {
 
                             var slider_cost = document.getElementById('slider_cost');
@@ -331,13 +358,13 @@
                                     'max': <?=$max_cost; ?>
                                 }
                             });
-                            
+
                             slider_cost.noUiSlider.on('set', function () {
-                                
+
                                 show_result_count($(slider_cost));
-                                
+
                             });
-                            
+
                             slider_cost.noUiSlider.on('update', function (values, handle) {
 
                                 var value = values[handle];
@@ -359,7 +386,7 @@
                 <?php if (!empty($bgs)) { ?>
                     <div class="form-row bindings">
                         <div class="box_select_result_count">
-                            <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div> 
+                            <div class="arrow"><img src="/new_img/arrow_select.png" alt=""></div>
                             <div class="close" onclick="$(this).parent().hide()">x</div>
                             Выбрано: <span class="res_count">20</span><a  href="javascript:;" onclick="show_items()">Показать</a>
                         </div>
@@ -376,13 +403,13 @@
                             }
                             if (!$row['id'])
                                 continue;
-							
+
 							$sel = '';
-							
+
 							if (in_array($row['id'], $filter_data['binding_id'])) {
 								$sel = 'checked="checked"';
 							}
-							
+
                             echo '<label><input '.$sel.' type="checkbox" class="" name="binding_id[]" value="' . $row['id'] . '" onchange="show_result_count($(this))"/> ' . str_replace('/', ' / ', $row[$title]) . '</label>';
                         }
                         ?>
@@ -390,33 +417,6 @@
 
                     </div><?php } ?>
             </form>
-        </div>
-        <div class="span10 listgoods">
-
-            <h1 class="titlename">Товары раздела: <?=((!$cid) ? Entity::GetTitle($entity) : $title_cat); ?></h1>  
-
-            <div class="sortbox">
-                <form method="GET">
-                    <?php $value = SortOptions::GetDefaultSort(@$_GET['sort']) ?>
-                    <?= CHtml::dropDownList('sort', $value, SortOptions::GetSortData(), array('onchange' => '$(\'.sortbox form\').submit()', 'style'=>'width: auto;')); ?>
-                </form>
-            </div>
-
-            <ul class="items">
-                <?php foreach ($items as $row) : ?>
-                    <?php
-					$item = Product::GetProduct($entity, $row['id']);
-                    $item['entity'] = $entity;
-                    $key = 'itemlist_' . $entity . '_' . $item['id'];
-                    ?>
-                    <li>
-                        <?php $this->renderPartial('test123_item', array('item' => $item, 'entity' => $entity, 'isList' => true)); ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-
-
-            <?php if (count($items) > 0) $this->widget('SortAndPaging', array('paginatorInfo' => $paginatorInfo)); ?>
         </div>
     </div>
 </div>
