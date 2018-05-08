@@ -131,8 +131,10 @@ $siteLang = (isset(Yii::app()->language) && Yii::app()->language != '') ? Yii::a
                 <h2 class="cattitle">Категории:</h2>
                 <ul class="left_list divider">
 
-					<li><a href=""><b><?=((!$cid) ? Entity::GetTitle($entity) : $title_cat); ?></b></a></li>
-
+                    <li><a href="<?= Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity), 'cid' => $cid)) ?>">
+                            <b><?=((!$cid) ? Entity::GetTitle($entity) : $title_cat); ?></b>
+                        </a>
+                    </li>
                     <?php
 
                     function getSubCategoryes($entity, $cid, $lvl = 1) {
