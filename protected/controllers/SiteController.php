@@ -968,9 +968,14 @@ class SiteController extends MyController {
         $totalItems = Category::count_filter($entity, $cid, $data);
         $paginator = new CPagination($totalItems);
         $paginator->setPageSize(Yii::app()->params['ItemsPerPage']);
+
+        $path = $cat->GetCategoryPath($entity, $cid);
+        $selectedCategory = array_pop($path);
+
         $this->renderPartial('list_ajax', array(
             'entity' => $entity, 'items' => $items,
             'paginatorInfo' => $paginator,
+            'title_cat' => ProductHelper::GetTitle($selectedCategory),
             'cid' => $cid
         ));
     }

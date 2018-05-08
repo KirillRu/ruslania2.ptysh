@@ -10,7 +10,7 @@
             </div>
         </div>
         </a>
-
+<?php /*
         <div style="padding-bottom: 15px; padding-top: 10px; padding-left: 10px; text-align: left">
             <?=sprintf($ui->item('MSG_OUR_SITE_IS_CERTIFIED'), Yii::app()->createUrl('site/static', array('page' => 'thawte'))); ?>
         </div>
@@ -24,6 +24,7 @@
             <a href="<?=Yii::app()->createUrl('site/static', array('page' => 'safety')); ?>" class="maintxt1">
                 <?=$ui->item('MSG_PAYMENTS_ARE_SECURE'); ?></a>
         </div>
+*/ ?>
     </div>
 </div>
 

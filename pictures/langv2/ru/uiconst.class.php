@@ -1085,6 +1085,7 @@ IBAN DE79514303006474790001 <br>
 'A_NEW_FILTER_SELECT' => 'Выбрано',
 'A_NEW_FILTER_VIEW' => 'Показать',
 'A_NEW_GOODS_CAT_TITLE' => 'Товары категории',
+'A_NEW_GOODS_RAZD_TITLE' => 'Товары раздела',
 'A_NEW_PEREP' => 'Переплет',
 'A_NEW_NOTREVIEWS' => 'Отзывов нет',
 'A_NEW_M1'=>'января',

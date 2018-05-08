@@ -1,4 +1,4 @@
-<h1 class="titlename"><?=$ui->item('A_NEW_GOODS_CAT_TITLE')?>: <?= Entity::GetTitle($entity) ?></h1>
+<h1 class="titlename"><?=((!$cid) ? $ui->item('A_NEW_GOODS_RAZD_TITLE') . ': ' . Entity::GetTitle($entity) : $ui->item('A_NEW_GOODS_CAT_TITLE') . ': ' . $title_cat); ?></h1>
 
 <div class="sortbox" style="float: right;">
                 <form method="GET">
