@@ -5,7 +5,7 @@ $siteLang = (isset(Yii::app()->language) && Yii::app()->language != '') ? Yii::a
     <div class="row">
         <div class="span10 listgoods" style="float: right;">
 
-            <h1 class="titlename"><?=$ui->item('A_NEW_GOODS_CAT_TITLE')?>: <?=((!$cid) ? Entity::GetTitle($entity) : $title_cat); ?></h1>  
+            <h1 class="titlename"><?=((!$cid) ? $ui->item('A_NEW_GOODS_RAZD_TITLE') . ': ' . Entity::GetTitle($entity) : $ui->item('A_NEW_GOODS_CAT_TITLE') . ': ' . $title_cat); ?></h1>
 			
 			<? if ($entity == 100) : ?>
 			Ведётся оптимизация раздела...
