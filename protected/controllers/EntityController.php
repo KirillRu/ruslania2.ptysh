@@ -302,6 +302,7 @@ class EntityController extends MyController {
         $items = $this->AppendCartInfo($items, $entity, $this->uid, $this->sid);
 
         $this->breadcrumbs[Entity::GetTitle($entity)] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[Yii::app()->ui->item('A_LEFT_BOOKS_SERIES_PROPERTYLIST')] = Yii::app()->createUrl('entity/serieslist', array('entity' => Entity::GetUrlKey($entity)));
         $this->breadcrumbs[] = sprintf(Yii::app()->ui->item('SERIES_IS'), ProductHelper::GetTitle($list[0]));
 
         $this->render('list', array('entity' => $entity,
@@ -353,6 +354,7 @@ class EntityController extends MyController {
         $items = $totalItems > 0 ? $this->AppendCartInfo($p->GetItems($entity, $pid, $paginatorInfo, $sort, Yii::app()->language, $avail), $entity, $this->uid, $this->sid) : array();
 
         $this->breadcrumbs[Entity::GetTitle($entity)] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[Yii::app()->ui->item('PROPERTYLIST_FOR_PUBLISHERS')] = Yii::app()->createUrl('entity/publisherlist', array('entity' => Entity::GetUrlKey($entity)));
         $this->breadcrumbs[] = sprintf(Yii::app()->ui->item('PUBLISHED_BY'), ProductHelper::GetTitle($publisher));
 
         $this->render('list', array('entity' => $entity,
@@ -433,8 +435,9 @@ class EntityController extends MyController {
         }
 
         $this->breadcrumbs[Entity::GetTitle($entity)] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[Yii::app()->ui->item('PROPERTYLIST_FOR_AUTHORS')] = Yii::app()->createUrl('entity/authorlist', array('entity' => Entity::GetUrlKey($entity)));
         $this->breadcrumbs[] = sprintf(Yii::app()->ui->item('YM_FILTER_WRITTEN_BY'), ProductHelper::GetTitle($author));
-		
+
 		$this->render('list', array('entity' => $entity,
             'paginatorInfo' => $paginatorInfo,
             'items' => $items,
@@ -536,6 +539,7 @@ class EntityController extends MyController {
         }
 
         $this->breadcrumbs[Entity::GetTitle($entity)] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[Yii::app()->ui->item('A_LEFT_AUDIO_AZ_PROPERTYLIST_PERFORMERS')] = Yii::app()->createUrl('entity/performerlist', array('entity' => Entity::GetUrlKey($entity)));
         $this->breadcrumbs[] = sprintf(Yii::app()->ui->item('READ_BY'), ProductHelper::GetTitle($performer));
 
         $this->render('list', array('entity' => $entity, 'paginatorInfo' => $paginatorInfo,
@@ -556,6 +560,7 @@ class EntityController extends MyController {
 
         $title = Entity::GetTitle($entity, Yii::app()->language);
         $this->breadcrumbs[$title] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[Yii::app()->ui->item('A_LEFT_VIDEO_AZ_PROPERTYLIST_DIRECTORS')] = Yii::app()->createUrl('entity/directorlist', array('entity' => Entity::GetUrlKey($entity)));
         $this->breadcrumbs[] = sprintf(Yii::app()->ui->item('DIRECTOR_IS'), ProductHelper::GetTitle($director->attributes));
 
         $totalItems = $vd->GetTotalItems($entity, $did, $avail);
@@ -584,6 +589,7 @@ class EntityController extends MyController {
 
         $title = Entity::GetTitle($entity, Yii::app()->language);
         $this->breadcrumbs[$title] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[Yii::app()->ui->item('A_LEFT_VIDEO_AZ_PROPERTYLIST_ACTORS')] = Yii::app()->createUrl('entity/actorlist', array('entity' => Entity::GetUrlKey($entity)));
         $this->breadcrumbs[] = sprintf(Yii::app()->ui->item('YM_FILTER_ACTOR_IS'), ProductHelper::GetTitle($actor->attributes));
 
         $totalItems = $va->GetTotalItems($entity, $aid, $avail);

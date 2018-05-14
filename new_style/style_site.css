@@ -637,6 +637,8 @@ li.dd_box .content a { padding: 0 }
     position: relative;
 }
 
+.select_lang:active .dd_select_lang, .dd_select_lang:hover { display: block;}
+
 .dd_select_lang .label_lang,.dd_select_valut .label_valut {
     margin: 0;
 }	
@@ -645,13 +647,12 @@ li.dd_box .content a { padding: 0 }
     position: absolute;
     left: 0px;
     padding: 0;
-    padding-right: 0;
-    padding-top: 0;
-    background-color: #fff;
     z-index: 99999;
     box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.1);
 	width: 141px;
 }
+
+.dd_select_lang {padding-top: 45px;}
 
 .dd_select_valut { width: 116px; }
 
@@ -805,6 +806,7 @@ h1.titlename {
     padding-right: 22px;
 }
 
+.listgoods.bookshelf ul.items li .span11 { width: 290px; }
 .listgoods ul.items li .span1.cart {
     width: 255px;
     text-align: left;
@@ -814,6 +816,9 @@ h1.titlename {
 	padding-bottom: 23px;
 	padding-top: 23px;
 }
+
+.listgoods.bookshelf ul.items li .span1.cart { width: 200px; }
+.listgoods.bookshelf ul.items li .span1.cart a.list_cart { width: 110px; }
 
 .ot-content {
 	
@@ -1215,6 +1220,8 @@ a.add_cart {
 	font-size: 13px;
 	
 }
+
+a.list_cart { width: 162px;font-size: 13px; }
 
 a.add_cart.no_img {
 	padding-right: 0;
@@ -2146,11 +2153,10 @@ p.cartInfo {
 	width: 99px;
 }
 
-.select_lang .label_lang:first-child {
-
+/*.select_lang .label_lang:first-child {*/
+.select_lang .label_lang.view_lang {
 	margin-top: -12px;
 	border: 0;
-
 }
 
 .select_lang { width: 99px; }
@@ -2160,6 +2166,7 @@ p.cartInfo {
 	padding: 12px 20px 12px 22px;
 	border-top: 1px solid #ececec;
 	margin: 0;
+    background-color: #fff;
 }
 
 .select_lang.act .label_lang.act {
@@ -2172,6 +2179,7 @@ p.cartInfo {
 
 .label_valut {
 	width: 74px;
+    background-color: #fff;
 }
 
 .label_valut.act {
