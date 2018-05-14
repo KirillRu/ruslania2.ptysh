@@ -8,6 +8,8 @@ class SortOptions
     const TimeHL = 8;
     const NewLH = 11;
     const NewHL = 12;
+    const DeliveryTimeLH = 15;
+    const DeliveryTimeHL = 16;
 
     public static function GetSortData()
     {
@@ -18,6 +20,8 @@ class SortOptions
             self::TimeHL => Yii::app()->ui->item('SORTBY_ALL_DATE_DESC'),
             self::NewLH => Yii::app()->ui->item('SORTBY_ALL_ADD_DATE_ASC'),
             self::NewHL => Yii::app()->ui->item('SORTBY_ALL_ADD_DATE_DESC'),
+            self::DeliveryTimeLH => Yii::app()->ui->item('SORTBY_ALL_DELIVERY_TIME_ASC'),
+            self::DeliveryTimeHL => Yii::app()->ui->item('SORTBY_ALL_DELIVERY_TIME_DESC'),
         );
     }
 
@@ -46,6 +50,8 @@ class SortOptions
             case self::PriceHL :
                 if($entity == Entity::PERIODIC) return ' t.sub_world_year DESC';
                 else return ' t.brutto DESC ';
+            case self::DeliveryTimeLH : return ' t.in_shop DESC, deliveryTime.delivery_unit, deliveryTime.delivery_type_name DESC ';
+            case self::DeliveryTimeHL : return ' t.in_shop DESC, deliveryTime.delivery_unit, deliveryTime.delivery_type_name ASC ';
             default : throw new CException('Sort not implemented '.$sort);
         }
     }

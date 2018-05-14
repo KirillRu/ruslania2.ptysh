@@ -4,12 +4,13 @@ class Availability
 {
     const MIN_ITEMS = 5;
 
-    const AVAIL_IN_SHOP = 1;
-    const ENDING_IN_SHOP = 2;
-    const TO_ORDER_FAST = 3; // Надо заказывать у поставщиков быстрые поставщики
-    const TO_ORDER_SLOW = 4; // медленные поставщики
-    const TEMPORARY_OUT = 5; //
-    const NOT_AVAIL_AT_ALL = 6;
+    const AVAIL_IN_SHOP = 1;    //В магазине
+    const ENDING_IN_SHOP = 2;   //Заканчивается в магазине
+    const TO_ORDER_FAST = 3;    // Надо заказывать у поставщиков быстрые поставщики
+    const TO_ORDER_SLOW = 4;    // Надо заказывать у поставщиков медленные поставщики
+    const TEMPORARY_OUT = 5;    // Временно отсутствует
+
+    const NOT_AVAIL_AT_ALL = 6; // Нет в ассортименте
 
     public static function GetStatus($item)
     {
@@ -91,5 +92,34 @@ class Availability
             }
 
         }
+    }
+
+    public static function ItemsSort($a, $b)
+    {
+        $codeA = self::GetStatus($a);
+        $codeB = self::GetStatus($b);
+        if (($codeA == $codeB) && (($codeA == self::ENDING_IN_SHOP) || ($codeA == self::AVAIL_IN_SHOP) || ($codeA == self::TEMPORARY_OUT) || ($codeA == self::NOT_AVAIL_AT_ALL))) return 0;
+        if ($codeA != $codeB) {
+            if ($codeA == self::ENDING_IN_SHOP) return -1;
+            if ($codeB == self::ENDING_IN_SHOP) return 1;
+        }
+        if ((($codeA == self::TO_ORDER_FAST) || ($codeA == self::TO_ORDER_SLOW)) && (($codeB == self::TO_ORDER_FAST) || ($codeB == self::TO_ORDER_SLOW))) {
+            if($a['DeliveryTime']['delivery_unit'] > $b['DeliveryTime']['delivery_unit']) return 1;
+            elseif ($a['DeliveryTime']['delivery_unit'] < $b['DeliveryTime']['delivery_unit']) return -1;
+            else {
+                if (explode('-', $a['DeliveryTime']['delivery_type_name'])[0] > explode('-', $b['DeliveryTime']['delivery_type_name'])[0]) return 1;
+                elseif (explode('-', $a['DeliveryTime']['delivery_type_name'])[0] < explode('-', $b['DeliveryTime']['delivery_type_name'])[0]) return -1;
+                else {
+                    if (explode('-', $a['DeliveryTime']['delivery_type_name'])[1] > explode('-', $b['DeliveryTime']['delivery_type_name'])[1]) return 1;
+                    elseif (explode('-', $a['DeliveryTime']['delivery_type_name'])[1] < explode('-', $b['DeliveryTime']['delivery_type_name'])[1]) return -1;
+                    else return 0;
+                }
+            }
+        }
+        if ($codeA > $codeB) return -1;
+        if ($codeA < $codeB) return 1;
+        return 0;
+        //if($a['DeliveryTime']['dtid'] == $b['DeliveryTime']['dtid']) return 0;
+        //return ($a['DeliveryTime']['dtid'] > $b['DeliveryTime']['dtid']) ? 1 : -1;
     }
 }

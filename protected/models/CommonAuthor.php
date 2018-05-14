@@ -166,6 +166,10 @@ class CommonAuthor extends CMyActiveRecord
         $dp->setCriteria($criteria);
         $dp->pagination = false;
 
+
+        /*echo '<pre>';
+        print_r($criteria); die();*/
+
         $data = $dp->getData();
 
         return Product::FlatResult($data);

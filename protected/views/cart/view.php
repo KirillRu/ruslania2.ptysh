@@ -51,13 +51,14 @@
 								<td>
 								<img width="31" height="31" align="middle"
                                      alt="" style="vertical-align: middle"
+                                     data-bind="attr: { alt: Title}"
                                      src="/pic1/cart_ibook.gif">
 								</td>
 								
 								
 								
 								<td style="padding-left: 20px;"><a
-                                    data-bind="attr: { href: Url}, text: Title"
+                                    data-bind="attr: { href: Url, title: Title},text: Title"
                                     class="maintxt1">
                                 </a>
                                 <p class="cartInfo" data-bind="text: InfoField, visible: InfoField() != null && InfoField().length > 0 "></p>

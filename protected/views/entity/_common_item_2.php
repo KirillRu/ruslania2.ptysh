@@ -8,10 +8,10 @@ $entityKey = Entity::GetUrlKey($entity);
     <div class="span1" style="position: relative">
         <?php $this->renderStatusLables(Product::GetStatusProduct($item['entity'], $item['id']))?>
         <?php if (isset($isList) && $isList) : ?>
-            <a href="<?= $url; ?>">
+            <a href="<?= $url; ?>" title="<?= ProductHelper::GetTitle($item); ?>">
                 <img height="241"
 
-                     src="<?= Picture::Get($item, Picture::BIG); ?>"></a>
+                     src="<?= Picture::Get($item, Picture::BIG); ?>" alt="<?= ProductHelper::GetTitle($item); ?>"></a>
             <?php else : ?>
             <a href="<?= Picture::Get($item, Picture::BIG); ?>" id="img<?= $item['id']; ?>">
                 <img width="150"

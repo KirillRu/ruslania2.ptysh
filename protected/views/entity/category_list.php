@@ -33,7 +33,7 @@ function printTree($tree, $entity, $parent = false, $lvl = 1)
 			} else {
 				echo '<li class="b-category-list__item '.$cross.' lvl'.$lvl.'">';
 			}
-            echo '<a class="b-category-list__link" href="'.Yii::app()->createUrl('entity/list',
+            echo '<a title="'.ProductHelper::GetTitle($node['payload']).'" class="b-category-list__link" href="'.Yii::app()->createUrl('entity/list',
                 array('entity' => Entity::GetUrlKey($entity),
                       'cid' => $node['payload']['id'],
                       'title' => ProductHelper::ToAscii(ProductHelper::GetTitle($node['payload'])))).'">'.ProductHelper::GetTitle($node['payload']).'</a>';
@@ -99,9 +99,9 @@ function printTree($tree, $entity, $parent = false, $lvl = 1)
 							<div class="b-user-seen__book">
           <div class="b-user-seen__img"><?php $url = ProductHelper::CreateUrl($igoods); ?>
 
-    <a href="<?=$url; ?>"><img src="<?=Picture::Get($igoods, Picture::SMALL); ?>" alt="" /></a></div>
+    <a href="<?=$url; ?>" title="<?=ProductHelper::GetTitle($igoods, 'title', 30); ?>"><img src="<?=Picture::Get($igoods, Picture::SMALL); ?>" alt="<?=ProductHelper::GetTitle($igoods, 'title', 30); ?>" /></a></div>
           <div class="b-user-seen__info">
-            <div class="b-user-seen__name"><a href="<?=$url; ?>"><?=ProductHelper::GetTitle($igoods, 'title', 30); ?></a></div>
+            <div class="b-user-seen__name"><a title="<?=ProductHelper::GetTitle($igoods, 'title', 30); ?>" href="<?=$url; ?>"><?=ProductHelper::GetTitle($igoods, 'title', 30); ?></a></div>
             <div class="b-user-seen__price"><?php if (!empty($price[DiscountManager::DISCOUNT])) : ?>
             <span style="font-size: 90%; color: #ed1d24; text-decoration: line-through;">
                 <?= ProductHelper::FormatPrice($price[DiscountManager::BRUTTO]); ?>

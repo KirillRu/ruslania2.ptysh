@@ -435,7 +435,7 @@ class EntityController extends MyController {
 
         $this->breadcrumbs[Entity::GetTitle($entity)] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
         $this->breadcrumbs[] = sprintf(Yii::app()->ui->item('YM_FILTER_WRITTEN_BY'), ProductHelper::GetTitle($author));
-		
+
 		$this->render('list', array('entity' => $entity,
             'paginatorInfo' => $paginatorInfo,
             'items' => $items,

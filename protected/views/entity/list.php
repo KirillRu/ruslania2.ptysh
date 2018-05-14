@@ -103,17 +103,20 @@ $siteLang = (isset(Yii::app()->language) && Yii::app()->language != '') ? Yii::a
                     if (file_exists(__DIR__.'/authors/'.$fileName.'.php')) {
                         $this->renderPartial('/entity/authors/' . $fileName);
                     }
-                    //else print_r('File not found: '.__DIR__.'\authors\\'.$fileName.'.php');
                 }
                 ?>
 
             <ul class="items">
                 <?php foreach ($items as $item) : ?>
                     <?php
+
                     $item['entity'] = $entity;
                     $key = 'itemlist_' . $entity . '_' . $item['id'];
                     ?>
                     <li>
+                        <?php echo '<pre>';
+                        print_r($item['DeliveryTime']);
+                        echo '</pre>';?>
                         <?php $this->renderPartial('_common_item_2', array('item' => $item, 'entity' => $entity, 'isList' => true)); ?>
                     </li>
                 <?php endforeach; ?>

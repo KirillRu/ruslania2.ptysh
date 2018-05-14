@@ -25,7 +25,7 @@
                     <?php foreach($models as $model) : ?>
                         <tr>
                         <td><?=Yii::app()->dateFormatter->format('dd MMM yyyy', $model['date_of']); ?></td>
-                        <td><a href="<?=Yii::app()->createUrl('/bookshelf/view', array('id' => $model['bookshelf_id'])); ?>"><?=CHtml::encode($model['title']); ?></a></td>
+                        <td><a title="<?=CHtml::encode($model['title']); ?>" href="<?=Yii::app()->createUrl('/bookshelf/view', array('id' => $model['bookshelf_id'])); ?>"><?=CHtml::encode($model['title']); ?></a></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>

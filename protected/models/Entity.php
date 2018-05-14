@@ -129,8 +129,7 @@ class Entity {
         $criteria->select = array('*', $entity . ' AS entity');
 
         $dp->criteria = $criteria;
-        
-        
+
         //var_dump($criteria->select);
         
         return $dp;

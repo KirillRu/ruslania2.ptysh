@@ -7,7 +7,7 @@ $entityKey = Entity::GetUrlKey($entity);
     <div class="wrapmiddle">
     <div class="middle text" style="height:auto!important;">
     <?php if (isset($isList) && $isList) : ?>
-        <a href="<?= $url; ?>" class="title"><?= ProductHelper::GetTitle($item); ?></a>
+        <a href="<?= $url; ?>" class="title" title="<?= ProductHelper::GetTitle($item); ?>"><?= ProductHelper::GetTitle($item); ?></a>
         <div class="binfo">
         </div>
     <?php else : ?>
@@ -365,15 +365,15 @@ $entityKey = Entity::GetUrlKey($entity);
     </div>
     <div class="left">
         <?php if (isset($isList) && $isList) : ?>
-            <a href="<?= $url; ?>">
+            <a href="<?= $url; ?>"  title="<?= $authorTitle; ?>">
                 <img width="150"
 
-                     src="<?= Picture::Get($item, Picture::SMALL); ?>"></a>
+                     src="<?= Picture::Get($item, Picture::SMALL); ?>" alt="<?= $authorTitle; ?>"></a>
         <?php else : ?>
-            <a href="<?= Picture::Get($item, Picture::BIG); ?>" id="img<?= $item['id']; ?>">
+            <a href="<?= Picture::Get($item, Picture::BIG); ?>" title="<?= $authorTitle; ?>" id="img<?= $item['id']; ?>">
                 <img width="150"
 
-                     src="<?= Picture::Get($item, Picture::SMALL); ?>">
+                     src="<?= Picture::Get($item, Picture::SMALL); ?>" alt="<?= $authorTitle; ?>">
             </a>
             <script type="text/javascript">
                 $('#img<?=$item['id']; ?>').prettyPhoto({social_tools: false});

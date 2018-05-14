@@ -29,7 +29,7 @@
                             array('entity' => Entity::GetUrlKey($entity),
                                   'pid' => $item['id'],
                                   'title' => $title
-                            )); ?>"><?=$title; ?></a></li>
+                            )); ?>" title="<?=$title; ?>"><?=$title; ?></a></li>
                     <?php endforeach; ?>
                 </ul>
             </div>

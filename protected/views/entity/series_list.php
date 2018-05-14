@@ -21,7 +21,7 @@
                                 array('entity' => Entity::GetUrlKey($entity),
                                       'sid' => $item['id'],
                                       'title' => ProductHelper::ToAscii($title)
-                                 )); ?>"><?=$title;?></a></li>
+                                 )); ?>" title="<?=$title;?>"><?=$title;?></a></li>
                     <?php endforeach; ?>
                 </ul>
             </div>

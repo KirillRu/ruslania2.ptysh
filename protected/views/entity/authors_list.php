@@ -121,7 +121,7 @@
                                 array('entity' => Entity::GetUrlKey($entity),
                                       $idName => $item['id'],
                                       'title' => ProductHelper::ToAscii($title)
-                                )); ?>"><?=$title; ?></a></li>
+                                )); ?>" title="<?=$title; ?>"><?=$title; ?></a></li>
                     <?php endforeach; ?>
 					
                 </ul>
@@ -175,7 +175,7 @@
         									<div class="span1 photo new">
         										<?php $url = ProductHelper::CreateUrl($igoods); ?>
 
-            <a href="<?=$url; ?>"><img src="<?=Picture::Get($igoods, Picture::SMALL); ?>" alt="" /></a>
+            <a href="<?=$url; ?>" title="<?=ProductHelper::GetTitle($igoods, 'title', 30); ?>"><img src="<?=Picture::Get($igoods, Picture::SMALL); ?>" alt="<?=ProductHelper::GetTitle($igoods, 'title', 30); ?>" /></a>
 
         									</div>
         									<div class="span2 text">
