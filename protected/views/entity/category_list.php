@@ -58,6 +58,7 @@ function printTree($tree, $entity, $parent = false, $lvl = 1)
 		}
 }
 ?>
+<?php $this->widget('TopBar', array('breadcrumbs' => $this->breadcrumbs)); ?>
 <section class="b-all-category">
 	<div class="container b-all-category__wrapper">
 	

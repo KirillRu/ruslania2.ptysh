@@ -1005,37 +1005,16 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 												'se' => $ui->item('A_LANG_SWEDISH')
 											);
 											?>
-                                            <div class="label_lang" onclick="$('.dd_select_lang').toggle(); $(this).toggleClass('act'); $(this).parent().toggleClass('act')">
-                                                <span class="lang <?=Yii::app()->language;?>"><a href="javascript:;"><?=$arrLangsTitle[Yii::app()->language]; ?></a> <span class="dd"></span></span>
-                                            </div>
-
                                             <div class="dd_select_lang">
+                                                <?php foreach ($arrLangsTitle as $k=>$v):?>
+                                                    <div class="label_lang">
+                                                        <span class="lang <?= $k ?>"><a href="<?= MyUrlManager::RewriteCurrent($this, $k); ?>"><?=$v?></a></span>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                           </div>
 
-                                                <div class="label_lang">
-                                                    <span class="lang ru"><a href="<?= MyUrlManager::RewriteCurrent($this, 'ru'); ?>"><?=$ui->item('A_LANG_RUSSIAN')?></a></span>
-                                                </div>
-                                                <div class="label_lang">
-                                                    <span class="lang ru"><a href="<?= MyUrlManager::RewriteCurrent($this, 'rut'); ?>"><?=$ui->item('A_LANG_TRANSLIT')?></a></span>
-                                                </div>
-                                                <div class="label_lang">
-                                                    <span class="lang fi"><a href="<?= MyUrlManager::RewriteCurrent($this, 'fi'); ?>"><?=$ui->item('A_LANG_FINNISH')?></a></span>
-                                                </div>
-                                                <div class="label_lang">
-                                                    <span class="lang en"><a href="<?= MyUrlManager::RewriteCurrent($this, 'en'); ?>"><?=$ui->item('A_LANG_ENGLISH')?></a></span>
-                                                </div>
-                                                <div class="label_lang">
-                                                    <span class="lang de"><a href="<?= MyUrlManager::RewriteCurrent($this, 'de'); ?>"><?=$ui->item('A_LANG_GERMAN')?></a></span>
-                                                </div>
-                                                <div class="label_lang">
-                                                    <span class="lang fr"><a href="<?= MyUrlManager::RewriteCurrent($this, 'fr'); ?>"><?=$ui->item('A_LANG_FRENCH')?></a></span>
-                                                </div>
-                                                <div class="label_lang">
-                                                    <span class="lang es"><a href="<?= MyUrlManager::RewriteCurrent($this, 'es'); ?>"><?=$ui->item('A_LANG_ESPANIOL')?></a></span>
-                                                </div>
-                                                <div class="label_lang">
-                                                    <span class="lang se"><a href="<?= MyUrlManager::RewriteCurrent($this, 'se'); ?>"><?=$ui->item('A_LANG_SWEDISH')?></a></span>
-                                                </div>
-
+                                            <div class="label_lang view_lang" onclick="$('.dd_select_lang').toggle(); $(this).toggleClass('act'); $(this).parent().toggleClass('act')">
+                                                <span class="lang <?=Yii::app()->language;?>"><a href="javascript:;"><?=$arrLangsTitle[Yii::app()->language]; ?></a> <span class="dd"></span></span>
                                             </div>
 
                                         </div>
@@ -1421,8 +1400,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 
         </div>
 		
-		
-		
+
         <?= $content; ?>
 
 

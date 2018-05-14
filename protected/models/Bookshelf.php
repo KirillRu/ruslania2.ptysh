@@ -17,5 +17,4 @@ class Bookshelf extends CActiveRecord
         return Yii::app()->db;
     }
 
-
 }

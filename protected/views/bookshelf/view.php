@@ -11,7 +11,7 @@
 
             <table width="100%" cellspacing="0" cellpadding="0" style="vertical-align: top;">
                 <tr>
-                    <td width="35%" valign="top">
+                    <td width="35%" valign="top" style="padding-right: 20px;">
                         <h2><?=CHtml::encode($model['title']); ?></h2>
                         <p><?=nl2br(CHtml::encode($model['small_desc'])); ?></p>
 
@@ -36,18 +36,18 @@
                                     <td width="100%" class="maintxt" style="padding: 2px;"><a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($data['entity']))); ?>" class="ctitle"><?=Entity::GetTitle($data['entity']); ?></a></td>
                                 </tr>
                             </table>
-
+                            <div class="listgoods bookshelf">
                             <ul class="items">
                                 <?php foreach($data['items'] as $item) : ?>
                                     <?php $item['entity'] = $data['entity']; ?>
                                     <li>
-                                        <?php $this->renderPartial('_bookshelf_item',
+                                        <?php $this->renderPartial(/*'_bookshelf_item'*/'/entity/_common_item_2',
                                             array('item' => $item,
                                                 'entity' => $data['entity'], 'isList' => true)); ?>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
-
+                            </div>
 
                         <?php endforeach; ?>
 
