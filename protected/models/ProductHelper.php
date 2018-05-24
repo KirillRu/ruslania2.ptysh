@@ -407,7 +407,8 @@ class ProductHelper
 		return $rows;
 		
 	}
-public function GetTypes($entity, $bid)
+	
+	public function GetTypes($entity, $bid)
     {
         
         $table = '`pereodics_types`';
@@ -416,5 +417,19 @@ public function GetTypes($entity, $bid)
         $row = Yii::app()->db->createCommand($sql)->queryRow(true, array(':id' => $bid));
         return $row;
     }
+	
+	public function GetTypesPrinted($entity, $bid)
+    {
+        
+        $table = '`printed_types`';
+
+        $sql = 'SELECT * FROM '.$table.' WHERE id=:id';
+        $row = Yii::app()->db->createCommand($sql)->queryRow(true, array(':id' => $bid));
+        return $row;
+    }
+	
+	
+	
+	
 }
 

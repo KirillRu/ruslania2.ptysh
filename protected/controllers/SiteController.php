@@ -91,8 +91,10 @@ class SiteController extends MyController {
 
     public function actionStatic($page) {
         $file = Yii::getPathOfAlias('webroot') . '/pictures/templates-static/' . $page . '_' . Yii::app()->language . '.html.php';
-        if (!file_exists($file))
+        if ($page == 'sitemap') $file = (new Sitemap)->builder();
+        if (!file_exists($file)) {
             throw new CHttpException(404);
+        }
         $data = file_get_contents($file);
 
         $titles = array(
@@ -112,6 +114,7 @@ class SiteController extends MyController {
             'safety' => 'MSG_YAHLIST_INFO_PAYMENTS_ARE_SECURE',
             'zone_info' => 'Zone',
             'paypal' => 'MSG_WHAT_IS_PAYPAL',
+            'sitemap' => 'A_SITEMAP',
         );
 
         $this->breadcrumbs[] = Yii::app()->ui->item($titles[$page]);

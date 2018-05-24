@@ -1,0 +1,1 @@
+<STRONG><FONT color=#ff0000>Ruslania wishes all customers  <br>merry Christmas and happy new year!</FONT></STRONG>

@@ -80,7 +80,7 @@
         <tr>
             <td><?=$ui->item('CATALOGINDEX_CHANGE_LANGUAGE'); ?>:</td>
             <?php $langList = CHtml::listData(Language::GetItemsLanguageList(), 'id', 'title_'.Yii::app()->language); ?>
-            <td><?=CHtml::dropDownList('l', $lang, $langList, array('empty' => '---')); ?></td>
+            <td id="language_select"><?=CHtml::dropDownList('l', $lang, $langList, array('empty' => '---')); ?></td>
         </tr>
         <tr>
             <td><?=trim(sprintf($ui->item('PUBLISHED_IN_YEAR'), '')); ?>:</td>
@@ -125,6 +125,30 @@
 
     var vm = new VM();
     ko.applyBindings(vm, $('#advsearch')[0]);
+
+    $(document).ready(function () {
+        priorityLanguages = [7, 8, 14, 9];
+        sortLanguages(priorityLanguages);
+    });
+
+    function sortLanguages(priority) {
+        console.log($("#language_select select option[value=7]"));
+        var select = $("#language_select select");
+        var listOptions = select.children().get();
+        listOptions.sort(function(a, b) {
+            var compA = $(a).text().toUpperCase();
+            var compB = $(b).text().toUpperCase();
+            return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
+        });
+        select.append($("#language_select select option[value='']"));
+        $.each(priority, function (idx, itm) {
+            select.append($("#language_select select option[value="+itm+"]"));
+        });
+        $.each(listOptions, function(idx, itm) {
+            if (itm.value != '' && priority.indexOf(Number(itm.value)) == -1 )
+            select.append(itm);
+        });
+    }
 
 </script>
 

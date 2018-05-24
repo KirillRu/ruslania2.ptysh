@@ -1,0 +1,1 @@
+<STRONG><FONT color=#ff0000>Ruslania wunscht Ihnen frohe <br>Weihachten und ein gluckliches Neues Jahr!</FONT></STRONG>

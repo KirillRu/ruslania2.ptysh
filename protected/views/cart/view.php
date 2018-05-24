@@ -1,4 +1,13 @@
-<?php KnockoutForm::RegisterScripts(); ?>
+<?php
+/**
+ * @var $CartItems IteratorsCart в корзине, когда корзина пуста, то в итераторе лежит товар с пустыми данными для js
+ * @var $EndedItems IteratorsCart в корзине, но тираж закончился
+ * @var $isCart bool признак - козина (false - пуста)
+ * @var $isEnded bool
+ */
+
+KnockoutForm::RegisterScripts();
+?>
             <?php $this->widget('TopBar', array('breadcrumbs' => $this->breadcrumbs)); ?>
 <div class="container cabinet">
 			
@@ -7,22 +16,19 @@
 			<div class="span10">
 			
 			<h1 class="title">Корзина</h1>
-			
-			
-
-
             <div id="cart">
 			
-				<p style="display: none" data-bind="visible: CartItems().length > 0">
+				<p style="display: none"data-bind="visible: CartItems().length > 0">
                                     <?=$ui->item('new (shopping cart)'); ?>
                                 </p>
 			
-                <div data-bind="visible: FirstLoad" class="center cartload">
+                <div data-bind="visible: FirstLoad" class="center cartload"<?php if($isCart):?> style="display: none;"<?php endif; ?>>
                     <?=$ui->item('CART_IS_LOADING'); ?><br/><br/>
                     <img src="/pic1/loader.gif"/>
                 </div>
 
                 <!-- content -->
+                <form action="/cart/doorder" method="get" onsubmit="return false;">
                 <div data-bind="visible:  CartItems().length > 0">
                     <table width="100%" cellspacing="1" cellpadding="5" border="0" class="cart1 items_tbl"
                            style="margin-bottom: 10px; margin-top: 15px;">
@@ -43,37 +49,35 @@
                                 class="cart1header1"><?= $ui->item("CART_COL_DELETE"); ?></th>
                         </tr>
                         </thead>
-                        <tbody class="items" data-bind="foreach: CartItems">
-                        <tr>
+                        <tbody class="items"><!-- ko foreach: CartItems -->
+                        <?php foreach($CartItems as $i=>$cart): ?>
+                        <tr<?php if (!empty($i)): ?> class="js_ko_not"<?php endif; ?>>
                             <td valign="middle" class="cart1contents1">
                                 <table>
 								<tr>
 								<td>
 								<img width="31" height="31" align="middle"
-                                     alt="" style="vertical-align: middle"
+                                     alt="<?= htmlspecialchars($cart['Title']) ?>" style="vertical-align: middle"
                                      data-bind="attr: { alt: Title}"
                                      src="/pic1/cart_ibook.gif">
 								</td>
-								
-								
-								
-								<td style="padding-left: 20px;"><a
+								<td style="padding-left: 20px;"><a href="<?= $cart['Url'] ?>" title="<?= htmlspecialchars($cart['Title']) ?>"
                                     data-bind="attr: { href: Url, title: Title},text: Title"
-                                    class="maintxt1">
+                                    class="maintxt1"><?= htmlspecialchars($cart['Title']) ?>
                                 </a>
-                                <p class="cartInfo" data-bind="text: InfoField, visible: InfoField() != null && InfoField().length > 0 "></p>
+                                <p class="cartInfo" data-bind="text: InfoField, visible: InfoField() != null && InfoField().length > 0 "><?= htmlspecialchars($cart['InfoField']) ?></p>
 								</td>
 								</tr>
 								</table>
                             </td>
 							 <td valign="middle" align="center" class="cart1contents1">
-                <span data-bind="text: AvailablityText"></span>
+                <span data-bind="text: AvailablityText"><?= htmlspecialchars($cart['AvailablityText']) ?></span>
             </td>
                             <td valign="middle" nowrap="true" align="center" class="cart1contents1 center">
-                                <span data-bind="text: $root.ReadyPriceStr($data), visible: DiscountPercent() == 0"></span>
+                                <span data-bind="text: $root.ReadyPriceStr($data), visible: DiscountPercent() == 0"><?= ((float)$cart['DiscountPercent']>0)?'':$cart['ReadyPriceStr'] ?></span>
                                 <div data-bind="visible: DiscountPercent() > 0">
-                                    <s data-bind="text: PriceOriginal"></s><br/>
-                                    <span data-bind="text: $root.ReadyPriceStr($data)"></span>
+                                    <s data-bind="text: PriceOriginal"><?= ((float)$cart['DiscountPercent']>0)?$cart['PriceOriginal']:'' ?></s><br/>
+                                    <span data-bind="text: $root.ReadyPriceStr($data)"><?= ((float)$cart['DiscountPercent']>0)?$cart['ReadyPriceStr']:'' ?></span>
                                 </div>
 
                             </td>
@@ -81,11 +85,13 @@
 <!--                                <span data-bind="text: VAT"></span>%-->
 <!--                            </td>-->
                             <td valign="middle" align="center" class="cart1contents1" nowrap>
-                                <!--<a href="javascript:;" style="margin-right: 9px;" data-bind="event : { click : $root.QuantityChangedMinus }"><img src="/new_img/cart_minus.png" /></a>--> <input type="text" size="3" class="cart1contents1 center" style="margin: 0;" 
-                                       data-bind="value: Quantity, event : { blur : $root.QuantityChanged }, id : 'field'"> <!--<a href="javascript:;" style="margin-left: 9px;"><img src="/new_img/cart_plus.png" data-bind="event : { click : $root.QuantityChangedPlus }"/></a> -->
+                                <!--<a href="javascript:;" style="margin-right: 9px;" data-bind="event : { click : $root.QuantityChangedMinus }"><img src="/new_img/cart_minus.png" /></a>-->
+                                <input name="quantity[<?= (int) $cart['ID'] ?>]" type="text" size="3" class="cart1contents1 center" value="<?= (int) $cart['Quantity'] ?>" style="margin: 0;" data-bind="value: Quantity, event : { blur : $root.QuantityChanged }, id : 'field'"> <!--<a href="javascript:;" style="margin-left: 9px;"><img src="/new_img/cart_plus.png" data-bind="event : { click : $root.QuantityChangedPlus }"/></a> -->
+                                <input<?php if (empty($i)): ?> class="js_ko_not"<?php endif; ?> type="hidden" name="entity[<?= (int) $cart['ID'] ?>]" value="<?= (int) $cart['Entity'] ?>">
+                                <input<?php if (empty($i)): ?> class="js_ko_not"<?php endif; ?> type="hidden" name="type[<?= (int) $cart['ID'] ?>]" value="<?= (int) $cart['Price2Use'] ?>">
                             </td>
                             <td valign="middle" nowrap="" align="center" class="cart1contents1">
-                                <span data-bind="text: $root.LineTotalVAT($data)"></span>
+                                <span data-bind="text: $root.LineTotalVAT($data)"><?= $cart['LineTotalVAT'] ?></span>
                                 <?=Currency::ToSign(Yii::app()->currency); ?>
                             </td>
                             <td valign="middle" align="center" class="cart1contents1">
@@ -95,15 +101,15 @@
                                 <a href="javascript:;" data-bind="click: function(data, event) { cvm.RemoveFromCart(data, <?=Cart::TYPE_ORDER; ?>); }"><img src="/new_img/del_cart.png" /></a>
                             </td>
                         </tr>
-                        </tbody>
+                        <?php endforeach; ?>
+                        <!-- /ko --></tbody>
                         <tr class="footer">
-                            <td align="right" class="cart1header2" colspan="6"><div class="summa"><?=$ui->item('CART_COL_TOTAL_PRICE'); ?>, <span data-bind="text: IsVATInPrice()"></span>:
-								
+                            <td align="right" class="cart1header2" colspan="6"><div class="summa"><?=$ui->item('CART_COL_TOTAL_PRICE'); ?>, <span data-bind="text: IsVATInPrice()"><?= $CartItems->isVATInPrice() ?></span>:
 								<span style="font-weight: bold;" data-bind="visible: !AjaxCall()">
-                                        <span data-bind="text: TotalVAT"></span>
-                                        <?=Currency::ToSign(Yii::app()->currency); ?>
-                                 </span>
-                                <span data-bind="visible: AjaxCall"><?=$ui->item('UPDATING'); ?></span>
+                                        <span data-bind="text: TotalVAT"><?= $CartItems->totalVAT() ?></span>
+                                        <?= Currency::ToSign(Yii::app()->currency); ?>
+                                </span>
+                                <span data-bind="visible: AjaxCall" style="display: none;"><?=$ui->item('UPDATING'); ?></span>
 								</div>
 							
                                 <div data-bind="visible: UsingMinPrice" style="color: #999999">
@@ -121,30 +127,30 @@
                         <tr>
                             <td colspan="8" class="order_start_box" class="cart1header2" align="right">
                                 <a href="/cart/doorder" class="order_start" data-bind="visible: CartItems().length > 0 && !AjaxCall() && TotalVAT() > 0">
-                                    Оформить заказ
+                                    <button type="submit" onclick="return false;" style="border: none; background: none; padding: 0; color:#fff; font-weight: bold;"><?= $ui->item("CONFIRM_ORDER"); ?></button>
                                 </a>
-
-                                
-
                             </td>
                         </tr>
                     </table>
 
 
                 </div>
+                </form>
 
-                <table border="0" cellspacing="5" data-bind="visible: CartItems().length == 0 && !FirstLoad()">
+                <table border="0" cellspacing="5" data-bind="visible: CartItems().length == 0 && !FirstLoad()"<?php if ($isCart):?> style="display: none;" <?php endif; ?>>
                     <tr>
                         <td class="maintxt"><?= $ui->item("MSG_CART_ERROR_EMPTY"); ?></td>
                     </tr>
                 </table>
 
-                <div data-bind="visible:  EndedItems().length > 0" class="information info-box">
+                <div data-bind="visible:  EndedItems().length > 0" class="information info-box"<?php if (!$isEnded):?> style="display: none;" <?php endif; ?>>
                     <p>
                     <?=$ui->item('MOVED_TO_WAITING_LIST'); ?>
                     </p>
                     <ul data-bind="foreach: EndedItems">
-                        <li><span data-bind="text: Title"></span></li>
+                        <?php foreach($EndedItems as $cart): ?>
+                        <li><span data-bind="text: Title"><?= htmlspecialchars($cart['Title']) ?></span></li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
             </div>
@@ -164,10 +170,14 @@
 
     var cartVM = function ()
     {
+        $('.js_ko_not').remove();
         var self = this;
-        self.FirstLoad = ko.observable(true);
-        self.CartItems = ko.observableArray([]);
-        self.EndedItems = ko.observableArray([]);
+        self.FirstLoad = ko.observable(false);
+        ko.mapping.fromJS(<?= json_encode(array(
+            'CartItems'=>$isCart?$CartItems->getArrayCopy():array(),
+            'EndedItems'=>$isEnded?$EndedItems->getArrayCopy():array(),
+        )) ?>, {}, self);
+
         self.RequestItems = ko.observableArray([]);
         self.AjaxCall = ko.observable(false);
 
@@ -403,20 +413,21 @@
     };
 
     var cvm = new cartVM();
-    CartFirstState = $('#cart').clone();
+//    CartFirstState = $('#cart').clone();
     
     ko.applyBindings(cvm, $('#cart')[0]);
-
-    $(document).ready(function ()
-    {
-        var data = { language: '<?=Yii::app()->language; ?>'};
-        $.getJSON('/cart/getall', data, function (json)
-        {
-            ko.mapping.fromJS(json, {}, cvm);
-            cvm.FirstLoad(false);
-        });
-    });
-
+//    $(document).ready(function () {
+//        var data = { language: '<?//=Yii::app()->language; ?>//'};
+//        $.getJSON('/cart/getall', data, function (json)
+//        {
+//            ko.mapping.fromJS(<?//= json_encode(array(
+//                'CartItems'=>$isCart?$CartItems->getArrayCopy():array(),
+//                'EndedItems'=>$isEnded?$EndedItems->getArrayCopy():array(),
+//            )) ?>//, {}, cvm);
+//            cvm.FirstLoad(false);
+//        console.log(cvm.CartItems);
+//        });
+//    });
     $(document).ajaxStart(function ()
     {
         cvm.AjaxCall(true)
@@ -424,7 +435,7 @@
         {
             cvm.AjaxCall(false);
         });
-    
+
     //function update_cart() {
      //   ko.applyBindings(cvm, CartFirstState[0]);
         

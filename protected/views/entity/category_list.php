@@ -62,6 +62,11 @@ function printTree($tree, $entity, $parent = false, $lvl = 1)
 <section class="b-all-category">
 	<div class="container b-all-category__wrapper">
 	
+		<div class="b-category-list">
+
+
+		<?php printTree($tree, $entity, false); ?>
+	</div>
 		<div class="b-user-seen">
         <div class="b-user-seen__topic"><?=$ui->item('A_NEW_VIEWD_ITEMS')?>:</div>
 		
@@ -138,10 +143,5 @@ function printTree($tree, $entity, $parent = false, $lvl = 1)
         
       </div>
 		
-		<div class="b-category-list">
-		
-	
-		<?php printTree($tree, $entity, false); ?>
-	</div>
-	
+
 </section>

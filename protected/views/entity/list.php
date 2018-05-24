@@ -12,85 +12,37 @@ $siteLang = (isset(Yii::app()->language) && Yii::app()->language != '') ? Yii::a
 			<? else : ?>
 			
             <div class="sortbox" style="float: right;">
+                <?php //if (isset($_GET['ha'])): ?>
+                    <?=$ui->item('A_NEW_FILTER_SORT_FOR')?>
+                    <?php
+                    $value = SortOptions::GetDefaultSort(Yii::app()->getRequest()->getParam('sort'));
+                    $this->widget('SelectSimulator', array('items'=>SortOptions::GetSortData(), 'paramName'=>'sort', 'selected'=>$value, 'style'=>'float:right; margin-left:10px;'));
+                    ?>
+                <?php /*else: ?>
                 <form method="GET">
                     <?=$ui->item('A_NEW_FILTER_SORT_FOR')?> <?php $value = SortOptions::GetDefaultSort(@$_GET['sort']) ?>
                     <?= CHtml::dropDownList('sort', $value, SortOptions::GetSortData(), array('onchange' => '$(this).parent().submit()', 'style'=>'width: auto;')); ?>
 					
-					<? if ($_GET['lang']) : ?>
+					<? if (Yii::app()->getRequest()->getParam('lang')) : ?>
 					
-					<input type="hidden" name="lang" value="<?=$_GET['lang']?>"/>
+					<input type="hidden" name="lang" value="<?=Yii::app()->getRequest()->getParam('lang')?>"/>
 					
 					<? endif; ?>
 					
                 </form>
+                <?php endif; */?>
             </div>
-			
 			<div class="sortbox langsel">
+                <?php //if (isset($_GET['ha'])): ?>
+                    <?php $this->widget('SelectSimulator', array('items'=>ProductLang::getLangs($entity, empty($cat_id)?null:$cat_id), 'paramName'=>'lang')); ?>
+                <?php /*else: ?>
                 <form method="GET">
-				
-                    <select name="lang" onchange="$(this).parent().submit()"><option value=""><?=$ui->item('A_NEW_FILTER_TITLE_LANG')?><?=$ui->item('A_NEW_FILTER_ALL')?></option>
-					
-					<?
-					
-					
-					
-					$entities = Entity::GetEntitiesList();
-					$tbl = $entities[$entity]['site_table'];
-					
-					$sql = 'SELECT ln.id as lnid, ln.title_'.Yii::app()->language.' AS lntitle FROM `all_items_languages` AS ail, `languages` AS ln, `'.$tbl.'` AS t WHERE ln.id = ail.language_id AND
-					ail.entity = '.$entity.' AND
-					ail.item_id = t.id';
-					
-					if ($cat_id) {
-					
-						$sql .= ' AND (t.code = '.$cat_id['id'].' OR t.subcode = '.$cat_id['id'].')';
-					
-					}
-					
-					$arrFirstLang = array(1,2,3,4);
-					$arrMoreLang = array();
-					$sql .= ' GROUP BY ln.id ORDER BY ln.title_'.Yii::app()->language.' ASC';
-			 
-					$rows = Yii::app()->db->createCommand($sql)->queryAll();
-					
-					foreach ($rows as $row)
-					{
-						$sel='';
-						if ($_GET['lang'] == $row['lnid']) {
-							$sel = ' selected="selected"';
-						}
-						
-						switch ($row['lnid']) {
-							
-							case 7: $arrFirstLang[0] = '<option value="'.$row['lnid'].'"'.$sel.'>'.$ui->item('A_NEW_FILTER_TITLE_LANG').$row['lntitle'].'</option>'; break;
-							case 14: $arrFirstLang[1] = '<option value="'.$row['lnid'].'"'.$sel.'>'.$ui->item('A_NEW_FILTER_TITLE_LANG').$row['lntitle'].'</option>'; break;
-							case 9: $arrFirstLang[2] = '<option value="'.$row['lnid'].'"'.$sel.'>'.$ui->item('A_NEW_FILTER_TITLE_LANG').$row['lntitle'].'</option>'; break;
-							case 8: $arrFirstLang[3] = '<option value="'.$row['lnid'].'"'.$sel.'>'.$ui->item('A_NEW_FILTER_TITLE_LANG').$row['lntitle'].'</option>'; break;
-							default: 
-
-							$arrMoreLang[] = '<option value="'.$row['lnid'].'"'.$sel.'>'.$ui->item('A_NEW_FILTER_TITLE_LANG').$row['lntitle'].'</option>';
-							
-							break;
-						}
-						
-					}
-					
-					$arrlangs = array_merge($arrFirstLang, $arrMoreLang);
-					
-					echo implode("\n", $arrlangs);
-					
-					
-					?>
-					
-					</select>
-					
-					<? if ($_GET['sort']) : ?>
-					
-					<input type="hidden" name="sort" value="<?=$_GET['sort']?>"/>
-					
-					<? endif; ?>
-					
+                    <?= CHtml::dropDownList('lang', (int) Yii::app()->getRequest()->getParam('lang'), ProductLang::getLangs($entity, empty($cat_id)?null:$cat_id), array('onchange' => '$(this).closest(\'form\').submit()', 'style'=>'width: auto;')); ?>
+					<?php if ($sort = Yii::app()->getRequest()->getParam('sort')) : ?>
+					<input type="hidden" name="sort" value="<?=$sort?>"/>
+					<?php endif; ?>
                 </form>
+                <?php endif;*/ ?>
             </div>
 			<div style="margin: 5px 0 ;">
 			<?//=sprintf($ui->item('X items here'), $total)?>
@@ -114,9 +66,9 @@ $siteLang = (isset(Yii::app()->language) && Yii::app()->language != '') ? Yii::a
                     $key = 'itemlist_' . $entity . '_' . $item['id'];
                     ?>
                     <li>
-                        <?php echo '<pre>';
+                        <?php /*echo '<pre>';
                         print_r($item['DeliveryTime']);
-                        echo '</pre>';?>
+                        echo '</pre>';*/?>
                         <?php $this->renderPartial('_common_item_2', array('item' => $item, 'entity' => $entity, 'isList' => true)); ?>
                     </li>
                 <?php endforeach; ?>
@@ -189,12 +141,12 @@ $siteLang = (isset(Yii::app()->language) && Yii::app()->language != '') ? Yii::a
 
             <h2 class="filter"><?=$ui->item('A_NEW_SETTINGS_FILTER'); ?>:</h2>
 
-            <form method="post" action="" class="filter">
+            <form method="get" action="" class="filter">
 
-                <input type="hidden" name="langsel" class="langsel" value="<?=$_GET['lang']; ?>"/>
+                <input type="hidden" name="lang" class="lang" value="<?= Yii::app()->getRequest()->getParam('lang'); ?>"/>
                 <input type="hidden" name="entity_val" class="entity_val" value="<?= $entity ?>"/>
                 <input type="hidden" name="cid_val" class="cid_val" value="<?= $cid ?>"/>
-                <input type="hidden" name="sort" class="sort" value="<?= ($_GET['sort']) ? $_GET['sort'] : 12 ?>"/>
+                <input type="hidden" name="sort" class="sort" value="<?= (Yii::app()->getRequest()->getParam('sort')) ? Yii::app()->getRequest()->getParam('sort') : 12 ?>"/>
                 <div class="form-row">
                     <label class="title"><?=$ui->item('A_NEW_SEARCH_CAT'); ?></label>
                     <input type="text" class="search inp" placeholder="<?=$ui->item('A_NEW_NAME_ISBN'); ?>" name="name_search" onkeyup="if ($(this).val().length > 2) { show_result_count($(this)); } else { $('.box_select_result_count').hide(1); }"/>
@@ -604,6 +556,7 @@ $siteLang = (isset(Yii::app()->language) && Yii::app()->language != '') ? Yii::a
 
 
                     </div><?php } ?>
+                <input type="submit" value="<?= $ui->item('BTN_SEARCH_ALT') ?>" class="js_without">
             </form>
 
 
@@ -612,6 +565,10 @@ $siteLang = (isset(Yii::app()->language) && Yii::app()->language != '') ? Yii::a
     </div>
 </div>
 <script>
+    $(document).ready(function () {
+        //это для случая, когда нет js
+        $('.js_without').toggle();
+    });
     function interactiveSearch(classInput, data, inp_name, result) {
         $(classInput).bind("change keyup input click", function () {
             if (this.value.length >= 2) {

@@ -172,7 +172,7 @@ $entityKey = Entity::GetUrlKey($entity);
 			
 			if ($item['type']) {
 			?><div style="margin-top: 10px;"><span class="nameprop"><?=$ui->item('A_NEW_TYPE_IZD')?>: </span><?
-			 $binding = ProductHelper::GetTypes($entity, $item['type']);
+			 $binding = ProductHelper::GetTypesPrinted($entity, $item['type']);
 			 
 			 echo '<a href="'.
                 Yii::app()->createUrl('entity/bytype', array(
@@ -335,10 +335,11 @@ $entityKey = Entity::GetUrlKey($entity);
                     <?php endif; ?>
 					</div>
 
+    <form method="get" action="<?= Yii::app()->createUrl('cart/view') ?>" onsubmit="return false;">
                 <?php if ($item['entity'] != Entity::PERIODIC) : ?>
                     
 					<div class="minus_plus">
-					 <a href="javascript:;" onclick="minus_plus($(this), 'minus')" style="margin-right: 9px;"><img src="/new_img/cart_minus.png" class="grayscale"></a> <input type="text" size="3" class="cart1contents1 center" style="margin: 0; width: 36px;" value="1" onfocus="change_input_plus_minus($(this))" onkeydown="change_input_plus_minus($(this))" onblur="change_input_plus_minus($(this))"> <a href="javascript:;" style="margin-left: 9px;" onclick="minus_plus($(this), 'plus')"><img src="/new_img/cart_plus.png"></a>
+					 <a href="javascript:;" onclick="minus_plus($(this), 'minus')" style="margin-right: 9px;"><img src="/new_img/cart_minus.png" class="grayscale"></a> <input name="quantity[<?= (int) $item['id'] ?>]" type="text" size="3" class="cart1contents1 center" style="margin: 0; width: 36px;" value="1" onfocus="change_input_plus_minus($(this))" onkeydown="change_input_plus_minus($(this))" onblur="change_input_plus_minus($(this))"> <a href="javascript:;" style="margin-left: 9px;" onclick="minus_plus($(this), 'plus')"><img src="/new_img/cart_plus.png"></a>
 					 </div>
                 <?php endif; ?>
 				
@@ -351,8 +352,16 @@ $entityKey = Entity::GetUrlKey($entity);
 						
 					}
 				?>
-				
-                <a class="cart-action add_cart list_cart<?if (Yii::app()->language == 'es') echo ' no_img';?>" data-action="add" data-entity="<?= $item['entity']; ?>" data-id="<?= $item['id']; ?>" data-quantity="<?=$count_add?>" href="javascript:;"><?=$ui->item('CART_COL_ITEM_MOVE_TO_SHOPCART');?></a><?php else : ?><?php if ($item['entity'] != Entity::VIDEO) : ?>
+        <input type="hidden" name="entity[<?= (int) $item['id'] ?>]" value="<?= (int) $item['entity'] ?>">
+
+
+            <a class="cart-action add_cart list_cart<?if (Yii::app()->language == 'es') echo ' no_img';?>" data-action="add" data-entity="<?= $item['entity']; ?>" data-id="<?= $item['id']; ?>" data-quantity="<?=$count_add?>" href="javascript:;">
+                <button type="submit" onclick="return false;" style="border: none; background: none; padding: 0; color:#fff;"><?=$ui->item('CART_COL_ITEM_MOVE_TO_SHOPCART');?></button>
+            </a>
+
+    </form>
+
+        <?php else : ?><?php if ($item['entity'] != Entity::VIDEO) : ?>
                     <?php if (Yii::app()->user->isGuest) : ?>
 <a href="<?=
                         Yii::app()->createUrl('cart/dorequest', array('entity' => Entity::GetUrlKey($item['entity']),

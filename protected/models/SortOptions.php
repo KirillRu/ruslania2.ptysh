@@ -8,8 +8,6 @@ class SortOptions
     const TimeHL = 8;
     const NewLH = 11;
     const NewHL = 12;
-    const DeliveryTimeLH = 15;
-    const DeliveryTimeHL = 16;
 
     public static function GetSortData()
     {
@@ -20,8 +18,6 @@ class SortOptions
             self::TimeHL => Yii::app()->ui->item('SORTBY_ALL_DATE_DESC'),
             self::NewLH => Yii::app()->ui->item('SORTBY_ALL_ADD_DATE_ASC'),
             self::NewHL => Yii::app()->ui->item('SORTBY_ALL_ADD_DATE_DESC'),
-            self::DeliveryTimeLH => Yii::app()->ui->item('SORTBY_ALL_DELIVERY_TIME_ASC'),
-            self::DeliveryTimeHL => Yii::app()->ui->item('SORTBY_ALL_DELIVERY_TIME_DESC'),
         );
     }
 
@@ -36,22 +32,30 @@ class SortOptions
     {
         switch($sort)
         {
-            case self::NewHL : return ' t.add_date DESC ';//' t.in_stock DESC, t.add_date DESC ';
-            case self::NewLH : return ' t.add_date ASC ';
+            case self::NewHL : return ' t.add_date DESC, IF(t.in_shop < 5, FIELD(t.in_shop, 5,4,3,2,1), 0) DESC, 
+                deliveryTime.delivery_unit ASC, deliveryTime.delivery_type_name ASC';//' t.in_stock DESC, t.add_date DESC ';
+            case self::NewLH : return ' t.add_date ASC, IF(t.in_shop < 5, FIELD(t.in_shop, 5,4,3,2,1), 0) DESC, 
+                deliveryTime.delivery_unit ASC, deliveryTime.delivery_type_name ASC';
             case self::TimeLH :
-                if($entity == Entity::PERIODIC) return ' t.id ASC';
-                else return ' t.year ASC ';
+                if($entity == Entity::PERIODIC) return ' t.id ASC, IF(t.in_shop < 5, FIELD(t.in_shop, 5,4,3,2,1), 0) DESC, 
+                deliveryTime.delivery_unit ASC, deliveryTime.delivery_type_name ASC';
+                else return ' t.year ASC, IF(t.in_shop < 5, FIELD(t.in_shop, 5,4,3,2,1), 0) DESC, 
+                deliveryTime.delivery_unit ASC, deliveryTime.delivery_type_name ASC';
             case self::TimeHL :
-                if($entity == Entity::PERIODIC) return ' t.id DESC';
-                else return ' t.year DESC ';
+                if($entity == Entity::PERIODIC) return ' t.id DESC, IF(t.in_shop < 5, FIELD(t.in_shop, 5,4,3,2,1), 0) DESC, 
+                deliveryTime.delivery_unit ASC, deliveryTime.delivery_type_name ASC';
+                else return ' t.year DESC, IF(t.in_shop < 5, FIELD(t.in_shop, 5,4,3,2,1), 0) DESC, 
+                deliveryTime.delivery_unit ASC, deliveryTime.delivery_type_name ASC';
             case self::PriceLH :
-                if($entity == Entity::PERIODIC) return ' t.sub_world_year ASC';
-                else return ' t.brutto ASC ';
+                if($entity == Entity::PERIODIC) return ' t.sub_world_year ASC, IF(t.in_shop < 5, FIELD(t.in_shop, 5,4,3,2,1), 0) DESC, 
+                deliveryTime.delivery_unit ASC, deliveryTime.delivery_type_name ASC';
+                else return ' t.brutto ASC, IF(t.in_shop < 5, FIELD(t.in_shop, 5,4,3,2,1), 0) ASC, 
+                deliveryTime.delivery_unit ASC, deliveryTime.delivery_type_name ASC';
             case self::PriceHL :
-                if($entity == Entity::PERIODIC) return ' t.sub_world_year DESC';
-                else return ' t.brutto DESC ';
-            case self::DeliveryTimeLH : return ' t.in_shop DESC, deliveryTime.delivery_unit, deliveryTime.delivery_type_name DESC ';
-            case self::DeliveryTimeHL : return ' t.in_shop DESC, deliveryTime.delivery_unit, deliveryTime.delivery_type_name ASC ';
+                if($entity == Entity::PERIODIC) return ' t.sub_world_year DESC, IF(t.in_shop < 5, FIELD(t.in_shop, 5,4,3,2,1), 0) DESC, 
+                deliveryTime.delivery_unit ASC, deliveryTime.delivery_type_name ASC';
+                else return ' t.brutto DESC, IF(t.in_shop < 5, FIELD(t.in_shop, 5,4,3,2,1), 0) DESC, 
+                deliveryTime.delivery_unit ASC, deliveryTime.delivery_type_name ASC';
             default : throw new CException('Sort not implemented '.$sort);
         }
     }

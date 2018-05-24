@@ -330,6 +330,7 @@ class EntityController extends MyController {
         $items = $totalItems > 0 ? $this->AppendCartInfo($m->GetItems($entity, $mid, $paginatorInfo, $sort, Yii::app()->language, $avail), $entity, $this->uid, $this->sid) : array();
 
         $this->breadcrumbs[Entity::GetTitle($entity)] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[Yii::app()->ui->item('Media')] = Yii::app()->createUrl('entity/medialist', array('entity' => Entity::GetUrlKey($entity)));
         $this->breadcrumbs[] = sprintf(Yii::app()->ui->item('YM_FILTER_MEDIA_IS'), $media['title']);
 
         $this->render('list', array('entity' => $entity, 'paginatorInfo' => $paginatorInfo,
@@ -489,6 +490,74 @@ class EntityController extends MyController {
             'url' => 'entity/byactor'));
     }
 
+    public function actionBindingsList($entity) {
+        $entity = Entity::ParseFromString($entity);
+        if ($entity === false) $entity = Entity::BOOKS;
+//        $s = new Series;
+//        $list = $s->GetList($entity, Yii::app()->language);
+
+        $this->breadcrumbs[Entity::GetTitle($entity)] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[] = Yii::app()->ui->item('Binding');
+
+        $this->render('bindings_list', array('list' => [], 'entity' => $entity));
+    }
+
+    public function actionAudiostreamsList($entity) {
+        $entity = Entity::ParseFromString($entity);
+        if (!$this->_checkTagByEntity('audiostreams', $entity))
+            throw new CHttpException(404);
+
+//        $s = new Series;
+//        $list = $s->GetList($entity, Yii::app()->language);
+
+        $this->breadcrumbs[Entity::GetTitle($entity)] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[] = Yii::app()->ui->item('AUDIO_STREAMS');
+
+        $this->render('audiostreams_list', array('list' => [], 'entity' => $entity));
+    }
+
+    public function actionSubtitlesList($entity) {
+        $entity = Entity::ParseFromString($entity);
+        if (!$this->_checkTagByEntity('subtitles', $entity))
+            throw new CHttpException(404);
+
+//        $s = new Series;
+//        $list = $s->GetList($entity, Yii::app()->language);
+
+        $this->breadcrumbs[Entity::GetTitle($entity)] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[] = Yii::app()->ui->item('Credits');
+
+        $this->render('subtitles_list', array('list' => [], 'entity' => $entity));
+    }
+
+    public function actionMediaList($entity) {
+        $entity = Entity::ParseFromString($entity);
+        if (!$this->_checkTagByEntity('media', $entity))
+            throw new CHttpException(404);
+
+//        $s = new Series;
+//        $list = $s->GetList($entity, Yii::app()->language);
+
+        $this->breadcrumbs[Entity::GetTitle($entity)] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[] = Yii::app()->ui->item('Media');
+
+        $this->render('media_list', array('list' => [], 'entity' => $entity));
+    }
+
+    public function actionTypesList($entity) {
+        $entity = Entity::ParseFromString($entity);
+        if (!$this->_checkTagByEntity('magazinetype', $entity))
+            throw new CHttpException(404);
+
+//        $s = new Series;
+//        $list = $s->GetList($entity, Yii::app()->language);
+
+        $this->breadcrumbs[Entity::GetTitle($entity)] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[] = Yii::app()->ui->item('A_NEW_TYPE_IZD');
+
+        $this->render('types_list', array('list' => [], 'entity' => $entity));
+    }
+
     public function actionDirectorList($entity) {
         $entity = Entity::ParseFromString($entity);
         if ($entity === false)
@@ -509,6 +578,18 @@ class EntityController extends MyController {
             'idName' => 'did',
             'lang' => $lang,
             'url' => 'entity/bydirector'));
+    }
+
+    public function actionYearsList($entity) {
+        $entity = Entity::ParseFromString($entity);
+        if ($entity === false) $entity = Entity::BOOKS;
+//        $s = new Series;
+//        $list = $s->GetList($entity, Yii::app()->language);
+
+        $this->breadcrumbs[Entity::GetTitle($entity)] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[] = Yii::app()->ui->item('A_NEW_FILTER_YEAR');
+
+        $this->render('years_list', array('list' => [], 'entity' => $entity));
     }
 
     public function actionByPerformer($entity, $pid, $sort = null, $avail = true) {
@@ -619,6 +700,7 @@ class EntityController extends MyController {
 
         $title = Entity::GetTitle($entity, Yii::app()->language);
         $this->breadcrumbs[$title] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[Yii::app()->ui->item('Credits')] = Yii::app()->createUrl('entity/subtitleslist', array('entity' => Entity::GetUrlKey($entity)));
         $this->breadcrumbs[] = sprintf(Yii::app()->ui->item('YM_FILTER_CREDITS_IS'), ProductHelper::GetTitle($subtitle->attributes));
 
         $totalItems = $vs->GetTotalItems($entity, $sid, $avail);
@@ -646,6 +728,7 @@ class EntityController extends MyController {
 
         $title = Entity::GetTitle($entity, Yii::app()->language);
         $this->breadcrumbs[$title] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[Yii::app()->ui->item('Binding')] = Yii::app()->createUrl('entity/bindingslist', array('entity' => Entity::GetUrlKey($entity)));
         $this->breadcrumbs[] = Yii::app()->ui->item('Binding') . ': ' . ProductHelper::GetTitle($bData);
 
         $totalItems = $binding->GetTotalItems($entity, $bid, $avail);
@@ -668,6 +751,7 @@ class EntityController extends MyController {
 
         $title = Entity::GetTitle($entity, Yii::app()->language);
         $this->breadcrumbs[$title] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[Yii::app()->ui->item('A_NEW_FILTER_YEAR')] = Yii::app()->createUrl('entity/yearslist', array('entity' => Entity::GetUrlKey($entity)));
         $this->breadcrumbs[] = sprintf(Yii::app()->ui->item('IN_YEAR'), $year);
 
         $yr = new YearRetriever;
@@ -690,9 +774,10 @@ class EntityController extends MyController {
         if ($entity === false)
             $entity = Entity::BOOKS;
 		
-        $title = Entity::GetTitle($entity, Yii::app()->language);
+        $title = Entity::GetTitle($entity);
         $this->breadcrumbs[$title] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
-        $this->breadcrumbs[] = ProductHelper::GetTitle(ProductHelper::GetTypes($entity, $type));
+        $this->breadcrumbs[Yii::app()->ui->item('A_NEW_TYPE_IZD')] = Yii::app()->createUrl('entity/typeslist', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[] = ProductHelper::GetTitle($entity, $type);
 
         $yr = new TypeRetriever;
 
@@ -743,8 +828,9 @@ class EntityController extends MyController {
         if (empty($stream))
             throw new CHttpException(404);
 
-        $title = Entity::GetTitle($entity, Yii::app()->language);
+        $title = Entity::GetTitle($entity);
         $this->breadcrumbs[$title] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));
+        $this->breadcrumbs[Yii::app()->ui->item('AUDIO_STREAMS')] = Yii::app()->createUrl('entity/audiostreamslist', array('entity' => Entity::GetUrlKey($entity)));
         $this->breadcrumbs[] = Yii::app()->ui->item('AUDIO_STREAMS') . ': ' . ProductHelper::GetTitle($stream->attributes);
 
         $totalItems = $s->GetTotalItems($entity, $sid, $avail);
@@ -817,5 +903,13 @@ class EntityController extends MyController {
         $group = $o->GetItems(Offer::INDEX_PAGE, $entity);
         $this->render('gift', array('entity' => $entity, 'group' => current($group)['items']));
     }
+
+    private function _checkTagByEntity($tag, $entity) {
+   		$entitys = Entity::GetEntitiesList();
+   		if (!empty($entitys[$entity])) return in_array($tag, $entitys[$entity]['with']);
+   		return false;
+   	}
+
+
 
 }

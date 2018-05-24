@@ -1,7 +1,7 @@
 <?php $this->widget('TopBar', array('breadcrumbs' => $this->breadcrumbs)); ?>
 <div class="container view_product">
     
-    <div class="row">
+    <div class="row" style="float: left">
         <div class="span10">
 		
 		<?php $this->renderPartial('/entity/view_product', array('item' => $item, 'entity' => $entity)); ?>

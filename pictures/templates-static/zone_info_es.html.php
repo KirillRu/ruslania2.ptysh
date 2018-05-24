@@ -1,0 +1,16 @@
+What are "regional codes," "country codes," or "zone locks"?<br><br>
+Motion picture studios want to control the home release of movies in different countries because theater releases aren't simultaneous (a movie may come out on video in the U.S. when it's just hitting screens in Europe). Also, studios sell distribution rights to different foreign distributors and would like to guarantee an exclusive market. Therefore they required that the DVD standard include codes to prevent playback of certain discs in certain geographical regions. Each player is given a code for the region in which it's sold. The player will refuse to play discs that are not coded for its region. This means that a disc bought in one country may not play on a player bought in another country. Some people believe that region codes are an illegal restraint of trade, but no legal cases have established this.<br><br>
+Regional codes are entirely optional for the maker of a disc. Discs without region locks will play on any player in any country. It's not an encryption system, it's just one byte of information on the disc that the player checks. Some studios originally announced that only their new releases would have regional codes, but so far almost all Hollywood releases play in only one region. Region codes are a permanent part of the disc, they won't "unlock" after a period of time. Region codes don't apply to DVD-Audio, DVD-ROM, or recordable DVD (see below for more detail).<br><br>
+Seven regions (also called locales or zones) have been defined, and each one is assigned a number. Players and discs are often identified by their region number superimposed on a world globe. If a disc plays in more than one region it will have more than one number on the globe.<br><br>
+0: All regions<br>
+1: U.S., Canada, U.S. Territories<br>
+2: Japan, Europe, South Africa, and Middle East (including Egypt)<br>
+3: Southeast Asia and East Asia (including Hong Kong)<br>
+4: Australia, New Zealand, Pacific Islands, Central America, Mexico, South America, and the Caribbean<br>
+5: Eastern Europe (Former Soviet Union), Indian subcontinent, Africa, North Korea, and Mongolia<br>
+6: China<br>
+7: Reserved<br>
+8: Special international venues (airplanes, cruise ships, etc.)<br><br>
+
+Technically there is no such thing as a region zero disc or a region zero player. There is such thing as an all-region disc. There are also all-region players. Some players can be "hacked" using special command sequences from the remote control to switch regions or play all regions. Some players can be physically modified ("chipped") to play discs regardless of the regional codes on the disc. This usually voids the warranty, but is not illegal in most countries (since the only thing that requires player manufacturers to region-code their players is the CSS license). Many retailers, especially outside North America, sell players that have already been modified for multiple regions, or in some cases they simply provide instructions on how to access the "secret" region change features already built into the player. As an interesting side note, on Feb. 7, 2001, NASA sent two multiregion DVD players to the International Space Station.<br><br>
+Extensive information about modifying players and buying region-free players can be found on the Internet.

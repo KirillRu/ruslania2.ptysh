@@ -48,6 +48,24 @@ class Category {
 		}
     }
 	
+    function getYearExists($entity, $cid) {
+
+		if ((int)$entity === 30) return array();
+
+        $entities = Entity::GetEntitiesList();
+        $tbl = $entities[$entity]['site_table'];
+        if ($cid > 0) {
+            $sql = 'SELECT DISTINCT year FROM ' . $tbl . ' WHERE (`code`=:code OR `subcode`=:code) AND avail_for_order=1';
+            $rows = Yii::app()->db->createCommand($sql)->queryColumn(true, array(':code' => $cid));
+        } else {
+            $sql = 'SELECT DISTINCT year FROM ' . $tbl . ' WHERE avail_for_order=1';
+            $rows = Yii::app()->db->createCommand($sql)->queryColumn();
+        }
+
+        return $rows;
+
+    }
+
 	public function getFilterLangs($entity, $cid) {
 		
 		$entities = Entity::GetEntitiesList();
@@ -215,7 +233,7 @@ class Category {
     }
 
     public function getFilterSeries($entity, $cid, $page = 1, $lang='') {
-        if ($entity == 60 OR $entity == 50 OR $entity == 30 OR $entity == 40)
+        if ($entity == 60 OR $entity == 50 OR $entity == 30 OR $entity == 40 OR $entity == 20)
             return array();
 		
 		$sql = '';

@@ -70,10 +70,151 @@ class ProductController extends MyController
 			break;
 		}
 		
+		//остальные
+		
+		if (Yii::app()->language == 'ru') {
+				
+				$isbn = '';
+				
+				if ($data['isbn']) {
+					
+					$isbn = ','.$data['isbn'];
+					
+				} elseif ($data['eancode']) {
+					
+					$isbn = ','.$data['eancode'];
+					
+				}
+				
+				$this->pageTitle = ProductHelper::GetTitle($data) . $isbn . ' - купить онлайн в интернет-магазине Ruslania.com';
+				
+				$this->pageDescription = ProductHelper::GetTitle($data).' - купить онлайн с доставкой по всему миру в интернет-магазине Руслания.';
+				
+			} else {
+				
+				$isbn = '';
+				
+				if ($data['isbn']) {
+					
+					$isbn = ','.$data['isbn'];
+					
+				} elseif ($data['eancode']) {
+					
+					$isbn = ','.$data['eancode'];
+					
+				}
+				
+				$this->pageTitle = ProductHelper::GetTitle($data) . $isbn . ' - buy online at Ruslania.com';
+				
+				$this->pageDescription = ProductHelper::GetTitle($data).' - buy online with worldwide delivery at Ruslania.com.';
+				
+			}
 		
 		
+		//ноты
+		
+		if ( $entity == 15) {
+			
+			if (Yii::app()->language == 'ru') {
+			
+				$this->pageTitle = ProductHelper::GetTitle($data).' | '.$data['isbn'].' | Купить онлайн';
+				
+				$this->pageDescription = ProductHelper::GetTitle($data).', '.ProductHelper::GetTitle($data['Authors'][0]).', '.$data['isbn'].' - купить онлайн с доставкой по всему миру.';
+				
+			} else {
+				
+				$this->pageTitle = ProductHelper::GetTitle($data).' | '.$data['isbn'].' | Buy online';
+				
+				$this->pageDescription = ProductHelper::GetTitle($data).' by '.ProductHelper::GetTitle($data['Authors'][0]).', '.$data['isbn'].' - buy sheet music online at Ruslania with worldwide delivery.';
+				
+			}
+			
+		}
 		
 		
+		//книги
+		
+		if ( $entity == 10) {
+			
+			if (Yii::app()->language == 'ru') {
+			
+				$this->pageTitle = ProductHelper::GetTitle($data). ' | '.ProductHelper::GetTitle($data['Authors'][0]).' | '.$data['isbn'].' | Купить книгу';
+				
+				$row = Binding::GetBinding($entity, $data['binding_id']);
+				
+				$this->pageDescription = ProductHelper::GetTitle($data). ', '.ProductHelper::GetTitle($data['Authors'][0]).', '.$data['isbn'].', '.$row['title_' . Yii::app()->language].' - купить онлайн с доставкой по всему миру.';
+				
+			} else {
+				
+				$this->pageTitle = ProductHelper::GetTitle($data). ' | '.ProductHelper::GetTitle($data['Authors'][0]).' | '.$data['isbn'].' | Buy book online';
+				
+				$row = Binding::GetBinding($entity, $data['binding_id']);
+				
+				$this->pageDescription = ProductHelper::GetTitle($data). ', '.ProductHelper::GetTitle($data['Authors'][0]).', '.$data['isbn'].', '.$row['title_' . Yii::app()->language].', Russian edition, buy online at Ruslania with worldwide delivery.';
+				
+			}
+			
+		}
+		
+		//Периодика
+		
+		if ( $entity == 30) {
+			
+			if (Yii::app()->language == 'ru') {
+				
+				$binding = ProductHelper::GetTypes($entity, $data['type']);
+				
+				$this->pageTitle = 'Подписка на '.ProductHelper::GetTitle($binding).' '.ProductHelper::GetTitle($data). ' - русское издание';
+				
+				$row = Binding::GetBinding($entity, $data['binding_id']);
+				
+				$subsisbn='';
+				if ($data['isbn']) {
+					$subsisbn = ', '.$data['isbn'];
+				}
+				
+				$this->pageDescription = ProductHelper::GetTitle($binding).' '.ProductHelper::GetTitle($data). $subsisbn . ' - подписаться онлайн.';
+				
+			} else {
+				
+				$binding = ProductHelper::GetTypes($entity, $data['type']);
+				
+				$this->pageTitle = ProductHelper::GetTitle($binding).' '.ProductHelper::GetTitle($data). ' subscription - '.ProductHelper::GetTitle($data). ' Russian edition';
+				
+				$row = Binding::GetBinding($entity, $data['binding_id']);
+				$subsisbn='';
+				if ($data['isbn']) {
+					$subsisbn = ' Subscribe to '.$data['isbn'].'.';
+				}
+				
+				$this->pageDescription = 'Subscribe online to '.ProductHelper::GetTitle($data).' '.ProductHelper::GetTitle($binding).' Russian edition at Ruslania.com.'.$subsisbn;
+				
+			}
+			
+		}
+		
+		//Музыка
+		
+		if ( $entity == 22) {
+			
+			if (Yii::app()->language == 'ru') {
+				
+				
+				
+				$this->pageTitle = ProductHelper::GetTitle($data).' - '.ProductHelper::GetTitle($data['Authors'][0]).' - '.$data['Media']['title'].' - купить онлайн';
+				
+				$this->pageDescription = ProductHelper::GetTitle($data).', '.ProductHelper::GetTitle($data['Authors'][0]).', '.$data['ean'].', '.$data['Media']['title'].' - купить онлайн с доставкой по всему миру.';
+				
+			} else {
+				
+				
+				$this->pageTitle = ProductHelper::GetTitle($data).' - '.ProductHelper::GetTitle($data['Authors'][0]).' - '.$data['Media']['title'].' - buy online';
+				
+				$this->pageDescription = ProductHelper::GetTitle($data).', '.ProductHelper::GetTitle($data['Authors'][0]).', '.$data['ean'].', '.$data['Media']['title'].' - buy online with worldwide delivery at Ruslania.com.';
+				
+			}
+			
+		}
 
         $title = Entity::GetTitle($entity, Yii::app()->language);
         $this->breadcrumbs[$title] = Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey($entity)));

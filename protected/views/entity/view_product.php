@@ -49,7 +49,9 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
 	<? if ($item['type']) : ?> 
 	<span class="nameprop"><?=$ui->item('A_NEW_TYPE_IZD')?>:</span> <?
 	
-	 $binding = ProductHelper::GetTypes($entity, $item['type']);
+	
+	
+	 $binding = ProductHelper::GetTypesPrinted($entity, $item['type']);
 	 
 	 echo '<a href="'.
                 Yii::app()->createUrl('entity/bytype', array(
@@ -453,14 +455,21 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
                 $images = array();
                 $audio = array();
                 $pdf = array();
+                    $first = array('img'=>'', 'audio'=>'', 'pdf'=>'');
                 foreach ($item['Lookinside'] as $li) {
                     $ext = strtolower(pathinfo($li['resource_filename'], PATHINFO_EXTENSION));
-                    if ($ext == 'jpg' || $ext == 'gif')
+                    if ($ext == 'jpg' || $ext == 'gif') {
+                        if (empty($first['img'])) $first['img'] = '/pictures/lookinside/' . $li['resource_filename'];
                         $images[] = '/pictures/lookinside/' . $li['resource_filename'];
-                    elseif ($ext == 'mp3')
+                    }
+                    elseif ($ext == 'mp3') {
+                        if (empty($first['audio'])) $first['audio'] = $li['resource_filename'];
                         $audio[] = $li['resource_filename'];
-                    else
+                    }
+                    else {
+                        if (empty($first['pdf'])) $first['pdf'] = $li['resource_filename'];
                         $pdf[] = $li['resource_filename'];
+                    }
                 }
                 $images = implode('|', $images);
                 ?>
@@ -477,7 +486,7 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
 
 
                 <?php else : ?>
-					<a href="javascipt:;"
+					<a href="<?= CHtml::encode($first['img']); ?>" onclick="return false;"
                          data-iid="<?= $item['id']; ?>"
                          data-pdf="<?= CHtml::encode(implode('|', array())); ?>"
                          data-images="<?= CHtml::encode($images); ?>" style="width: 131px; margin-right: 30px;" class="read_book link__read"><?=$ui->item('A_NEW_VIEW')?></a>
@@ -542,14 +551,21 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
                 $images = array();
                 $audio = array();
                 $pdf = array();
+                $first = array('img'=>'', 'audio'=>'', 'pdf'=>'');
                 foreach ($item['Lookinside'] as $li) {
                     $ext = strtolower(pathinfo($li['resource_filename'], PATHINFO_EXTENSION));
-                    if ($ext == 'jpg' || $ext == 'gif')
+                    if ($ext == 'jpg' || $ext == 'gif') {
+                        if (empty($first['img'])) $first['img'] = '/pictures/lookinside/' . $li['resource_filename'];
                         $images[] = '/pictures/lookinside/' . $li['resource_filename'];
-                    elseif ($ext == 'mp3')
+                    }
+                    elseif ($ext == 'mp3') {
+                        if (empty($first['audio'])) $first['audio'] = '/pictures/lookinside/' . $li['resource_filename'];
                         $audio[] = $li['resource_filename'];
-                    else
+                    }
+                    else {
+                        if (empty($first['pdf'])) $first['pdf'] = '/pictures/lookinside/' . $li['resource_filename'];
                         $pdf[] = $li['resource_filename'];
+                    }
                 }
                 $images = implode('|', $images);
                 ?>
@@ -566,7 +582,7 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
 
 
                 <?php else : ?>
-					<a href="javascipt:;"
+					<a href="<?= CHtml::encode($first['img']); ?>" onclick="return false;"
                          data-iid="<?= $item['id']; ?>"
                          data-pdf="<?= CHtml::encode(implode('|', array())); ?>"
                          data-images="<?= CHtml::encode($images); ?>" style="width: 131px; margin-right: 30px;" class="read_book"><?=$ui->item('A_NEW_VIEW')?></a>

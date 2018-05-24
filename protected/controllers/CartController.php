@@ -19,8 +19,65 @@ class CartController extends MyController
     // Просмотр корзины
     public function actionView()
     {
+        $data = $this->GetFormRequest();
+        if (!empty($data)) {
+            foreach ($data as $id=>$value) {
+                $this->actionAdd(array_values($value));
+            }
+        }
         $this->breadcrumbs[] = Yii::app()->ui->item('A_SHOPCART');
-        $this->render('view');
+        $data = $this->actionGetAll(false);
+        $emptyItem = array(
+            "Entity"=>'',
+            "ID"=>'',
+            "Title"=>'',
+            "PriceVAT"=>'',
+            "PriceVATStr"=>'',
+            "PriceVAT0"=>'',
+            "PriceVAT0Str"=>'',
+            "PriceVATFin"=>'',
+            "PriceVATFinStr"=>'',
+            "PriceVAT0Fin"=>'',
+            "PriceVAT0FinStr"=>'',
+            "PriceVATWorld"=>'',
+            "PriceVATWorldStr"=>'',
+            "PriceVAT0World"=>'',
+            "PriceVAT0WorldStr"=>'',
+            "Price2Use"=>'',
+            "UseVAT"=>'',
+            "Url"=>'',
+            "Quantity"=>'',
+            "UnitWeight"=>'',
+            "IsAvailable"=>'',
+            "Availability"=>'',
+            "AvailablityText"=>'',
+            "DiscountPercent"=>'',
+            "PriceOriginal"=>'',
+            "ReadyVAT"=>'',
+            "ReadyVAT0"=>'',
+            "Rate"=>'',
+            "VAT"=>'',
+            "InfoField"=>'',
+        );
+        require_once Yii::app()->getBasePath() . '/iterators/Cart.php';
+        if (empty($data['CartItems'])) {
+            $data['isCart'] = false;//признак - козина пуста
+            $data['CartItems'] = new IteratorsCart(array($emptyItem));
+        }
+        else {
+            $data['isCart'] = true;
+            $data['CartItems'] = new IteratorsCart($data['CartItems']);
+        }
+        if (empty($data['EndedItems'])) {
+            $data['isEnded'] = false;
+            $data['EndedItems'] = new IteratorsCart(array($emptyItem));
+        }
+        else {
+            $data['isEnded'] = true;
+            $data['EndedItems'] = new IteratorsCart($data['EndedItems']);
+        }
+
+        $this->render('view', $data);
     }
 
     public function actionDoOrderJSON()
@@ -48,6 +105,12 @@ class CartController extends MyController
 
     public function actionDoOrder()
     {
+        $data = $this->GetFormRequest();
+        if (!empty($data)) {
+            foreach ($data as $id=>$value) {
+                $this->actionChangeQuantity(array_values($value));
+            }
+        }
         if (Yii::app()->user->isGuest)
         {
             $this->breadcrumbs[] = Yii::app()->ui->item('A_LEFT_PERSONAL_LOGIN') . ' / ' . Yii::app()->ui->item('A_LEFT_PERSONAL_REGISTRATION');
@@ -120,11 +183,14 @@ class CartController extends MyController
     
     }
     
-    public function actionGetAll()
+    public function actionGetAll($ajax = true)
     {
         $cart = new Cart;
-        $isMiniCart = Yii::app()->request->getParam('is_MiniCart', 0);
-        $isMiniCart = intVal($isMiniCart);
+        $isMiniCart = 0;
+        if ($ajax) {
+            $isMiniCart = Yii::app()->request->getParam('is_MiniCart', 0);
+            $isMiniCart = intVal($isMiniCart);
+        }
         $tmp = $cart->BeautifyCart($cart->GetCart($this->uid, $this->sid, $isMiniCart), $this->uid, $isMiniCart);
         
         $inCart = array();
@@ -159,13 +225,19 @@ class CartController extends MyController
                      'EndedItems' => $endedItems,
 //                     'RequestItems' => $inReq
         );
-        $this->ResponseJson($ret);
+        if ($ajax) {
+            $this->ResponseJson($ret);
+            return;
+        }
+        return $ret;
     }
 
     // Добавить в корзину
-    public function actionAdd()
+    public function actionAdd($data = false)
     {
-        $data = $this->GetRequest();
+        if ($data === false) {
+            $data = $this->GetRequest();
+        }
         if($data === false)
             throw new CHttpException('Please do AJAX request');
 
@@ -214,9 +286,13 @@ class CartController extends MyController
         //$this->ResponseJsonOk($ret);
     }
 
-    public function actionChangeQuantity()
+    public function actionChangeQuantity($data = false)
     {
-        $data = $this->GetRequest();
+        $returnJson = false;
+        if ($data === false) {
+            $data = $this->GetRequest();
+            $returnJson = true;
+        }
         if($data === false)
             throw new CHttpException('Please do AJAX request');
 
@@ -291,9 +367,11 @@ class CartController extends MyController
 
         $cart = new Cart;
         $ret = $cart->ChangeQuantity($entity, $id, $quantity, $type, $this->uid, $this->sid, $finOrWorldPrice);
-        $this->ResponseJson(array('hasError' => false, 'quantity' => $ret, 'origQuantity' => $originalQuantity,
-            'changedStr' => $changedStr,
-            'changed' => $changed));
+        if ($returnJson) {
+            $this->ResponseJson(array('hasError' => false, 'quantity' => $ret, 'origQuantity' => $originalQuantity,
+                'changedStr' => $changedStr,
+                'changed' => $changed));
+        }
     }
 
     public function actionRemove()
@@ -330,6 +408,53 @@ class CartController extends MyController
 
         $message = ($rid > 0) ? Yii::app()->ui->item('REQUEST_CREATED') : Yii::app()->ui->item('ERROR');
         $this->ResponseJson(array('hasError' => $rid == 0, 'msg' => $message));
+    }
+
+    private function GetFormRequest() {
+        $result = array();
+        $quantity = array();
+        if (!empty($_GET['quantity'])&&is_array($_GET['quantity'])) $quantity = $_GET['quantity'];
+        foreach ($quantity as $idItem=>$count) {
+            $idItem = (int)$idItem;
+            $count = max((int) $count, 1);
+            if ($idItem > 0) {
+                $result[$idItem] = array('entity'=>0, 'id'=>$idItem, 'quantity'=>$count, 'product'=>'', 'originalQuantity'=>$count, 'type'=>0);
+            }
+        }
+        if (!empty($result)) {
+            $entity = array();
+            if (!empty($_GET['entity'])&&is_array($_GET['entity'])) $entity = $_GET['entity'];
+            foreach ($entity as $idItem=>$id) {
+                $idItem = (int)$idItem;
+                $id = (int) $id;
+                if (($idItem > 0)&&($id > 0)&&(isset($result[$idItem]))) {
+                    if ($id == Entity::PERIODIC) {
+                        if ($result[$idItem]['quantity'] != 6 && $result[$idItem]['quantity'] != 12 && $result[$idItem]['quantity'] != 0 && $result[$idItem]['quantity'] != 3) $result[$idItem]['quantity'] = 12;
+                    }
+                    $product = new Product();
+                    $product = $product->GetBaseProductInfo($id, $idItem);
+                    if (empty($product)) throw new CException('Wrong id');
+                    $result[$idItem]['entity'] = $id;
+                    $result[$idItem]['product'] = $product;
+                }
+                else throw new CException('Wrong id');
+            }
+
+            $type = array();
+            if (!empty($_GET['type'])&&is_array($_GET['type'])) $type = $_GET['type'];
+            $types = array(Cart::FIN_PRICE, Cart::WORLD_PRICE);
+            foreach ($type as $idItem=>$id) {
+                $idItem = (int)$idItem;
+                $id = (int) $id;
+                if(!in_array($id, $types)) $id = Cart::FIN_PRICE;
+                if (($idItem > 0)&&(isset($result[$idItem]))) {
+                    $result[$idItem]['type'] = $id;
+                }
+                else throw new CException('Wrong id');
+            }
+        }
+        //return array($entity, $id, $quantity, $product, $originalQuantity, $type);
+        return $result;
     }
 
     private function GetRequest()

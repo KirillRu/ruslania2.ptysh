@@ -16,9 +16,9 @@
 $url = explode('?', $_SERVER['REQUEST_URI']);
 $url = trim($url[0], '/');
 
-if (isset($_GET['lang'])) {
+if (isset($_GET['langsel'])) {
 	
-	Yii::app()->getRequest()->cookies['langsel'] = new CHttpCookie('langsel', $_GET['lang']);
+	Yii::app()->getRequest()->cookies['langsel'] = new CHttpCookie('langsel', $_GET['langsel']);
 	
 }
 
@@ -34,7 +34,8 @@ if (Yii::app()->getRequest()->cookies['showSelLang']->value != '1') {
 $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
     <head>
         <title><?= $this->pageTitle; ?></title>
-        <meta name="Keywords" content="">
+        <meta name="keywords" content="<?=$this->pageKeywords?>">
+        <meta name="description" content="<?=$this->pageDescription?>">
         <META name="verify-v1" content="eiaXbp3vim/5ltWb5FBQR1t3zz5xo7+PG7RIErXIb/M="/>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
@@ -378,7 +379,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                     '/izda/'+$('form.filter .form-row input[name=izda]').val()+
                     '/seria/'+(($('form.filter .form-row input[name=seria]').val()) ? ($('form.filter .form-row input[name=seria]').val()) : '0')+
                     '/cmin/'+$('form.filter .form-row input.cost_inp_mini').val()+'/cmax/'+$('form.filter .form-row input.cost_inp_max').val()+
-                    '/langsel/'+$('form.filter input.langsel').val();
+                    '/langsel/'+$('form.filter input.lang').val();
 
                 var bindings = [];
                 var i = 0;
@@ -960,7 +961,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                             <div class="search_box">
 								<div class="loading"><?=$ui->item('A_NEW_SEARCHING_RUR');?></div>
                                 <input type="text" name="q" class="search_text" placeholder="<?=$ui->item('A_NEW_PLACEHOLDER_SEARCH');?>" id="Search" value="<?=$_GET['q']?>"/>
-                                <img src="/new_img/btn_search.png" class="search_run" alt="" onclick="$('#srch').submit()"/>
+                                <input type="submit" class="search_run" value=""><!--<img src="/new_img/btn_search.png" class="search_run" alt="" onclick="$('#srch').submit()"/>-->
                             </div>
 
                             <div class="pult">
@@ -1006,6 +1007,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 											);
 											?>
                                             <div class="dd_select_lang">
+                                                <div class="lable_empty" onclick="$('.dd_select_lang').toggle(); $('.label_lang.view_lang').toggleClass('act').parent().toggleClass('act')"></div>
                                                 <?php foreach ($arrLangsTitle as $k=>$v):?>
                                                     <div class="label_lang">
                                                         <span class="lang <?= $k ?>"><a href="<?= MyUrlManager::RewriteCurrent($this, $k); ?>"><?=$v?></a></span>
@@ -1029,15 +1031,10 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 												'3' => array('gbp','GBP'),
 												
 											); ?>
-                                            <div class="label_valut select" onclick="$('.dd_select_valut').toggle(); $(this).toggleClass('act')">
-                                                <a href="javascript:;"><span class="valut <?=$arrVCalut[(string)Yii::app()->currency][0]?>"><?=$arrVCalut[(string)Yii::app()->currency][1]?><span class="dd"></span></span></a>
-                                            </div>
-
-                                            <div class="dd_select_valut">
-							
+                                           <div class="dd_select_valut">
+                                                <div class="lable_empty" onclick="$('.dd_select_valut').toggle(); $('.label_valut.select').toggleClass('act')"></div>
                                                 <div class="label_valut">
-                                                    <a href="<?= MyUrlManager::RewriteCurrency($this, Currency::EUR); ?>">
-													<span style="width: 17px; display: inline-block; text-align: center">&euro;</span><span class="valut" style="margin-left: 10px;">Euro</span></a>
+                                                    <a href="<?= MyUrlManager::RewriteCurrency($this, Currency::EUR); ?>"><span style="width: 17px; display: inline-block; text-align: center">&euro;</span><span class="valut" style="margin-left: 10px;">Euro</span></a>
                                                 </div>
                                                 <div class="label_valut">
                                                     <a href="<?= MyUrlManager::RewriteCurrency($this, Currency::USD); ?>"><span style="width: 17px; display: inline-block; text-align: center">$</span><span class="valut" style="margin-left: 10px;">USD</span></a>
@@ -1046,7 +1043,9 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                                                     <a href="<?= MyUrlManager::RewriteCurrency($this, Currency::GBP); ?>"><span style="width: 17px; display: inline-block; text-align: center">£</span><span class="valut" style="margin-left: 10px;">GBP</span></a>
                                                 </div>
                                             </div>
-
+                                            <div class="label_valut select" onclick="$('.dd_select_valut').toggle(); $(this).toggleClass('act')">
+                                                <a href="javascript:;"><span class="valut <?=$arrVCalut[(string)Yii::app()->currency][0]?>"><?=$arrVCalut[(string)Yii::app()->currency][1]?><span class="dd"></span></span></a>
+                                            </div>
                                         </div>
 
                                     </li>
@@ -1444,6 +1443,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                                 <li><a href="<?= Yii::app()->createUrl('site/static', array('page' => 'contact')); ?>"><?= $ui->item("YM_CONTEXT_CONTACTUS"); ?></a></li>
                                 <li><a href="<?= Yii::app()->createUrl('site/static', array('page' => 'legal_notice')); ?>"><?= $ui->item("YM_CONTEXT_LEGAL_NOTICE"); ?></a></li>
                                 <li><a href="<?= Yii::app()->createUrl('site/static', array('page' => 'faq')); ?>"><?= $ui->item("A_FAQ"); ?></a></li>
+                                <li><a href="<?= Yii::app()->createUrl('site/static', array('page' => 'sitemap')); ?>"><?= $ui->item("A_SITEMAP"); ?></a></li>
                             </ul>
                         </div><div class="span1">
                             <ul>

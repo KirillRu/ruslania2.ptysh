@@ -1,0 +1,1 @@
+<STRONG><FONT color=#ff0000>Ruslania souhaite un joyeux Noel aux tous les clients!</FONT></STRONG>
