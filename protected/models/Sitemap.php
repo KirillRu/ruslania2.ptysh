@@ -45,6 +45,16 @@ class Sitemap {
 		'faq'=>'A_FAQ',
 		'sitemap'=>'A_SITEMAP',
 		'offers_partners'=>'A_OFFERS',
+		/*добавить
+		 *
+		 /
+		 /register
+		 /login
+		 /cart
+		 /advsearch
+		 /me
+		 /my/memo
+		 */
 	);
 
 	/**
@@ -125,4 +135,5 @@ class Sitemap {
 		return false;
 	}
 
+	function checkTagByEntity($tag, $entity) {return $this->_checkTagByEntity($tag, $entity); }
 }
