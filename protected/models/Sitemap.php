@@ -22,16 +22,19 @@ class Sitemap {
 		'audiostreams'=>array(  '', 'AUDIO_STREAMS',            'audiostreamslist', 'byaudiostream'),
 		'subtitles'=>array(     '', 'Credits',                  'subtitleslist',    'bysubtitle'),
 		'media'=>array(         '', 'A_NEW_FILTER_TYPE2',       'medialist',        'bymedia'),
-		'magazinetype'=>array(  '', 'A_NEW_TYPE_IZD',           'types',            'bytype'),
+		'magazinetype'=>array(  '', 'A_NEW_TYPE_IZD',           'typeslist',        'bytype'),
 	);
+	//4=>таблицы, которых нет тега
 	private $_tagsAll = array(
-		'years'=>array('', 'A_NEW_FILTER_YEAR', 'years', 'byyear'),
+		'years'=>array('', 'A_NEW_FILTER_YEAR', 'yearslist', 'byyear', ['pereodics_catalog']),
 	);
 
-	private $_tagsHand = array(
+	private $_tagsHand = array(//в итоге получились не теги, но менять название не стал
 		'sale'=>array('', 'MENU_SALE', 'site/sale', ''),
-		'list'=>array('', 'RUSLANIA_RECOMMENDS', 'offers/list', ''),
-		'special'=>array('', 'A_OFFERS_UNIVERCITY', 'offers/special', array('mode' => 'uni')),
+		'register'=>array('', 'A_REGISTER', 'site/register', ''),
+		'login'=>array('', 'A_SIGNIN', 'site/login', ''),
+		'cartView'=>array('', 'A_SHOPCART', 'cart/view', ''),
+		'me'=>array('', 'YM_CONTEXT_PERSONAL_MAIN', 'client/me', ''),
 	);
 
 	private $_staticPages = array(
@@ -45,16 +48,6 @@ class Sitemap {
 		'faq'=>'A_FAQ',
 		'sitemap'=>'A_SITEMAP',
 		'offers_partners'=>'A_OFFERS',
-		/*добавить
-		 *
-		 /
-		 /register
-		 /login
-		 /cart
-		 /advsearch
-		 /me
-		 /my/memo
-		 */
 	);
 
 	/**
