@@ -22,19 +22,10 @@ class Sitemap {
 		'audiostreams'=>array(  '', 'AUDIO_STREAMS',            'audiostreamslist', 'byaudiostream'),
 		'subtitles'=>array(     '', 'Credits',                  'subtitleslist',    'bysubtitle'),
 		'media'=>array(         '', 'A_NEW_FILTER_TYPE2',       'medialist',        'bymedia'),
-		'magazinetype'=>array(  '', 'A_NEW_TYPE_IZD',           'typeslist',        'bytype'),
+		'magazinetype'=>array(  '', 'A_NEW_TYPE_IZD',           'types',            'bytype'),
 	);
-	//4=>таблицы, которых нет тега
 	private $_tagsAll = array(
-		'years'=>array('', 'A_NEW_FILTER_YEAR', 'yearslist', 'byyear', ['pereodics_catalog']),
-	);
-
-	private $_tagsHand = array(//в итоге получились не теги, но менять название не стал
-		'sale'=>array('', 'MENU_SALE', 'site/sale', ''),
-		'register'=>array('', 'A_REGISTER', 'site/register', ''),
-		'login'=>array('', 'A_SIGNIN', 'site/login', ''),
-		'cartView'=>array('', 'A_SHOPCART', 'cart/view', ''),
-		'me'=>array('', 'YM_CONTEXT_PERSONAL_MAIN', 'client/me', ''),
+		'years'=>array('', 'A_NEW_FILTER_YEAR', 'years', 'byyear'),
 	);
 
 	private $_staticPages = array(
@@ -47,7 +38,6 @@ class Sitemap {
 		'legal_notice'=>'YM_CONTEXT_LEGAL_NOTICE',
 		'faq'=>'A_FAQ',
 		'sitemap'=>'A_SITEMAP',
-		'offers_partners'=>'A_OFFERS',
 	);
 
 	/**
@@ -56,9 +46,9 @@ class Sitemap {
 	function getStaticPages() { return $this->_staticPages; }
 
 	/**
-	 * @return array 0=>список тегов по разделам, 1=>список тегов для всех разделов, 2=>подборки вручную
+	 * @return array 0=>список тегов по разделам, 1=>список тегов для всех разделов
 	 */
-	function getTags() { return array($this->_tags, $this->_tagsAll, $this->_tagsHand); }
+	function getTags() { return array($this->_tags, $this->_tagsAll); }
 
 
 	function builder($rewrite = false) {
@@ -128,5 +118,4 @@ class Sitemap {
 		return false;
 	}
 
-	function checkTagByEntity($tag, $entity) {return $this->_checkTagByEntity($tag, $entity); }
 }

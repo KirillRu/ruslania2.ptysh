@@ -402,6 +402,7 @@ div.footer {
     margin-top: 82px;
     border-top: 1px solid #e2e4e6;
     min-width: 1262px;
+    overflow: hidden;
 }
 
 .footer .span1 {

@@ -47,11 +47,11 @@
 		  									<div class="span1 photo new">
 		  										<?php $url = ProductHelper::CreateUrl($igoods); ?>
 
-		      <a href="<?=$url; ?>"><img src="<?=Picture::Get($igoods, Picture::SMALL); ?>" alt="" /></a>
+		      <a href="<?=$url; ?>" title="<?=ProductHelper::GetTitle($igoods, 'title', 30); ?>"><img alt="<?=ProductHelper::GetTitle($igoods, 'title', 30); ?>" src="<?=Picture::Get($igoods, Picture::SMALL); ?>" alt="" /></a>
 
 		  									</div>
 		  									<div class="span2 text">
-		  										<div class="title"><a href="<?=$url; ?>"><?=ProductHelper::GetTitle($igoods, 'title', 30); ?></a></div>
+		  										<div class="title"><a href="<?=$url; ?>" title="<?=ProductHelper::GetTitle($igoods, 'title', 30); ?>"><?=ProductHelper::GetTitle($igoods, 'title', 30); ?></a></div>
 		  										<div class="cost"><?php if (!empty($price[DiscountManager::DISCOUNT])) : ?>
 		              <span style="font-size: 90%; color: #ed1d24; text-decoration: line-through;">
 		                  <?= ProductHelper::FormatPrice($price[DiscountManager::BRUTTO]); ?>

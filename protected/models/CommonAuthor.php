@@ -20,7 +20,8 @@ class CommonAuthor extends CMyActiveRecord
 
         $sql = 'SELECT DISTINCT(first_'.$lang.') AS first_'.$lang.' FROM all_authorslist AS al '
               .'JOIN '.$data['author_table'].' AS j ON al.id=j.author_id '
-              .'ORDER BY first_'.$lang;
+              .'ORDER BY al.title_'.$lang.' ASC';
+              //.'ORDER BY first_'.$lang;
 
         $rows = Yii::app()->db->createCommand($sql)->queryAll();
 		
@@ -56,7 +57,7 @@ class CommonAuthor extends CMyActiveRecord
         $sql = 'SELECT DISTINCT(title_'.$lang.'), al.id FROM all_authorslist AS al '
             .'JOIN '.$data['author_table'].' AS j ON al.id=j.author_id '
             .'WHERE first_'.$lang.'=:char '
-            .'ORDER BY title_'.$lang.$limit;
+            .'ORDER BY title_'.$lang.' ASC '.$limit;
         $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':char' => $char));
         return $rows;
     }
