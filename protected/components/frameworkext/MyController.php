@@ -4,6 +4,8 @@ class MyController extends CController
 {
     public $breadcrumbs = array();
     public $pageTitle;
+    public $pageKeywords;
+    public $pageDescription;
     protected $uid = 0;
     protected $sid = 0;
     protected $sessionID = 0;
