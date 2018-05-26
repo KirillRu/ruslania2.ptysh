@@ -33,7 +33,7 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
 <div class="row">
 	<div class="span1" style="position: relative">
         <?php $this->renderStatusLables($item['status']); ?>
-        <img src="<?= Picture::Get($item, Picture::BIG); ?>">
+        <img alt="<?= ProductHelper::GetTitle($item); ?>" title="<?= ProductHelper::GetTitle($item); ?>" src="<?= Picture::Get($item, Picture::BIG); ?>">
     </div>
 	<div class="span11 to_cart"><h1 class="title"><?= ProductHelper::GetTitle($item); ?></h1>
 	
@@ -976,10 +976,10 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
         
     <div class="img" style="min-height: 130px; position: relative">';
         $this->renderStatusLables($product['status']);
-    echo '<a href="'.$url.'"><img src="'.Picture::Get($product, Picture::SMALL).'" alt=""  style="max-height: 130px;"/></a>
+    echo '<a href="'.$url.'" title="'.ProductHelper::GetTitle($product, 'title', 42).'"><img title="'.ProductHelper::GetTitle($product, 'title', 42).'" alt="'.ProductHelper::GetTitle($product, 'title', 42).'" src="'.Picture::Get($product, Picture::SMALL).'" alt=""  style="max-height: 130px;"/></a>
     </div>
  
-	<div class="title_book"><a href="'.$url.'">'.ProductHelper::GetTitle($product, 'title', 42).'</a></div>';
+	<div class="title_book"><a href="'.$url.'" title="'.ProductHelper::GetTitle($product, 'title', 42).'">'.ProductHelper::GetTitle($product, 'title', 42).'</a></div>';
 		
 		if ($product['isbn']) {
 			echo '<div>ISBN: '.str_replace('-', '' ,$product['isbn']).'</div>';
