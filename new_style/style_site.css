@@ -533,7 +533,7 @@ li.dd_box {
 }
 
 li.dd_box div.dd_box_bg {
-    width: 840px;
+    width: 600px;
     position: absolute;
     z-index: 9999;
     background-color: #fff;

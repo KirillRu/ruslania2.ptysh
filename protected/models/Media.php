@@ -55,6 +55,25 @@ class Media extends CMyActiveRecord
         return Product::FlatResult($data);
     }
 
+    function getAll($entity) {
+        $entities = Entity::GetEntitiesList();
+        if (empty($entities[$entity])) return array();
+
+        $sql = ''.
+            'select t.id, t.title '.
+            'from `all_media` t '.
+                'join ('.
+                    'select media_id id, max(last_modification_date) last_modification_date '.
+                    'from ' . $entities[$entity]['site_table'] . ' '.
+                    'where (media_id is not null) and (media_id > 0) '.
+                    'group by media_id'.
+                ') tI using (id) '.
+            'where (t.entity = ' . $entity . ') '.
+            'order by title '.
+        '';
+        return Yii::app()->db->createCommand($sql)->queryAll();
+    }
+
 
 }
 

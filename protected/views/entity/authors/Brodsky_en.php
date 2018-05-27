@@ -1,7 +1,8 @@
 <div class="author__container">
     <p class="title__m title__bold">Joseph Brodsky</p>
     <p class="title__m">Russia, 24.5.1940 - 28.1.1996</p>
-    <img SRC="http://www.ruslania.com/templates-html/books-authors/Image/Brodsky.jpg" width="200" class="author__img" />
+    <!--<img SRC="http://www.ruslania.com/templates-html/books-authors/Image/Brodsky.jpg" width="200" class="author__img" />-->
+    <img SRC="/img/no_foto.png" width="200" class="author__img" />
 
 
     Joseph Brodsky was born in Leningrad on May 24, 1940. He left school at the age of fifteen, taking jobs working in a morgue, a mill, a ship's boiler room, and a geological expedition. During this time Brodsky taught himself English and Polish and began writing poetry. He was exiled from the Soviet Union in 1972 after serving 18 months of a five-year sentence in a labor camp in northern Russia. <br><br>

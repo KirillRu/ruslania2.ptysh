@@ -1,7 +1,8 @@
 <div class="author__container">
 <p class="title__m title__bold">Александр Александрович Блок</p>
 <p class="title__m">Россия, 28.11.1880 - 7.8.1921</p>
-    <img SRC="http://www.ruslania.com/templates-html/books-authors/Image/Blok.jpg" width="200" class="author__img" />
+    <!--<img SRC="http://www.ruslania.com/templates-html/books-authors/Image/Blok.jpg" width="200" class="author__img" />-->
+    <img SRC="/img/no_foto.png" width="200" class="author__img" />
 
 
 Александр Александрович Блок родился в Петербурге 28 ноября 1880 года в семье профессора философии и права Варшавского университета А.Л.Блока. Его дед по матери А.Н.Бекетов был видным ученым, ректором Петербургского университета.

@@ -592,10 +592,10 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 
 
             $(document).ready(function () {
-                sortCategoryMenu('#books_menu', '#books_category');
-                sortCategoryMenu('#sheet_music_menu', '#sheet_music_category');
-                sortCategoryMenu('#music_menu', '#music_category');
-                sortCategoryMenu('#periodic_menu', '#periodic_category');
+                sortCategoryMenu('#books_menu', '#books_category', '#books_sale');
+                sortCategoryMenu('#sheet_music_menu', '#sheet_music_category', '#sheet_music_sale');
+                sortCategoryMenu('#music_menu', '#music_category', '#music_sale');
+                sortCategoryMenu('#periodic_menu', '#periodic_category', '#periodic_sale');
                 $(document).click(function (event) {
                     if ($(event.target).closest(".select_lang").length)
                         return;
@@ -826,9 +826,11 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 				
 			}
 
-			function sortCategoryMenu(id_category, id_category_item) {
+			function sortCategoryMenu(id_category, id_category_item = false, id_sale_item = false) {
                 var mylist = $(id_category);
                 var listitems = mylist.children().get();
+                var category_item;
+                var sale_item;
                 listitems.sort(function(a, b) {
                     var compA = $(a).children('a').text().toUpperCase();
                     var compB = $(b).children('a').text().toUpperCase();
@@ -836,11 +838,14 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                 });
                 $.each(listitems, function(idx, itm) {
                     if (('#' + itm.id) == id_category_item) category_item = itm;
+                    else if (('#' + itm.id) == id_sale_item) sale_item = itm;
                     else {
                         mylist.append(itm);
                         mylist.append('<div class="clearfix"></div>');
                     }
                 });
+                mylist.append(sale_item);
+                mylist.append('<div class="clearfix"></div>');
                 mylist.append(category_item);
             }
 			
@@ -1105,7 +1110,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 								
 								<ul id="books_menu">
 									<?
-                                    $availCategory = array(202, 189, 206, 181, 65, 67, 211);
+                                    $availCategory = array(181, 16, 206, 211, 189, 65, 67, 202);
                                     $rows = Category::GetCategoryList(Entity::BOOKS, 0, $availCategory);
                                     foreach ($rows as $row) {
 									?>
@@ -1117,8 +1122,12 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                                     <li>
 										<a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::SHEETMUSIC), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
                                     </li>
+                                    <?php $row = Category::GetByIds(Entity::BOOKS, 213)[0]?>
+                                    <li id="books_sale">
+                                        <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::BOOKS), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=$ui->item('A_NEW_SALE');?></a>
+                                    </li>
                                     <li id="books_category">
-                                        <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::BOOKS)))?>"><?=$ui->item('A_NEW_BOOKS_BY_CATEGORY'); ?></a>
+                                        <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::BOOKS)))?>"><?=$ui->item('A_NEW_ALL_CATEGORIES'); ?></a>
                                     </li>
                                 </ul>
 								
@@ -1143,7 +1152,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 								
 								<ul id="sheet_music_menu">
 									<?
-                                    $availCategory = array(136, 128, 160, 249, 47, 217);
+                                    $availCategory = array(47, 160, 249, 128, 136);
                                     $rows = Category::GetCategoryList(Entity::SHEETMUSIC, 0, $availCategory);
                                     foreach ($rows as $row) {
                                         ?>
@@ -1151,8 +1160,12 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 										<a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::SHEETMUSIC), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
 									</li>
 									<? } ?>
+                                    <?php $row = Category::GetByIds(Entity::SHEETMUSIC, 217)[0]?>
+                                    <li id="sheet_music_sale">
+                                        <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::SHEETMUSIC), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=$ui->item('A_NEW_SALE');?></a>
+                                    </li>
                                     <li id="sheet_music_category">
-                                        <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::SHEETMUSIC)))?>"><?=$ui->item('A_NEW_SHEETMUSIC_BY_CATEGORY'); ?></a>
+                                        <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::SHEETMUSIC)))?>"><?=$ui->item('A_NEW_ALL_CATEGORIES'); ?></a>
                                     </li>
 									
 								</ul>
@@ -1178,7 +1191,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 								
 								<ul id="music_menu">
 									<?
-                                    $availCategory = array(4, 78, 74, 17, 2, 8, 6, 11, 21, 73, 38);
+                                    $availCategory = array(78, 74, 4, 11, 6, 17, 2, 73, 38);
                                     $rows = Category::GetCategoryList(Entity::MUSIC, 0, $availCategory);
 									foreach ($rows as $row) {
 									?>
@@ -1186,9 +1199,12 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 										<a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::MUSIC), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
 									</li>
 									<? } ?>
-
+                                    <?php $row = Category::GetByIds(Entity::MUSIC, 21)[0]?>
+                                    <li id="music_sale">
+                                        <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::MUSIC), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=$ui->item('A_NEW_SALE');?></a>
+                                    </li>
                                     <li id="music_category">
-                                        <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::MUSIC)))?>"><?=$ui->item('A_NEW_MUSIC_BY_CATEGORY'); ?></a>
+                                        <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::MUSIC)))?>"><?=$ui->item('A_NEW_ALL_CATEGORIES'); ?></a>
                                     </li>
                                 </ul>
                             </div>
@@ -1211,7 +1227,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 								
 								<ul id="periodic_menu">
 									<?
-                                    $availCategory = array(67, 48, 19, 96);
+                                    $availCategory = array(19, 48, 96, 67);
 									$rows = Category::GetCategoryList(Entity::PERIODIC, 0, $availCategory);
 									foreach ($rows as $row) {
 									?>
@@ -1226,11 +1242,12 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                                     </li>
 
                                     <li>
-                                        <a href="<?=Yii::app()->createUrl('entity/gift', array('entity' => Entity::GetUrlKey(Entity::PERIODIC)))?>">Подписка в подарок</a>
+                                        <a href="<?=Yii::app()->createUrl('entity/gift', array('entity' => Entity::GetUrlKey(Entity::PERIODIC)))?>"><?=$ui->item('A_NEW_PERIODIC_FOR_GIFT'); ?></a>
                                     </li>
 
+
                                     <li id="periodic_category">
-                                        <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::PERIODIC)))?>"><?=$ui->item('A_NEW_PERIODIC_BY_CATEGORY'); ?></a>
+                                        <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::PERIODIC)))?>"><?=$ui->item('A_NEW_ALL_CATEGORIES'); ?></a>
                                     </li>
 									
 								</ul>
@@ -1254,61 +1271,50 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                             <div class="tabs">
                                 <ul>
 
-                                    <!--Печатная продукция и сувениры-->
+                                    <!--Сувениры-->
                                     <li class="dd_box">
                                         <div class="click_arrow"></div>
                                         <a class="dd" href="<?= Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED))); ?>"><?= $ui->item('A_NEW_PRINT_PRODUCTS'); ?></a>
                                         <div class="dd_box_bg dd_box_bg-slim list_subcategs">
                                             <ul class="list_vertical">
-                                                <li>русские Сувениры</li>
-                                                <li>финские Сувениры</li>
-                                                <li>Русский плакат</li>
+                                                <li style="color: aqua">Русские Сувениры</li>
+                                                <li style="color: aqua">Финские Сувениры</li>
 
-                                                <?php $row = Category::GetByIds(Entity::PRINTED, 8)[0]?>
-                                                <li>
-                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
-                                                </li>
-                                                <?php $row = Category::GetByIds(Entity::PRINTED, 3)[0]?>
-                                                <li>
-                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
-                                                </li>
-                                                <li>Русские буквы на клавиатуру</li>
-                                                <?php $row = Category::GetByIds(Entity::PRINTED, 15)[0]?>
-                                                <li>
-                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
-                                                </li>
-                                                <?php $row = Category::GetByIds(Entity::PRINTED, 44)[0]?>
-                                                <li>
-                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
-                                                </li>
-                                                <?php $row = Category::GetByIds(Entity::BOOKS, 264)[0]?>
-                                                <li>
-                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
-                                                </li>
-                                                <?php $row = Category::GetByIds(Entity::PRINTED, 41)[0]?>
-                                                <li>
-                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
-                                                </li>
                                                 <?php $row = Category::GetByIds(Entity::PRINTED, 38)[0]?>
                                                 <li>
                                                     <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
                                                 </li>
+                                                <?php $row = Category::GetByIds(Entity::PRINTED, 43)[0]?>
+                                                <li>
+                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
+                                                </li>
+
+                                                <li style="color: aqua">Распродажа</li>
+
                                                 <li id="printed_category">
-                                                    <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::PRINTED)))?>"><?=$ui->item('A_NEW_PRINTED_BY_CATEGORY'); ?></a>
+                                                    <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::PRINTED)))?>"><?=$ui->item('A_NEW_ALL_CATEGORIES'); ?></a>
                                                 </li>
 
                                             </ul>
                                         </div>
                                     </li>
 
-                                    <!--Видеопродукция-->
+                                    <!--Видео-->
                                     <li class="dd_box">
                                         <div class="click_arrow"></div>
-                                        <a class="dd" href="<?= Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::VIDEO))); ?>"><?= $ui->item("A_GOTOVIDEO"); ?></a>
+                                        <a class="dd" href="<?= Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::VIDEO))); ?>"><?= $ui->item("A_NEW_VIDEO"); ?></a>
                                         <div class="dd_box_bg dd_box_bg-slim list_subcategs">
                                             <ul class="list_vertical">
+                                                <li style="color: aqua">Музыкальные видео</li>
+                                                <li style="color: aqua">Фильмы</li>
+                                                <?php $row = Category::GetByIds(Entity::VIDEO, 8)[0]?>
+                                                <li>
+                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::VIDEO), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
+                                                </li>
+                                                <li style="color: aqua">Фильмы с финскими субтитрами</li>
+                                                <li style="color: aqua">Распродажа</li>
                                                 <li id="video_category">
-                                                    <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::VIDEO)))?>"><?=$ui->item('A_NEW_VIDEO_BY_CATEGORY'); ?></a>
+                                                    <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::VIDEO)))?>"><?=$ui->item('A_NEW_ALL_CATEGORIES'); ?></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -1322,10 +1328,14 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                                             <ul class="list_vertical">
                                                 <?php $row = Category::GetByIds(Entity::MAPS, 9)[0]?>
                                                 <li>
-                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::MAPS), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
+                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::MAPS), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=trim(ProductHelper::GetTitle($row))?></a>
+                                                </li>
+                                                <?php $row = Category::GetByIds(Entity::MAPS, 8)[0]?>
+                                                <li>
+                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::MAPS), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=$ui->item('A_NEW_SALE');?></a>
                                                 </li>
                                                 <li id="maps_category">
-                                                    <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::MAPS)))?>"><?=$ui->item('A_NEW_MAPS_BY_CATEGORY'); ?></a>
+                                                    <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::MAPS)))?>"><?=$ui->item('A_NEW_ALL_CATEGORIES'); ?></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -1342,22 +1352,76 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                                                 <li>
                                                     <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::SOFT), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
                                                 </li>
-                                                <?php $row = Category::GetByIds(Entity::SOFT, 16)[0]?>
-                                                <li>
-                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::SOFT), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
-                                                </li>
                                                 <?php $row = Category::GetByIds(Entity::SOFT, 20)[0]?>
                                                 <li>
                                                     <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::SOFT), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
                                                 </li>
+                                                <?php $row = Category::GetByIds(Entity::SOFT, 16)[0]?>
+                                                <li>
+                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::SOFT), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=$ui->item('A_NEW_SALE');?></a>
+                                                </li>
                                                 <li id="soft_category">
-                                                    <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::SOFT)))?>"><?=$ui->item('A_NEW_SOFT_BY_CATEGORY'); ?></a>
+                                                    <a href="<?=Yii::app()->createUrl('entity/categorylist', array('entity' => Entity::GetUrlKey(Entity::SOFT)))?>"><?=$ui->item('A_NEW_ALL_CATEGORIES'); ?></a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </li>
+
+                                    <!--Прочее-->
+                                    <li class="dd_box">
+                                        <div class="click_arrow"></div>
+                                        <a class="dd" href="" style="color: aqua" ><?= $ui->item("A_NEW_OTHER"); ?></a>
+
+                                        <div class="dd_box_bg dd_box_bg-slim list_subcategs">
+                                            <ul class="list_vertical">
+                                                <?php $row = Category::GetByIds(Entity::PRINTED, 2)[0]?>
+                                                <li>
+                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
+                                                </li>
+                                                <?php $row = Category::GetByIds(Entity::PRINTED, 3)[0]?>
+                                                <li>
+                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
+                                                </li>
+                                                <?php $row = Category::GetByIds(Entity::BOOKS, 264)[0]?>
+                                                <li>
+                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::BOOKS), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
+                                                </li>
+                                                <?php $row = Category::GetByIds(Entity::PRINTED, 30)[0]?>
+                                                <li>
+                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
+                                                </li>
+                                                <?php $row = Category::GetByIds(Entity::PRINTED, 44)[0]?>
+                                                <li>
+                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
+                                                </li>
+                                                <?php $row = Category::GetByIds(Entity::PRINTED, 15)[0]?>
+                                                <li>
+                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
+                                                </li>
+                                                <?php $row = Category::GetByIds(Entity::PRINTED, 8)[0]?>
+                                                <li>
+                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
+                                                </li>
+                                                <?php $row = Category::GetByIds(Entity::PRINTED, 34)[0]?>
+                                                <li>
+                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
+                                                </li>
+                                                <?php $row = Category::GetByIds(Entity::PRINTED, 42)[0]?>
+                                                <li>
+                                                    <a href="<?=Yii::app()->createUrl('entity/list', array('entity' => Entity::GetUrlKey(Entity::PRINTED), 'cid' => $row['id'], 'title' => ProductHelper::ToAscii($row['title_en'])))?>"><?=ProductHelper::GetTitle($row)?></a>
+                                                </li>
+                                                <li style="color: aqua">
+                                                    <?=$ui->item('A_NEW_SALE');?>
+                                                </li>
+                                                <li id="other_category" style="color: aqua">
+                                                    <?=$ui->item('A_NEW_ALL_CATEGORIES'); ?>
                                                 </li>
                                             </ul>
                                         </div>
                                     </li>
 
-                                    <li><a href="<?=Yii::app()->createUrl('entity/authorlist', array('entity' => Entity::GetUrlKey(Entity::BOOKS))); ?>"><?=$ui->item('A_LEFT_AUDIO_AZ_PROPERTYLIST_AUTHORS'); ?></a></li>
+                                    <!--<li><a href="<?/*=Yii::app()->createUrl('entity/authorlist', array('entity' => Entity::GetUrlKey(Entity::BOOKS))); */?>"><?/*=$ui->item('A_LEFT_AUDIO_AZ_PROPERTYLIST_AUTHORS'); */?></a></li>-->
 										
                                 </ul>
                                 <div style="clear: both"></div>

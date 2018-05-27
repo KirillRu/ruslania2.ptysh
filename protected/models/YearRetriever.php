@@ -87,4 +87,20 @@ class YearRetriever
 
         return Product::FlatResult($data);
     }
+
+    function getAll($entity) {
+        $entities = Entity::GetEntitiesList();
+        if (empty($entities[$entity])) return array();
+        if ($entities[$entity]['site_table'] == 'pereodics_catalog') return array();
+
+        $sql = ''.
+            'select t.year '.
+            'from `' . $entities[$entity]['site_table'] . '` t '.
+            'where (t.year is not null) and (t.year > 0) '.
+            'group by t.year '.
+            'order by t.year '.
+        '';
+        return Yii::app()->db->createCommand($sql)->queryColumn();
+    }
+
 }

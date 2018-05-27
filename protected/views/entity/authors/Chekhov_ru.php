@@ -1,7 +1,8 @@
 <div class="author__container">
     <p class="title__m title__bold">Антон Павлович Чехов</p>
     <p class="title__m">Россия, 29.01.1860 - 15.07.1904</p>
-    <img SRC="http://www.ruslania.com/templates-html/books-authors/Image/Chekhov.jpg" width="200" class="author__img" />
+    <!--<img SRC="http://www.ruslania.com/templates-html/books-authors/Image/Chekhov.jpg" width="200" class="author__img" />-->
+    <img SRC="/img/no_foto.png" width="200" class="author__img" />
 
     Антон Павлович Чехов родился в Таганроге. Обучался в греческой школе, затем в классической гимназии.
     В 1876 году отец Чехова разорился и был вынужден бежать в Москву, а Антон Павлович остался в Таганроге.<br><br>
