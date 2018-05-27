@@ -58,4 +58,27 @@ class Binding
         return Product::FlatResult($data);
     }
 
+    function getAll($entity) {
+        $entities = Entity::GetEntitiesList();
+        if (empty($entities[$entity])) return array();
+
+        if (empty($entities[$entity]['binding_table'])) return array();
+        $lang = Yii::app()->language;
+        $allowLangs = array('ru', 'rut', 'en', 'fi');
+        if (!in_array($lang, $allowLangs)) $lang = 'en';
+
+        $sql = ''.
+            'select t.id, t.title_' . $lang . ' title '.
+            'from `' . $entities[$entity]['binding_table'] . '` t '.
+                'join ('.
+                    'select binding_id id '.
+                    'from ' . $entities[$entity]['site_table'] . ' '.
+                    'where (binding_id is not null) and (binding_id > 0) '.
+                    'group by binding_id'.
+                ') tI using (id) '.
+            'order by title '.
+        '';
+        return Yii::app()->db->createCommand($sql)->queryAll();
+    }
+
 }

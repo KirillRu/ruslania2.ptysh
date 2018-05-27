@@ -46,4 +46,26 @@ class VideoSubtitle extends CMyActiveRecord
 
         return Product::FlatResult($data);
     }
+
+    function getAll($entity) {
+        $entities = Entity::GetEntitiesList();
+        if (empty($entities[$entity])) return array();
+        $lang = Yii::app()->language;
+        $allowLangs = array('ru', 'rut', 'en', 'fi', 'de', 'fr', 'it', 'es', 'se');
+        if (!in_array($lang, $allowLangs)) $lang = 'en';
+
+        $sql = ''.
+            'select t.id, t.title_' . $lang . ' title '.
+            'from `video_creditslist` t '.
+                'join (select credits_id id '.
+                    'from `video_credits` '.
+                    'group by credits_id '.
+                    'order by credits_id '.
+                ') tId using (id) '.
+            'group by t.id	'.
+            'order by title '.
+        '';
+        return Yii::app()->db->createCommand($sql)->queryAll();
+    }
+
 }

@@ -1,7 +1,8 @@
 <div class="author__container">
     <p class="title__m title__bold">Иосиф Александрович Бродский</p>
     <p class="title__m">Россия, 24.5.1940 - 28.1.1996</p>
-    <img SRC="http://www.ruslania.com/templates-html/books-authors/Image/Brodsky.jpg" width="200" class="author__img" />
+    <!--<img SRC="http://www.ruslania.com/templates-html/books-authors/Image/Brodsky.jpg" width="200" class="author__img" />-->
+    <img SRC="/img/no_foto.png" width="200" class="author__img" />
 
     Иосиф Александрович Бродский родился 24 мая 1940 года в Ленинграде. Оставил школу после 8-го класса. Стихи начал писать с 1957 года. С начала 60-х работал профессионально как поэт-переводчик. 12 февраля 1964 года был арестован и осужден по ложному обвинению в тунеядстве к высылке на 5 лет. Ссылку отбывал в Архангельской области. <br><br>
 

@@ -1,7 +1,8 @@
 <div class="author__container">
     <p class="title__m title__bold">Anton Chekhov</p>
     <p class="title__m">Russia, 29.01.1860 - 15.07.1904</p>
-    <img SRC="http://www.ruslania.com/templates-html/books-authors/Image/Chekhov.jpg" width="200" class="author__img" />
+    <!--<img SRC="http://www.ruslania.com/templates-html/books-authors/Image/Chekhov.jpg" width="200" class="author__img" />-->
+    <img SRC="/img/no_foto.png" width="200" class="author__img" />
 
     The son of a grocer and grandson of a serf, Anton Chekhov helped support his family, while he studied medicine, by writing humorous sketches. <br><br>
 

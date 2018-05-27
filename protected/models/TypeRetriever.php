@@ -92,4 +92,25 @@ class TypeRetriever
 
         return Product::FlatResult($data);
     }
+
+    function getAll($entity) {
+        $entities = Entity::GetEntitiesList();
+        if (empty($entities[$entity])) return array();
+        $lang = Yii::app()->language;
+        $allowLangs = array('ru', 'rut', 'en', 'fi');
+        if (!in_array($lang, $allowLangs)) $lang = 'en';
+
+        $sql = ''.
+            'select t.id, t.title_' . $lang . ' title '.
+            'from `pereodics_types` t '.
+                'join ('.
+                    'select type id '.
+                    'from ' . $entities[$entity]['site_table'] . ' '.
+                    'where (type is not null) and (type > 0) '.
+                    'group by type'.
+                ') tI using (id) '.
+            'order by title '.
+        '';
+        return Yii::app()->db->createCommand($sql)->queryAll();
+    }
 }
