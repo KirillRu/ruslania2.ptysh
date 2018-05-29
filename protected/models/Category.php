@@ -191,7 +191,7 @@ class Category {
         return $rows;
     }
 
-    public function getFilterPublisher($entity, $cid, $page = 1, $lang = '') {
+    public function getFilterPublisher($entity, $cid, $page = 1, $lang = '', $site_lang='') {
         if ($entity != 30 AND $entity != 40) {
             if ($page != 0) $limit = (($page - 1) * 50) . ',50';
             $entities = Entity::GetEntitiesList();
@@ -206,19 +206,19 @@ class Category {
 
             }
 
-            if ($lang == '') $lang = 'ru';
+            if ($site_lang == '') $site_lang = 'ru';
 
             if ($cid > 0) {
-                $sql = 'SELECT tc.publisher_id, ap.title_'.$lang.' as title FROM ' . $tbl . ' as tc, all_publishers as ap '.
+                $sql = 'SELECT tc.publisher_id, ap.title_'.$site_lang.' as title FROM ' . $tbl . ' as tc, all_publishers as ap '.
                 'WHERE (tc.`code`=:code OR tc.`subcode`=:code) AND tc.avail_for_order=1' . $sql .' '.
                 'AND ap.id = tc.publisher_id '.
-                'GROUP BY tc.publisher_id ORDER BY ap.title_'.$lang. (($page != 0) ? (' LIMIT ' . $limit) : '');
+                'GROUP BY tc.publisher_id ORDER BY ap.title_'.$site_lang. (($page != 0) ? (' LIMIT ' . $limit) : '');
                 $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':code' => $cid));
             } else {
-                $sql = 'SELECT tc.publisher_id, ap.title_'.$lang.' as title FROM ' . $tbl . ' as tc, all_publishers as ap '.
+                $sql = 'SELECT tc.publisher_id, ap.title_'.$site_lang.' as title FROM ' . $tbl . ' as tc, all_publishers as ap '.
                 'WHERE tc.avail_for_order=1' . $sql. ' '.
                 'AND ap.id = tc.publisher_id '.
-                'GROUP BY tc.publisher_id ORDER BY ap.title_'.$lang. (($page != 0) ? (' LIMIT ' . $limit) : '');
+                'GROUP BY tc.publisher_id ORDER BY ap.title_'.$site_lang. (($page != 0) ? (' LIMIT ' . $limit) : '');
                 $rows = Yii::app()->db->createCommand($sql)->queryAll();
             }
 
@@ -232,7 +232,7 @@ class Category {
         }
     }
 
-    public function getFilterSeries($entity, $cid, $page = 1, $lang='') {
+    public function getFilterSeries($entity, $cid, $page = 1, $lang='', $site_lang = '') {
         if ($entity == 60 OR $entity == 50 OR $entity == 30 OR $entity == 40 OR $entity == 20)
             return array();
 		
@@ -248,15 +248,15 @@ class Category {
         $tbl = $entities[$entity]['site_table'];
         $series_tbl = $entities[$entity]['site_series_table'];
         //$tbl_binding = $entities[$entity]['binding_table'];
-        if ($lang == '') $lang = 'ru';
+        if ($site_lang == '') $site_lang = 'ru';
         if ($cid > 0) {
-            $sql = 'SELECT tc.series_id, st.title_'.$lang.' as title FROM ' . $tbl . ' as tc, '.$series_tbl.' as st 
+            $sql = 'SELECT tc.series_id, st.title_'.$site_lang.' as title FROM ' . $tbl . ' as tc, '.$series_tbl.' as st 
             WHERE (tc.`code`=:code OR tc.`subcode`=:code) 
             AND tc.avail_for_order=1 AND (tc.series_id > 0 AND tc.series_id <> "") AND tc.series_id=st.id' .$sql.' 
             GROUP BY st.title_'.Yii::app()->language. (($page != 0) ? (' LIMIT ' . $limit) : '');
             $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':code' => $cid));
         } else {
-            $sql = 'SELECT tc.series_id, st.title_'.$lang.' as title FROM ' . $tbl . ' as tc, '.$series_tbl.' as st 
+            $sql = 'SELECT tc.series_id, st.title_'.$site_lang.' as title FROM ' . $tbl . ' as tc, '.$series_tbl.' as st 
             WHERE tc.avail_for_order=1  AND (tc.series_id > 0 AND tc.series_id <> "") AND tc.series_id=st.id' .$sql.' 
             GROUP BY st.title_'.Yii::app()->language. (($page != 0) ? (' LIMIT ' . $limit) : '');
             $rows = Yii::app()->db->createCommand($sql)->queryAll();
@@ -270,7 +270,7 @@ class Category {
         return $rows;
     }
 
-    public function getFilterAuthor($entity, $cid, $page = 1,$lang='') {
+    public function getFilterAuthor($entity, $cid, $page = 1,$lang='', $site_lang='') {
         if ($entity == 60 OR $entity == 30 OR $entity == 40)
             return array();
         if ($page != 0) $limit = (($page - 1) * 50) . ',50';
@@ -285,27 +285,26 @@ class Category {
         $tbl = $entities[$entity]['site_table'];
         $tbl_author = $entities[$entity]['author_table'];
         $field = $entities[$entity]['author_entity_field'];
-        if ($lang == '') $lang = 'ru';
+        if ($site_lang == '') $site_lang = 'ru';
         if ($cid > 0) {
-            $sql = 'SELECT ba.author_id, aa.title_'.$lang.' as title FROM ' . $tbl . ' as bc, ' . $tbl_author . ' as ba, all_authorslist as aa 
+            $sql = 'SELECT ba.author_id, aa.title_'.$site_lang.' as title FROM ' . $tbl . ' as bc, ' . $tbl_author . ' as ba, all_authorslist as aa 
             WHERE (bc.`code`=:code OR bc.`subcode`=:code) AND bc.avail_for_order=1 AND ba.' . $field . '=bc.id'.$sql.'
             AND ba.author_id=aa.id 
-            GROUP BY ba.author_id ORDER BY aa.title_'.$lang. (($page != 0) ? (' LIMIT ' . $limit) : '');
+            GROUP BY ba.author_id ORDER BY aa.title_'.$site_lang. (($page != 0) ? (' LIMIT ' . $limit) : '');
             $rows = Yii::app()->db->createCommand($sql)->queryAll(true, array(':code' => $cid));
         } else {
-            $sql = 'SELECT ba.author_id, aa.title_'.$lang.' as title FROM ' . $tbl . ' as bc, ' . $tbl_author . ' as ba, all_authorslist as aa 
+            $sql = 'SELECT ba.author_id, aa.title_'.$site_lang.' as title FROM ' . $tbl . ' as bc, ' . $tbl_author . ' as ba, all_authorslist as aa 
             WHERE avail_for_order=1  AND bc.avail_for_order=1 AND ba.' . $field . '=bc.id'.$sql.'
             AND ba.author_id=aa.id 
-            GROUP BY ba.author_id ORDER BY aa.title_'.$lang. (($page != 0) ? (' LIMIT ' . $limit) : '');
+            GROUP BY ba.author_id ORDER BY aa.title_'.$site_lang. (($page != 0) ? (' LIMIT ' . $limit) : '');
             $rows = Yii::app()->db->createCommand($sql)->queryAll();
         }
         $authors = [];
         foreach ($rows as $row) {
             $authors[(int)$row['author_id']] = $row['title'];
         }
+        //print_r($authors);
         return $authors;
-
-        return $rows;
     }
 
     public function getFilterAuthorForeSearch($entity, $lang='') {
