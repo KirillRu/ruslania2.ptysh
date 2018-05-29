@@ -138,6 +138,7 @@ $siteLang = (isset(Yii::app()->language) && Yii::app()->language != '') ? Yii::a
                 <div style="height: 47px"></div>
             <?php endif; ?>
 
+            <?php $lang = Yii::app()->language;?>
 
             <h2 class="filter"><?=$ui->item('A_NEW_SETTINGS_FILTER'); ?>:</h2>
 
@@ -175,9 +176,10 @@ $siteLang = (isset(Yii::app()->language) && Yii::app()->language != '') ? Yii::a
                             </div>
                         <script>
                             var author_search = [];
+                            console.log('lang=<?=$lang?>');
                             $.ajax({
                                 url: '/entity/getauthordata',
-                                data: 'entity=<?=$entity?>&lang=<?=$lang?>&cid=<?=$cid?>',
+                                data: {entity: '<?=$entity?>', lang: '<?=$lang?>', cid: '<?=$cid?>'},
                                 type: 'GET',
                                 beforeSend: function () {
                                     $(".find_author").attr('disabled', true);
@@ -193,7 +195,7 @@ $siteLang = (isset(Yii::app()->language) && Yii::app()->language != '') ? Yii::a
                                     $(".find_author").attr('disabled', false);
                                     $(".find_author").val('');
                                 },
-                                error: function () {
+                                error: function (data) {
                                     console.log("Error response");
                                 },
                             });

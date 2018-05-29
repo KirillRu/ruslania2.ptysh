@@ -870,7 +870,7 @@ class EntityController extends MyController {
     public function actionGetAuthorData()
     {
         $category = new Category();
-        $author = $category->getFilterAuthor($_GET['entity'], $_GET['cid'],0,$_GET['lang']);
+        $author = $category->getFilterAuthor($_GET['entity'], $_GET['cid'],0,'',$_GET['lang']);
         print_r(json_encode($author));
         return true;
     }
@@ -878,14 +878,14 @@ class EntityController extends MyController {
     public function actionGetIzdaData()
     {
         $category = new Category();
-        $izda = $category->getFilterPublisher($_GET['entity'], $_GET['cid'],0,$_GET['lang']);
+        $izda = $category->getFilterPublisher($_GET['entity'], $_GET['cid'],0,'',$_GET['lang']);
         print_r(json_encode($izda));
         return true;
     }
     public function actionGetSeriesData()
     {
         $category = new Category();
-        $series = $category->getFilterSeries($_GET['entity'], $_GET['cid'],0,$_GET['lang']);
+        $series = $category->getFilterSeries($_GET['entity'], $_GET['cid'],0,'',$_GET['lang']);
         print_r(json_encode($series));
         return true;
     }
