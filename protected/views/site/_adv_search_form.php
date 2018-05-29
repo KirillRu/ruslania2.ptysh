@@ -88,7 +88,13 @@
         </tr>
         <tr>
             <td><?= $ui->item('SEARCH_IN_STOCK'); ?>:</td>
-            <td><?= CHtml::checkBox('only', $only); ?></td>
+            <td class="red_checkbox" onclick="check_search($(this));">
+                <span class="checkbox">
+                    <span class="check<?= $only?' active':'' ?>"></span>
+                </span>
+                <?= CHtml::hiddenField('only', $only, array('class'=>'avail')); ?>
+                <?/*= CHtml::checkBox('only', $only);*/ ?>
+            </td>
         </tr>
         <tr>
             <td></td>

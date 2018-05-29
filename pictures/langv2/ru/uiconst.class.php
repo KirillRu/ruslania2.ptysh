@@ -762,7 +762,8 @@ IBAN Fi4080001470689309, BIC/SWIFT: DABAFIHH <br> Обязательно ука�
 'YM_FILTER_UNKNOWN_ZONE' => 'неизвестная зона', 
 'FILTER_VIDEO_ZONE' => 'показать всю видеопродукцию данной зоны', 
 'Zone' => 'Зона', 
-'MSG_PERSNAL_INDEX_DISCOUNT' => 'Ваша персональная скидка составляет %s%%', 
+'MSG_PERSNAL_INDEX_DISCOUNT' => 'Ваша персональная скидка составляет %s%%',
+'MSG_PERSNAL_DISCOUNT' => 'Ваша персональная скидка',
 'COUNTRY_OF_ORIGIN' => 'Страна происхождения: %s', 
 'ORDER_HTML_TEMPLATE' => '<html><body> Zdravstvujte, %first_name% %last_name%!<br>
 Informatsija o Vashem zakaze #%order_no% %date%: &nbsp;&nbsp;&nbsp; %status% 

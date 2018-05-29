@@ -195,9 +195,27 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 						//alert(data.length);
 						
 						if ( data.length > 0) {
-							ret += '<div class="title_goods"><?=$ui->item('A_NEW_SEARCH_GOODS_TITLE'); ?></div>';
-							
-							
+							ret += '<div class="title_goods">'+
+                                '<div class="red_checkbox" onclick="check_search($(this), \'js_avail\')" style="float: right;">';
+                         			<?php
+                         				$act = array();
+                         				$act = array(1, ' active');
+                         				if (isset($_GET['avail'])) {
+                         					if ($_GET['avail'] == '1') $act = array(1, ' active');
+                         					else $act = array('', '');
+                         				}
+                         			?>
+                                ret += ''+
+                                     '<span class="checkbox" style="height: 10px; padding-top: 2px;">'+
+                                         '<span class="check<?=$act[1]?>"></span>'+
+                                     '</span> '+
+                                    //'<input type="hidden" name="avail" value="<?=$act[0]?>" class="avail">'+
+                                    '<?= $ui->item('A_NEW_SEARCH_AVAIL'); ?>'+
+                                '</div>'+
+                                '<div><?=$ui->item('A_NEW_SEARCH_GOODS_TITLE'); ?></div></div>'+
+                            '';
+
+
 							
 							for (var i=0; i<data.length;i++)
 							{
@@ -742,14 +760,15 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 
             })
 
-            function check_search(cont) {
-
+            function check_search(cont, inputId) {
                 if ($('.check', cont).hasClass('active')) {
                     $('.check', cont).removeClass('active');
-                    $('.avail', cont).val('');
+                    if (inputId == undefined) $('.avail', cont).val('');
+                    else $('#'+inputId).val('');
                 } else {
                     $('.check', cont).addClass('active');
-                    $('.avail', cont).val('1');
+                    if (inputId == undefined) $('.avail', cont).val('1');
+                    else $('#'+inputId).val('1');
                 }
 
             }
@@ -973,6 +992,8 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
 
                                 <ul>
                                     <li class="sm"><a href="/advsearch<? if ($entity) { echo '?e='.$entity; } elseif ($_GET['e']) { echo '?e='.$_GET['e']; }?>" class="search_more"> <?=$ui->item('Advanced search')?></a></li>
+                                    <input type="hidden" name="avail" id="js_avail" value="<?=$act[0]?>" class="avail">
+<?php /*
                                     <li class="chb">
                                         <div class="checkbox_box" onclick="check_search($(this))">
 											<?
@@ -997,6 +1018,7 @@ $ui = Yii::app()->ui; ?><!DOCTYPE html><html>
                                             </span> <input type="hidden" name="avail" value="<?=$act[0]?>" class="avail"><?= $ui->item('A_NEW_SEARCH_AVAIL'); ?>
                                         </div>
                                     </li>
+*/?>
                                     <li class="langs">
                                         <div class="select_lang">
 											<?

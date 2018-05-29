@@ -243,25 +243,26 @@ a:hover {
     line-height: normal;
 }
 
-.header_logo_search_cart .pult ul li.chb .checkbox {
+.header_logo_search_cart .pult ul li.chb .checkbox, .red_checkbox .checkbox {
     border: 1px solid #d6d6d6;
     background: #f6f6f6;
     padding: 3px;
     min-height: auto;
-    font-size: 0px;
+    /*height: 8px;*/
+    font-size: 0;
     display: inline-block;
     margin-right: 11px;
 }
 
-.header_logo_search_cart .pult ul li.chb .checkbox .check {
+.header_logo_search_cart .pult ul li.chb .checkbox .check, .red_checkbox .checkbox .check {
     background: #f6f6f6;
     width: 8px;
     height: 8px;
     display: inline-block;
-    font-size: 0px;
+    font-size: 0;
 }
 
-.header_logo_search_cart .pult ul li.chb .checkbox .check.active {
+.header_logo_search_cart .pult ul li.chb .checkbox .check.active, .red_checkbox .checkbox .check.active {
     background: #ed1d24;
 }
 
