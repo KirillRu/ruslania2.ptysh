@@ -243,25 +243,26 @@ a:hover {
     line-height: normal;
 }
 
-.header_logo_search_cart .pult ul li.chb .checkbox {
+.header_logo_search_cart .pult ul li.chb .checkbox, .red_checkbox .checkbox {
     border: 1px solid #d6d6d6;
     background: #f6f6f6;
     padding: 3px;
     min-height: auto;
-    font-size: 0px;
+    /*height: 8px;*/
+    font-size: 0;
     display: inline-block;
     margin-right: 11px;
 }
 
-.header_logo_search_cart .pult ul li.chb .checkbox .check {
+.header_logo_search_cart .pult ul li.chb .checkbox .check, .red_checkbox .checkbox .check {
     background: #f6f6f6;
     width: 8px;
     height: 8px;
     display: inline-block;
-    font-size: 0px;
+    font-size: 0;
 }
 
-.header_logo_search_cart .pult ul li.chb .checkbox .check.active {
+.header_logo_search_cart .pult ul li.chb .checkbox .check.active, .red_checkbox .checkbox .check.active {
     background: #ed1d24;
 }
 
@@ -549,20 +550,7 @@ li.dd_box div.dd_box_bg-slim.list_subcategs {
     width: 340px;
 }
 
-.list_vertical > li{
-    display: block;
-    float: none !important;
-    border-left: none !important;
-    padding: 0;
-    color: #58626e;
-    font-size: 13px;
-}
-li.dd_box div.tabs .list_vertical > li a {
-    font-weight: normal;
-    padding: 5px 0;
-    font-size: 13px;
-    letter-spacing: 0;
-}
+
 li.dd_box div.dd_box_horizontal {
     min-height: 43px;
 }
@@ -643,6 +631,21 @@ li.dd_box .content a { padding: 0 }
 
 }
 
+.list_vertical > li{
+    display: block;
+    float: none !important;
+    border-left: none !important;
+    padding: 0;
+    color: #58626e;
+    font-size: 13px;
+}
+li.dd_box div.tabs .list_vertical > li a,
+li.dd_box div.tabs .list_vertical > li:first-child a{
+    font-weight: normal;
+    padding: 8px 9px;;
+    font-size: 13px;
+    letter-spacing: 0;
+}
 .news_box .title a {
     color: rgb(67, 67, 67);
 }
