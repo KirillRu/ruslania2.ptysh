@@ -38,11 +38,10 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
 	<div class="span11 to_cart"><h1 class="title"><?= ProductHelper::GetTitle($item); ?></h1>
 	
 	<? if ($item['title_original']) : ?>
-	<div class="authors row" style="margin-bottom:0;">
-		<span class="nameprop span1" style="overflow: hidden;
-    text-align: left;
-    background: none;">Оригинальное название:</span> 
-		<div class="span2" style="float: left; margin-left: 5px; width: 345px;"> <?=$item['title_original']?></div>
+	<div class="authors" style="margin-bottom:10px;">
+		<div style="float: left;width: 220px;">Оригинальное название:</div>
+		<div style="padding-left: 253px;"><?=$item['title_original']?></div>
+        <div class="clearBoth"></div>
 	</div>
 	<? endif; ?>
 	
@@ -135,7 +134,7 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
 			  <?php if (!empty($item['Media'])) : ?>
                <div><span class="nameprop"><?= sprintf($ui->item("MEDIA_TYPE_OF"), ''); ?></span>
                 <a class="cprop"
-                   href="<?= Media::Url($item); ?>"><?= $item['Media']['title']; ?></a><?php if (!empty($item['Zone'])) : ?>, <?= sprintf($ui->item('VIDEO_ZONE'), '<b>' . $item['Zone']['title'] . '</b>'); ?>
+                   href="<?= Media::Url($item); ?>"><?= $item['Media']['title']; ?></a><?php if (!empty($item['Zone'])) : ?>, <?= sprintf($ui->item('VIDEO_ZONE'), '<span class="title__bold">' . $item['Zone']['title'] . '</span>'); ?>
                     <a class="pointerhand"
                        href="<?= Yii::app()->createUrl('site/static', array('page' => 'zone_info')); ?>" target="_blank">
                         <img src="/pic1/q1.gif" width="16" height="16"
@@ -202,7 +201,7 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
                 <?php
                 $langs = array();
                 foreach ($item['Languages'] as $lang) {
-                    $langs[] = '<b>' . Language::GetTitleByID($lang['language_id']) . '</b>';
+                    $langs[] = '<span class="title__bold">' . Language::GetTitleByID($lang['language_id']) . '</span>';
                 }
 
                 echo implode(', ', $langs);
@@ -287,7 +286,7 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
             <?php if (!empty($item['Media'])) : ?>
                 <br /><span class="nameprop"><?= sprintf($ui->item("MEDIA_TYPE_OF"), ''); ?></span>
                 <a class="cprop"
-                   href="<?= Media::Url($item); ?>"><?= $item['Media']['title']; ?></a><?php if (!empty($item['Zone'])) : ?>, <?= sprintf($ui->item('VIDEO_ZONE'), '<b>' . $item['Zone']['title'] . '</b>'); ?>
+                   href="<?= Media::Url($item); ?>"><?= $item['Media']['title']; ?></a><?php if (!empty($item['Zone'])) : ?>, <?= sprintf($ui->item('VIDEO_ZONE'), '<span class="title__bold">' . $item['Zone']['title'] . '</span>'); ?>
                     <a class="pointerhand"
                        href="<?= Yii::app()->createUrl('site/static', array('page' => 'zone_info')); ?>" target="_blank">
                         <img src="/pic1/q1.gif" width="16" height="16"
@@ -494,7 +493,7 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
                    
                         <?php if (!empty($pdf)) : ?>
                         <div id="staticfiles<?= $item['id']; ?>">
-                            <b><?= $ui->item('MSG_BTN_LOOK_INSIDE'); ?></b> 
+                            <span class="title__bold"><?= $ui->item('MSG_BTN_LOOK_INSIDE'); ?></span> 
                             <ul class="staticfile">
                                 <?php $pdfCounter = 1; ?>
                                 <?php foreach ($pdf as $file) : ?>
@@ -590,7 +589,7 @@ if (!in_array($item['id'] . '_' . $entity, $arrGoods)) {
                    
                         <?php if (!empty($pdf)) : ?>
                         <div id="staticfiles<?= $item['id']; ?>" style="margin-top: 10px;">
-                            <b><?= $ui->item('MSG_BTN_LOOK_INSIDE'); ?></b> 
+                            <span class="title__bold"><?= $ui->item('MSG_BTN_LOOK_INSIDE'); ?></span> 
                             <ul class="staticfile">
                                 <?php $pdfCounter = 1; ?>
                                 <?php foreach ($pdf as $file) : ?>
